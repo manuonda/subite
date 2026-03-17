@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import "leaflet/dist/leaflet.css";
 
 interface MarkerData {
   lat: number;
@@ -27,12 +28,9 @@ export function Mapa({ lat, lng, markers = [], zoom = 15, height = "100%" }: Map
 
     import("leaflet").then((L) => {
       if (!container) return;
-      // Clean up any existing Leaflet instance on this container (React Strict Mode)
+      // Clear stale Leaflet state on container (React Strict Mode double-invoke)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if ((container as any)._leaflet_id) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (L as any).map(container).remove();
-      }
+      delete (container as any)._leaflet_id;
       // Fix leaflet default icons
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (L.Icon.Default.prototype as any)._getIconUrl;

@@ -13,7 +13,8 @@ const ESTACIONES: Record<string, string> = {
 };
 
 export function ListaSubtes() {
-  const { data: forecast, isLoading } = useForecastSubtes();
+  const { data: forecastRaw, isLoading } = useForecastSubtes();
+  const forecast = Array.isArray(forecastRaw) ? forecastRaw : [];
   const { data: alertas } = useAlertasSubtes();
   const now = Math.floor(Date.now() / 1000);
 
@@ -32,7 +33,7 @@ export function ListaSubtes() {
           ))}
         </div>
       ) : (
-        forecast?.map((f, i) => (
+        forecast.map((f, i) => (
           <TarjetaSubte
             key={i}
             lineaId={f.route_id}
