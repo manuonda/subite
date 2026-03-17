@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1e429f;
+  --secondary: #f59e0b;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --text-primary: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+
+  /* Subte line colors */
+  --subte-a: #60a5fa;
+  --subte-b: #f87171;
+  --subte-c: #a78bfa;
+  --subte-d: #34d399;
+  --subte-e: #fb923c;
+  --subte-h: #facc15;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--surface-alt);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Safe area support for iOS */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+/* Hide scrollbar but keep scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

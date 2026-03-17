@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BondiYa — Home Mockup</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 16px;
+  font-family: 'DM Sans', sans-serif;
+  gap: 32px;
+  flex-wrap: wrap;
+  min-height: 100vh;
+}
+
+.phone {
+  width: 320px;
+  background: #0a0f1e;
+  border-radius: 40px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px 6px;
+  background: #0a0f1e;
+}
+.status-bar span { color: rgba(255,255,255,0.6); font-size: 11px; font-family: 'Space Mono', monospace; }
+
+.map-area {
+  position: relative;
+  height: 380px;
+  background: #111827;
+  overflow: hidden;
+}
+
+.map-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(29,158,117,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,158,117,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.map-road-h {
+  position: absolute;
+  left: 0; right: 0;
+  background: rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.map-road-v {
+  position: absolute;
+  top: 0; bottom: 0;
+  background: rgba(255,255,255,0.06);
+  border-left: 1px solid rgba(255,255,255,0.03);
+  border-right: 1px solid rgba(255,255,255,0.03);
+}
+
+.map-block {
+  position: absolute;
+  background: rgba(255,255,255,0.025);
+  border-radius: 3px;
+}
+
+.user-dot {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px; height: 16px;
+  background: #1D9E75;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 8px rgba(29,158,117,0.2), 0 0 0 16px rgba(29,158,117,0.08);
+  z-index: 10;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 6px rgba(29,158,117,0.25), 0 0 0 14px rgba(29,158,117,0.1); }
+  50% { box-shadow: 0 0 0 10px rgba(29,158,117,0.15), 0 0 0 20px rgba(29,158,117,0.05); }
+}
+
+.colectivo {
+  position: absolute;
+  background: #1D9E75;
+  border-radius: 6px;
+  padding: 4px 7px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  z-index: 8;
+  animation: float 3s ease-in-out infinite;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.colectivo:hover { transform: scale(1.1); }
+.colectivo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  background: #1D9E75;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.colectivo.alt { background: #3B8BD4; }
+.colectivo.alt::after { background: #3B8BD4; }
+.colectivo.alt2 { background: #D85A30; }
+.colectivo.alt2::after { background: #D85A30; }
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.parada-marker {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  z-index: 6;
+}
+
+.map-overlay-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding: 14px 16px;
+  background: linear-gradient(to bottom, rgba(10,15,30,0.95), transparent);
+  z-index: 20;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.app-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1D9E75;
+  letter-spacing: -0.5px;
+}
+.app-logo span { color: rgba(255,255,255,0.5); font-weight: 400; font-size: 12px; margin-left: 4px; }
+
+.gps-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(29,158,117,0.15);
+  border: 1px solid rgba(29,158,117,0.3);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #5DCAA5;
+}
+.gps-dot {
+  width: 6px; height: 6px;
+  background: #1D9E75;
+  border-radius: 50%;
+  animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 9px 14px;
+  backdrop-filter: blur(8px);
+}
+.search-bar input {
+  background: none;
+  border: none;
+  outline: none;
+  color: rgba(255,255,255,0.8);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  flex: 1;
+  width: 100%;
+}
+.search-bar input::placeholder { color: rgba(255,255,255,0.3); }
+.search-icon { color: rgba(255,255,255,0.3); font-size: 14px; }
+
+.bottom-sheet {
+  background: #0f1729;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 0 0 16px;
+}
+
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+  margin: 10px auto 14px;
+}
+
+.sheet-title {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 0 16px;
+  margin-bottom: 10px;
+  font-family: 'Space Mono', monospace;
+}
+
+.parada-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.parada-card:hover { background: rgba(255,255,255,0.04); }
+
+.parada-icon {
+  width: 36px; height: 36px;
+  background: rgba(29,158,117,0.12);
+  border: 1px solid rgba(29,158,117,0.2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.parada-info { flex: 1; min-width: 0; }
+.parada-nombre {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.parada-lineas {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.linea-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(29,158,117,0.15);
+  color: #5DCAA5;
+  border: 1px solid rgba(29,158,117,0.2);
+}
+.linea-pill.b { background: rgba(59,139,212,0.15); color: #85B7EB; border-color: rgba(59,139,212,0.2); }
+.linea-pill.r { background: rgba(216,90,48,0.15); color: #F0997B; border-color: rgba(216,90,48,0.2); }
+
+.parada-tiempo {
+  text-align: right;
+  flex-shrink: 0;
+}
+.tiempo-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1D9E75;
+  line-height: 1;
+}
+.tiempo-unit {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 2px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 4px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 8px;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); }
+.nav-item.active .nav-icon { color: #1D9E75; }
+.nav-item.active .nav-label { color: #1D9E75; }
+.nav-icon { font-size: 18px; color: rgba(255,255,255,0.25); }
+.nav-label { font-size: 10px; color: rgba(255,255,255,0.25); font-family: 'DM Sans', sans-serif; }
+
+.info-panel {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.info-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.info-card-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 12px;
+}
+
+.flow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.flow-step:last-child { margin-bottom: 0; }
+.step-num {
+  width: 22px; height: 22px;
+  background: rgba(29,158,117,0.15);
+  border: 1px solid rgba(29,158,117,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #1D9E75;
+  font-family: 'Space Mono', monospace;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.step-text { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.step-text strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+.fallback-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+.fallback-item:last-child { border-bottom: none; padding-bottom: 0; }
+.fallback-icon { font-size: 16px; width: 24px; text-align: center; flex-shrink: 0; }
+
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Space Mono', monospace;
+  margin: 3px;
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41</span>
+    <span>▲ GPS ● ● ●</span>
+  </div>
+
+  <div class="map-area">
+    <div class="map-bg"></div>
+    <div class="map-road-h" style="top:30%;height:22px;"></div>
+    <div class="map-road-h" style="top:55%;height:18px;"></div>
+    <div class="map-road-h" style="top:75%;height:14px;"></div>
+    <div class="map-road-v" style="left:25%;width:18px;"></div>
+    <div class="map-road-v" style="left:55%;width:22px;"></div>
+    <div class="map-road-v" style="left:78%;width:14px;"></div>
+    <div class="map-block" style="top:5%;left:5%;width:18%;height:24%;"></div>
+    <div class="map-block" style="top:5%;left:28%;width:24%;height:24%;"></div>
+    <div class="map-block" style="top:5%;left:58%;width:19%;height:24%;"></div>
+    <div class="map-block" style="top:34%;left:5%;width:18%;height:18%;"></div>
+    <div class="map-block" style="top:34%;left:28%;width:24%;height:18%;"></div>
+    <div class="map-block" style="top:34%;left:58%;width:19%;height:18%;"></div>
+    <div class="map-block" style="top:57%;left:5%;width:18%;height:16%;"></div>
+    <div class="map-block" style="top:57%;left:28%;width:24%;height:16%;"></div>
+    <div class="map-block" style="top:77%;left:5%;width:18%;height:18%;"></div>
+    <div class="map-block" style="top:77%;left:28%;width:24%;height:18%;"></div>
+    <div class="parada-marker" style="top:30%;left:25%;transform:translate(-50%,-50%)"></div>
+    <div class="parada-marker" style="top:55%;left:55%;transform:translate(-50%,-50%)"></div>
+    <div class="parada-marker" style="top:30%;left:78%;transform:translate(-50%,-50%)"></div>
+    <div class="parada-marker" style="top:75%;left:25%;transform:translate(-50%,-50%)"></div>
+    <div class="colectivo" style="top:27%;left:15%;animation-delay:0s">60</div>
+    <div class="colectivo alt" style="top:52%;left:60%;animation-delay:0.8s">140</div>
+    <div class="colectivo alt2" style="top:22%;left:62%;animation-delay:1.4s">55</div>
+    <div class="colectivo" style="top:68%;left:30%;animation-delay:0.4s">19</div>
+    <div class="user-dot"></div>
+
+    <div class="map-overlay-top">
+      <div class="app-header">
+        <div class="app-logo">BondiYa <span>by Randis</span></div>
+        <div class="gps-badge"><div class="gps-dot"></div>GPS activo</div>
+      </div>
+      <div class="search-bar">
+        <span class="search-icon">⌕</span>
+        <input type="text" placeholder="Buscar línea, parada o dirección...">
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Paradas cercanas</div>
+
+    <div class="parada-card">
+      <div class="parada-icon">🚏</div>
+      <div class="parada-info">
+        <div class="parada-nombre">Av. Corrientes y Callao</div>
+        <div class="parada-lineas">
+          <span class="linea-pill">60</span>
+          <span class="linea-pill b">140</span>
+          <span class="linea-pill r">55</span>
+        </div>
+      </div>
+      <div class="parada-tiempo">
+        <div class="tiempo-num">2</div>
+        <div class="tiempo-unit">min</div>
+      </div>
+    </div>
+
+    <div class="parada-card">
+      <div class="parada-icon">🚏</div>
+      <div class="parada-info">
+        <div class="parada-nombre">Av. Santa Fe y Callao</div>
+        <div class="parada-lineas">
+          <span class="linea-pill b">19</span>
+          <span class="linea-pill">29</span>
+        </div>
+      </div>
+      <div class="parada-tiempo">
+        <div class="tiempo-num">5</div>
+        <div class="tiempo-unit">min</div>
+      </div>
+    </div>
+
+    <div class="parada-card">
+      <div class="parada-icon">🚏</div>
+      <div class="parada-info">
+        <div class="parada-nombre">Av. Corrientes y Riobamba</div>
+        <div class="parada-lineas">
+          <span class="linea-pill r">55</span>
+          <span class="linea-pill">60</span>
+          <span class="linea-pill b">140</span>
+        </div>
+      </div>
+      <div class="parada-tiempo">
+        <div class="tiempo-num">8</div>
+        <div class="tiempo-unit">min</div>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <div class="nav-item active">
+        <div class="nav-icon">⊙</div>
+        <div class="nav-label">Cercano</div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">⊟</div>
+        <div class="nav-label">Líneas</div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">△</div>
+        <div class="nav-label">Estado</div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">♡</div>
+        <div class="nav-label">Favoritos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="info-panel">
+  <div class="info-card">
+    <div class="info-card-title">Flujo con GPS</div>
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Abre la app</strong> → pide permiso de ubicación</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Mapa centrado</strong> en tu posición actual</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Colectivos</strong> moviéndose en tiempo real</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Paradas cercanas</strong> ordenadas por distancia</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">5</div>
+      <div class="step-text"><strong>Tocás una parada</strong> → cuánto falta cada línea</div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">Fallback sin GPS</div>
+    <div class="fallback-item"><span class="fallback-icon">⌕</span>Buscar por calle o barrio</div>
+    <div class="fallback-item"><span class="fallback-icon">#</span>Buscar número de línea</div>
+    <div class="fallback-item"><span class="fallback-icon">♡</span>Acceder a paradas favoritas</div>
+    <div class="fallback-item"><span class="fallback-icon">△</span>Ver estado del servicio</div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-title">Stack</div>
+    <div>
+      <span class="tech-badge">Next.js 15</span>
+      <span class="tech-badge">Leaflet</span>
+      <span class="tech-badge">TanStack Query</span>
+      <span class="tech-badge">GCBA API</span>
+      <span class="tech-badge">Tailwind</span>
+      <span class="tech-badge">Vercel</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
