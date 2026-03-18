@@ -15,7 +15,7 @@ export function TarjetaSubte({ lineaId, estacion, tiempoEstimado }: TarjetaSubte
   const color = COLORES_SUBTE[letra] || "#9ca3af";
 
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3">
+    <div className="bg-white/5 rounded-2xl p-4 border border-[var(--border)] mb-3">
       <div className="flex items-center gap-3">
         <div
           className="text-white font-bold text-sm w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -24,9 +24,9 @@ export function TarjetaSubte({ lineaId, estacion, tiempoEstimado }: TarjetaSubte
           {letra}
         </div>
         <div className="flex-1">
-          <p className="font-semibold text-gray-800 text-sm">Subte {letra}</p>
+          <p className="font-semibold text-[var(--text-primary)] text-sm">Subte {letra}</p>
           {estacion && (
-            <p className="text-xs text-gray-400 mt-0.5">Est. {estacion}</p>
+            <p className="text-xs text-[var(--text-muted)] mt-0.5">Est. {estacion}</p>
           )}
         </div>
         {tiempoEstimado !== undefined && (

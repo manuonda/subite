@@ -21,7 +21,7 @@ export function BuscadorFallback() {
   return (
     <div className="px-4 pt-4">
       <div className="relative mb-6">
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
           <SearchIcon size={18} />
         </div>
         <input
@@ -29,7 +29,7 @@ export function BuscadorFallback() {
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Buscar línea o calle..."
-          className="w-full h-12 pl-10 pr-4 bg-white border border-gray-200 rounded-2xl text-sm outline-none focus:border-[#1a56db] focus:ring-2 focus:ring-blue-100 transition-all"
+          className="w-full h-12 pl-10 pr-4 bg-white/5 border border-[var(--border)] rounded-2xl text-sm text-[var(--text-primary)] placeholder:text-[var(--text-dim)] outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary-muted)] transition-all"
         />
       </div>
 
@@ -37,17 +37,17 @@ export function BuscadorFallback() {
 
       {resultados.length > 0 && (
         <div>
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Resultados</h3>
+          <h3 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide mb-3">Resultados</h3>
           {resultados.map((r, i) => (
-            <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3">
-              <p className="text-sm text-gray-800">{r}</p>
+            <div key={i} className="bg-white/5 rounded-2xl p-4 border border-[var(--border)] mb-3">
+              <p className="text-sm text-[var(--text-primary)]">{r}</p>
             </div>
           ))}
         </div>
       )}
 
       {query.length >= 2 && resultados.length === 0 && (
-        <p className="text-center text-gray-400 text-sm mt-8">Sin resultados para "{query}"</p>
+        <p className="text-center text-[var(--text-muted)] text-sm mt-8">Sin resultados para "{query}"</p>
       )}
     </div>
   );

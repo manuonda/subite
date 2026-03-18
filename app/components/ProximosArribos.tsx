@@ -38,7 +38,7 @@ export function ProximosArribos({ paradaId }: ProximosArribosProps) {
     return (
       <div className="space-y-3 px-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-12 bg-gray-100 rounded-xl animate-pulse" />
+          <div key={i} className="h-12 bg-white/5 rounded-xl animate-pulse" />
         ))}
       </div>
     );
@@ -46,10 +46,10 @@ export function ProximosArribos({ paradaId }: ProximosArribosProps) {
 
   return (
     <div className="px-4">
-      <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+      <h2 className="text-sm font-semibold text-[var(--text-dim)] uppercase tracking-wide mb-3">
         Próximas llegadas
       </h2>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 px-4">
+      <div className="bg-white/5 rounded-2xl border border-[var(--border)] px-4">
         {data?.arribos.map((a, i) => (
           <TarjetaArribo
             key={i}
@@ -60,7 +60,7 @@ export function ProximosArribos({ paradaId }: ProximosArribosProps) {
           />
         ))}
       </div>
-      <p className="text-xs text-gray-400 mt-3 text-center">⚠ Sin alertas activas</p>
+      <p className="text-xs text-[var(--text-muted)] mt-3 text-center">⚠ Sin alertas activas</p>
     </div>
   );
 }
