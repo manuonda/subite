@@ -20,7 +20,7 @@ export function ListaSubtes() {
 
   return (
     <div className="px-4 pt-4">
-      <h2 className="text-base font-bold text-gray-800 mb-4">Subtes cerca tuyo</h2>
+      <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Subtes cerca tuyo</h2>
 
       {alertas && alertas.length > 0 && alertas.map((a, i) => (
         <AlertaServicio key={i} mensaje={a.header_text} lineas={a.route_ids} />
@@ -29,7 +29,7 @@ export function ListaSubtes() {
       {isLoading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-16 bg-gray-100 rounded-2xl animate-pulse" />
+            <div key={i} className="h-16 bg-white/5 rounded-2xl animate-pulse" />
           ))}
         </div>
       ) : (

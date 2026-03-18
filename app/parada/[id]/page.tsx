@@ -13,13 +13,13 @@ export default function ParadaPage({ params }: Props) {
   const { id } = use(params);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen bg-[var(--bg-app)]">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-14 bg-white border-b border-gray-100 flex items-center px-4 z-40 gap-3">
-        <Link href="/" className="text-gray-500 active:text-[#1a56db] transition-colors">
+      <header className="fixed top-0 left-0 right-0 h-14 bg-[var(--bg-app)] border-b border-[var(--border)] flex items-center px-4 z-40 gap-3">
+        <Link href="/" className="text-[var(--text-muted)] active:text-[var(--primary)] transition-colors">
           <BackIcon size={20} />
         </Link>
-        <h1 className="font-semibold text-gray-800 text-sm truncate">Parada {id}</h1>
+        <h1 className="font-semibold text-[var(--text-primary)] text-sm truncate">Parada {id}</h1>
       </header>
 
       <div className="pt-14">

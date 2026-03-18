@@ -26,9 +26,9 @@ export function ListaParadas({ paradas = MOCK_PARADAS, loading }: ListaParadasPr
 
   if (loading) {
     return (
-      <div className="space-y-3">
+      <div className="space-y-2">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-16 bg-gray-100 rounded-2xl animate-pulse" />
+          <div key={i} className="h-[72px] bg-white/5 rounded-xl animate-pulse" />
         ))}
       </div>
     );
@@ -36,9 +36,6 @@ export function ListaParadas({ paradas = MOCK_PARADAS, loading }: ListaParadasPr
 
   return (
     <div>
-      <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">
-        Paradas cerca tuyo
-      </h2>
       {paradas.map((p) => (
         <TarjetaParada
           key={p.id}

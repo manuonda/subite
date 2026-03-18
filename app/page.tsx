@@ -1,6 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useGPS } from "@/hooks/useGPS";
+import { useColectivos } from "@/hooks/useColectivos";
+import { getParadasCercanas } from "@/lib/paradas-mock";
+import type { MapLayers } from "@/app/components/Mapa";
 import { PantallaPermisos } from "@/app/components/PantallaPermisos";
 import { StatusBar } from "@/app/components/StatusBar";
 import { BottomNav, type TabId } from "@/app/components/BottomNav";
@@ -15,8 +18,39 @@ export default function Home() {
   const gps = useGPS();
   const [activeTab, setActiveTab] = useState<TabId>("mapa");
   const [showPermisos, setShowPermisos] = useState(true);
+  const [mapLayers, setMapLayers] = useState<MapLayers>({
+    paradasColectivo: true,
+    paradasSubte: true,
+    colectivos: true,
+  });
 
   const coords = gps.coords || { lat: -34.6037, lng: -58.3816 };
+  const { data: colectivos } = useColectivos(coords.lat, coords.lng);
+
+  const paradasConCoords = useMemo(() => getParadasCercanas(coords.lat, coords.lng), [coords.lat, coords.lng]);
+
+  const mapMarkers = useMemo(() => {
+    const markers: Array<{ id?: string; lat: number; lng: number; type: "colectivo" | "subte" | "parada" }> = [];
+    paradasConCoords.forEach((p) => {
+      markers.push({ id: p.id, lat: p.lat, lng: p.lng, type: p.tipo === "subte" ? "subte" : "parada" });
+    });
+    colectivos?.forEach((c) => {
+      markers.push({ id: c.id, lat: c.lat, lng: c.lng, type: "colectivo" });
+    });
+    return markers;
+  }, [paradasConCoords, colectivos]);
+
+  const paradasParaLista = useMemo(
+    () =>
+      paradasConCoords.map((p, i) => ({
+        id: p.id,
+        nombre: p.nombre,
+        lineas: p.lineas,
+        tiempo: (i % 3) + 2,
+        tipo: p.tipo,
+      })),
+    [paradasConCoords]
+  );
 
   // Hide permisos screen once GPS status is known (granted or denied/skipped)
   const shouldShowPermisos =
@@ -37,7 +71,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen bg-[var(--bg-app)]">
       <StatusBar barrio="Buenos Aires" gpsStatus={gps.status} />
 
       {/* Desktop layout offset */}
@@ -45,13 +79,20 @@ export default function Home() {
         {/* Tab: Mapa */}
         {activeTab === "mapa" && (
           <>
-            {/* Map area */}
-            <div className="relative" style={{ height: "55vh" }}>
-              <Mapa lat={coords.lat} lng={coords.lng} height="100%" />
+            {/* Map area con capas */}
+            <div className="relative bg-[var(--bg-elevated)]" style={{ height: "55vh" }}>
+              <Mapa
+                lat={coords.lat}
+                lng={coords.lng}
+                markers={mapMarkers}
+                layers={mapLayers}
+                onLayersChange={setMapLayers}
+                height="100%"
+              />
               {/* FAB GPS */}
               <button
                 onClick={gps.requestPermission}
-                className="absolute bottom-4 right-4 w-11 h-11 bg-white rounded-full shadow-lg flex items-center justify-center text-[#1a56db] border border-gray-100 active:scale-95 transition-transform z-10"
+                className="absolute bottom-4 right-4 w-11 h-11 bg-[var(--primary)] rounded-full shadow-lg flex items-center justify-center text-white border-2 border-white/20 active:scale-95 transition-transform z-10"
               >
                 📍
               </button>
@@ -59,7 +100,7 @@ export default function Home() {
 
             {/* Bottom sheet with nearby stops */}
             <BottomSheet title="Paradas cerca tuyo">
-              <ListaParadas paradas={[]} />
+              <ListaParadas paradas={paradasParaLista} />
             </BottomSheet>
           </>
         )}
