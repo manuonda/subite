@@ -1,0 +1,8 @@
+# Archivos grandes — descargar con: python scripts/download_gtfs.py
+gtfs/subtes/shapes.txt
+gtfs/subtes/stop_times.txt
+gtfs/colectivos/shapes.txt
+gtfs/colectivos/stop_times.txt
+
+# Sí deben estar en el repo (pequeños y críticos):
+# stops.txt, routes.txt, trips.txt, transfers.txt, frequencies.txt
