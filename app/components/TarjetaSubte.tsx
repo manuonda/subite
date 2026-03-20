@@ -1,4 +1,4 @@
-import { COLORES_SUBTE } from "@/lib/subtes";
+import { COLORES_SUBTE } from "@/constants/subtes";
 
 interface TarjetaSubteProps {
   lineaId: string;

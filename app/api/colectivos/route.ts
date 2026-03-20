@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { GCBA_BASE, GCBA_CLIENT_ID, GCBA_CLIENT_SECRET } from "@/constants/gcba";
+import { BA_CENTER } from "@/constants/geo";
 
-const GCBA_BASE = "https://apitransporte.buenosaires.gob.ar";
-const CLIENT_ID = process.env.GCBA_CLIENT_ID || "";
-const CLIENT_SECRET = process.env.GCBA_CLIENT_SECRET || "";
+const CLIENT_ID = GCBA_CLIENT_ID || "";
+const CLIENT_SECRET = GCBA_CLIENT_SECRET || "";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const lat = searchParams.get("lat") || "-34.6037";
-  const lng = searchParams.get("lng") || "-58.3816";
+  const lat = searchParams.get("lat") || String(BA_CENTER.lat);
+  const lng = searchParams.get("lng") || String(BA_CENTER.lng);
 
   try {
     const url = new URL(`${GCBA_BASE}/colectivos/vehiclePositionsSimple`);

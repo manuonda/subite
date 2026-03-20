@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Mapa } from "@/app/components/Mapa";
 import { ProximosArribos } from "@/app/components/ProximosArribos";
 import { BackIcon } from "@/app/components/Icons";
+import { BA_CENTER } from "@/constants/geo";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -25,7 +26,7 @@ export default function ParadaPage({ params }: Props) {
       <div className="pt-14">
         {/* Mini map */}
         <div style={{ height: "200px" }}>
-          <Mapa lat={-34.6037} lng={-58.3816} height="200px" zoom={16} />
+          <Mapa lat={BA_CENTER.lat} lng={BA_CENTER.lng} height="200px" zoom={16} />
         </div>
 
         {/* Próximos arribos */}

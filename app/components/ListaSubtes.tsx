@@ -2,15 +2,7 @@
 import { TarjetaSubte } from "./TarjetaSubte";
 import { AlertaServicio } from "./AlertaServicio";
 import { useForecastSubtes, useAlertasSubtes } from "@/hooks/useSubtes";
-
-const ESTACIONES: Record<string, string> = {
-  SubteA: "Lima",
-  SubteB: "Uruguay",
-  SubteC: "Diagonal Norte",
-  SubteD: "Catedral",
-  SubteE: "Belgrano",
-  SubteH: "Once",
-};
+import { ESTACIONES } from "@/constants/subtes";
 
 export function ListaSubtes() {
   const { data: forecastRaw, isLoading } = useForecastSubtes();

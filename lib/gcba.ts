@@ -1,6 +1,7 @@
-const GCBA_BASE = "https://apitransporte.buenosaires.gob.ar";
-const CLIENT_ID = process.env.GCBA_CLIENT_ID || "";
-const CLIENT_SECRET = process.env.GCBA_CLIENT_SECRET || "";
+import { GCBA_BASE, GCBA_CLIENT_ID, GCBA_CLIENT_SECRET } from "@/constants/gcba";
+
+const CLIENT_ID = GCBA_CLIENT_ID || "";
+const CLIENT_SECRET = GCBA_CLIENT_SECRET || "";
 
 export async function fetchColectivosCercanos(lat: number, lng: number, radio = 500) {
   const url = new URL(`${GCBA_BASE}/colectivos/vehiclePositionsSimple`);

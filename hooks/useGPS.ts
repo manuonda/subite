@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import { BA_CENTER } from "@/constants/geo";
 
 export type GPSStatus = "idle" | "requesting" | "granted" | "denied" | "unavailable";
 
@@ -9,9 +10,6 @@ export interface GPSState {
   error: string | null;
   requestPermission: () => void;
 }
-
-// Buenos Aires center as fallback
-const BA_CENTER = { lat: -34.6037, lng: -58.3816 };
 
 export function useGPS(): GPSState {
   const [status, setStatus] = useState<GPSStatus>("idle");
