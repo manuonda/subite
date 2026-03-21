@@ -5,7 +5,7 @@ import { BA_CENTER, USE_BA_COORDS_DEV } from "@/constants/geo";
 import { isWithinServiceArea } from "@/lib/geo";
 import { useUbicacion } from "@/app/context/UbicacionContext";
 import { getParadasCercanas } from "@/lib/paradas-mock";
-import { subteLinesForMap, subteStopsToMarkers } from "@/lib/subte";
+import { subteLinesForMap, estacionesToMarkers } from "@/lib/subte";
 import type { MapLayers, MarkerData } from "@/app/components/Mapa";
 import { InfoParadaMapa } from "@/app/components/InfoParadaMapa";
 import { PantallaPermisos } from "@/app/components/PantallaPermisos";
@@ -56,7 +56,7 @@ export default function Home() {
 
   const paradasConCoords = useMemo(() => getParadasCercanas(coords.lat, coords.lng), [coords.lat, coords.lng]);
 
-  const subteMarkers = useMemo(() => subteStopsToMarkers(), []);
+  const subteMarkers = useMemo(() => estacionesToMarkers(), []);
   const subteLines = useMemo(() => subteLinesForMap(), []);
 
   const mapMarkers = useMemo((): MarkerData[] => {
