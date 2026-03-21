@@ -1,7 +1,7 @@
 "use client";
-import { MapIcon, BusIcon, TrainIcon, SearchIcon } from "./Icons";
+import { MapIcon, TrainIcon, SearchIcon } from "./Icons";
 
-export type TabId = "mapa" | "colectivos" | "subtes" | "buscar";
+export type TabId = "mapa" | "subtes" | "buscar";
 
 interface BottomNavProps {
   activeTab: TabId;
@@ -10,7 +10,6 @@ interface BottomNavProps {
 
 const TABS = [
   { id: "mapa" as TabId, label: "Mapa", Icon: MapIcon },
-  { id: "colectivos" as TabId, label: "Colectivos", Icon: BusIcon },
   { id: "subtes" as TabId, label: "Subtes", Icon: TrainIcon },
   { id: "buscar" as TabId, label: "Buscar", Icon: SearchIcon },
 ];

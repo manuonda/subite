@@ -305,3 +305,9 @@ Ejecutar periódicamente (ej. cada 1–3 meses):
 npm run gtfs:update   # Descarga ZIP desde API GCBA
 npm run gtfs:build    # Pre-procesa stops y routes a JSON
 ```
+
+---
+
+## Mapa en la app (fases: click en parada, línea, trazado)
+
+Ver **[`docs/subte-mapa-y-lineas.md`](../../docs/subte-mapa-y-lineas.md)** — resume `routes` / `stops` / `stop_times` / `shapes` y el orden sugerido para implementar solo subte.

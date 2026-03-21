@@ -2,7 +2,7 @@
 import { TarjetaParada } from "./TarjetaParada";
 import { useRouter } from "next/navigation";
 
-interface Parada {
+export interface Parada {
   id: string;
   nombre: string;
   lineas: string[];

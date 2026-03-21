@@ -44,7 +44,7 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Leaflet overrides */
+/* Leaflet overrides — no tocar touch-action: Leaflet ya define clases .leaflet-touch-* */
 .leaflet-container {
   height: 100%;
   width: 100%;

@@ -48,6 +48,80 @@ interface ProcessedRoute {
   tipo: number;
 }
 
+interface GtfsTrip {
+  route_id: string;
+  shape_id: string;
+}
+
+interface GtfsShapeRow {
+  shape_id: string;
+  shape_pt_lat: string;
+  shape_pt_lon: string;
+  shape_pt_sequence: string;
+}
+
+/** Polilínea por rama GTFS (trips.shape_id → shapes.txt) */
+interface ProcessedShapeLine {
+  routeId: string;
+  shapeId: string;
+  color: string;
+  points: [number, number][];
+}
+
+function buildShapeLines(
+  routes: ProcessedRoute[],
+  tripsPath: string,
+  shapesPath: string
+): ProcessedShapeLine[] {
+  const routeColor = new Map(routes.map((r) => [r.id, r.color]));
+  const routeIds = new Set(routes.map((r) => r.id));
+
+  const tripsRaw = parseCsv<GtfsTrip>(tripsPath);
+  const shapeIdsNeeded = new Set<string>();
+  for (const t of tripsRaw) {
+    if (t.shape_id && routeIds.has(t.route_id)) shapeIdsNeeded.add(t.shape_id);
+  }
+
+  const shapesRaw = parseCsv<GtfsShapeRow>(shapesPath);
+  const byShape = new Map<string, GtfsShapeRow[]>();
+  for (const row of shapesRaw) {
+    if (!shapeIdsNeeded.has(row.shape_id)) continue;
+    if (!byShape.has(row.shape_id)) byShape.set(row.shape_id, []);
+    byShape.get(row.shape_id)!.push(row);
+  }
+
+  for (const rows of byShape.values()) {
+    rows.sort((a, b) => parseInt(a.shape_pt_sequence, 10) - parseInt(b.shape_pt_sequence, 10));
+  }
+
+  const pointsByShape = new Map<string, [number, number][]>();
+  for (const [shapeId, rows] of byShape) {
+    pointsByShape.set(
+      shapeId,
+      rows.map((r) => [parseFloat(r.shape_pt_lat), parseFloat(r.shape_pt_lon)] as [number, number])
+    );
+  }
+
+  const seenPair = new Set<string>();
+  const out: ProcessedShapeLine[] = [];
+  for (const t of tripsRaw) {
+    if (!t.shape_id || !routeIds.has(t.route_id)) continue;
+    const key = `${t.route_id}\t${t.shape_id}`;
+    if (seenPair.has(key)) continue;
+    seenPair.add(key);
+    const pts = pointsByShape.get(t.shape_id);
+    if (!pts || pts.length < 2) continue;
+    out.push({
+      routeId: t.route_id,
+      shapeId: t.shape_id,
+      color: routeColor.get(t.route_id) ?? "#9ca3af",
+      points: pts,
+    });
+  }
+
+  return out;
+}
+
 function parseCsv<T>(filePath: string): T[] {
   const content = fs.readFileSync(filePath, "utf-8");
   const result = Papa.parse<T>(content, { header: true, skipEmptyLines: true });
@@ -104,7 +178,21 @@ function buildSubtes() {
     JSON.stringify(routes, null, 0)
   );
 
-  console.log(`✅ Subtes: ${stops.length} paradas, ${routes.length} líneas`);
+  const tripsPath = path.join(SUBTES_RAW, "trips.txt");
+  const shapesPath = path.join(SUBTES_RAW, "shapes.txt");
+  let shapeLines: ProcessedShapeLine[] = [];
+  if (fs.existsSync(tripsPath) && fs.existsSync(shapesPath)) {
+    shapeLines = buildShapeLines(routes, tripsPath, shapesPath);
+  } else {
+    console.warn("⚠️  Falta trips.txt o shapes.txt — no se generan trazados (solo paradas).");
+  }
+
+  fs.writeFileSync(
+    path.join(SUBTES_PROCESSED, "shapes.json"),
+    JSON.stringify(shapeLines, null, 0)
+  );
+
+  console.log(`✅ Subtes: ${stops.length} paradas, ${routes.length} líneas, ${shapeLines.length} trazados`);
   console.log(`   → ${SUBTES_PROCESSED}/`);
 }
 
