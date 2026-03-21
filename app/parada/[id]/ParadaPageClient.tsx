@@ -17,6 +17,14 @@ export function ParadaPageClient({ params }: ParadaPageClientProps) {
   const detalle = useParadaDetalle(id);
   const { stop, estacion, accesos, sentido, viajes, primerServicio, ultimoServicio, trasbordos } = detalle;
 
+  console.log(`stop:`, stop);
+  console.log(`estacion:`, estacion);
+  console.log(`accesos:`, accesos);
+  console.log(`sentido:`, sentido);
+  console.log(`viajes:`, viajes);
+  console.log(`primerServicio:`, primerServicio);
+  console.log(`ultimoServicio:`, ultimoServicio);
+  console.log(`trasbordos:`, trasbordos);
   // Línea principal de esta parada (primer viaje disponible)
   const lineaPrincipal = viajes[0]?.route;
   const colorLinea = lineaPrincipal?.color ?? "#9ca3af";

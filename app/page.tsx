@@ -85,16 +85,7 @@ export default function Home() {
     [paradasConCoords]
   );
 
-  // Ocultar pantalla de permisos una vez que GPS resuelve
-  useEffect(() => {
-    if (gps.status !== "idle" && gps.status !== "requesting") {
-      setShowPermisos(false);
-    }
-  }, [gps.status]);
-
-  // Mostrar permisos solo en primer uso (GPS "idle") y solo en prod
-  const shouldShowPermisos =
-    showPermisos && gps.status === "idle" && !USE_BA_COORDS_DEV;
+  const shouldShowPermisos = showPermisos;
 
   return (
     <div className="min-h-screen bg-[var(--bg-app)]">
@@ -159,6 +150,12 @@ export default function Home() {
         {activeTab === "buscar" && (
           <div className="pb-20">
             <BuscadorFallback />
+          </div>
+        )}
+
+        {activeTab === "configuracion" && (
+          <div className="pb-20">
+            <Configuracion />
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import { MapIcon, TrainIcon, SearchIcon } from "./Icons";
+import { MapIcon, TrainIcon, SearchIcon, SettingsConfigIcon } from "./Icons";
 
 export type TabId = "mapa" | "subtes" | "buscar";
 
@@ -12,6 +12,7 @@ const TABS = [
   { id: "mapa" as TabId, label: "Mapa", Icon: MapIcon },
   { id: "subtes" as TabId, label: "Subtes", Icon: TrainIcon },
   { id: "buscar" as TabId, label: "Buscar", Icon: SearchIcon },
+  { id: "configuracion" as TabId, label: "Configuración", Icon: SettingsConfigIcon },
 ];
 
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
@@ -19,7 +20,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
     <>
       {/* Mobile bottom nav */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-[var(--bg-surface)] border-t border-[var(--border)] z-50"
-           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         <div className="flex h-16">
           {TABS.map(({ id, label, Icon }) => {
             const isActive = activeTab === id;
@@ -27,9 +28,8 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               <button
                 key={id}
                 onClick={() => onTabChange(id)}
-                className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${
-                  isActive ? "text-[var(--primary)]" : "text-white/40"
-                }`}
+                className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${isActive ? "text-[var(--primary)]" : "text-white/40"
+                  }`}
               >
                 <Icon size={22} />
                 <span className="text-[10px] font-medium">{label}</span>
@@ -51,11 +51,10 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
             <button
               key={id}
               onClick={() => onTabChange(id)}
-              className={`flex items-center gap-3 px-4 py-3 mx-2 rounded-xl transition-colors ${
-                isActive
+              className={`flex items-center gap-3 px-4 py-3 mx-2 rounded-xl transition-colors ${isActive
                   ? "bg-[var(--primary-muted)] text-[var(--primary)] font-medium"
                   : "text-[var(--text-muted)] hover:bg-white/5"
-              }`}
+                }`}
             >
               <Icon size={20} />
               <span className="text-sm">{label}</span>
