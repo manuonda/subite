@@ -219,7 +219,7 @@ export function Mapa({
         marker.addTo(layer as L.LayerGroup);
       });
     });
-  }, [markers, activeLayers]);
+  }, [mapReady, markers, activeLayers]);
 
   useEffect(() => {
     const layer = linesLayerRef.current;
@@ -240,7 +240,7 @@ export function Mapa({
         }).addTo(layer as L.LayerGroup);
       });
     });
-  }, [subteLines, activeLayers.lineasSubte]);
+  }, [mapReady, subteLines, activeLayers.lineasSubte]);
 
   return (
     <div className="relative" style={{ height, width: "100%" }}>

@@ -25,3 +25,13 @@ export function formatDistancia(metros: number): string {
   if (metros < 1000) return `${Math.round(metros)}m`;
   return `${(metros / 1000).toFixed(1)}km`;
 }
+
+/** Radio del área de servicio AMBA en metros (~60 km) */
+const RADIO_AMBA_METROS = 60_000;
+
+/** Indica si las coordenadas están dentro del área de servicio (AMBA) */
+export function isWithinServiceArea(lat: number, lng: number): boolean {
+  const user: Coords = { lat, lng };
+  const distance = calcularDistancia(user, { lat: -34.6037, lng: -58.3816 });
+  return distance <= RADIO_AMBA_METROS;
+}

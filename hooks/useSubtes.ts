@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import type { ForecastSubte, AlertaSubte } from "@/lib/subtes";
+import type { ForecastSubte, AlertaSubte } from "@/lib/subte";
 
 async function fetchForecast(): Promise<ForecastSubte[]> {
   const res = await fetch("/api/subtes/forecast");

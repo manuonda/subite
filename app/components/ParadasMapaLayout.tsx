@@ -9,14 +9,19 @@ interface ParadasMapaLayoutProps {
   gps: GPSState;
   paradas: Parada[];
   map: React.ReactNode;
+  fueraDelArea?: boolean;
   onOpenSubtes?: () => void;
 }
 
-export function ParadasMapaLayout({ gps, paradas, map, onOpenSubtes }: ParadasMapaLayoutProps) {
-  const ubicacionReal = gps.status === "granted";
-  const title = ubicacionReal ? "Paradas cerca tuyo" : "Paradas en el área";
+export function ParadasMapaLayout({ gps, paradas, map, fueraDelArea, onOpenSubtes }: ParadasMapaLayoutProps) {
+  const ubicacionReal = gps.status === "granted" && !fueraDelArea;
+  const title = fueraDelArea
+    ? "Paradas en Buenos Aires (referencia)"
+    : ubicacionReal
+      ? "Paradas cerca tuyo"
+      : "Paradas en el área";
   const banner = !ubicacionReal ? (
-    <UbicacionParadasBanner onActivar={gps.requestPermission} />
+    <UbicacionParadasBanner status={gps.status} onActivar={gps.requestPermission} />
   ) : null;
 
   return (

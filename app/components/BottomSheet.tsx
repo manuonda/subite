@@ -26,28 +26,36 @@ export function BottomSheet({
   const [state, setState] = useState<SheetState>(initialState);
   const startY = useRef(0);
   const startState = useRef<SheetState>(initialState);
+  const handledByTouch = useRef(false);
 
   function handleTouchStart(e: React.TouchEvent) {
     startY.current = e.touches[0].clientY;
     startState.current = state;
+    handledByTouch.current = false;
   }
 
   function handleTouchEnd(e: React.TouchEvent) {
     const deltaY = startY.current - e.changedTouches[0].clientY;
     if (Math.abs(deltaY) > 40) {
+      handledByTouch.current = true;
       if (deltaY > 0) {
-        setState(startState.current === "minimized" ? "collapsed" : startState.current === "collapsed" ? "expanded" : "expanded");
+        setState("expanded");
       } else {
-        setState(startState.current === "expanded" ? "collapsed" : startState.current === "collapsed" ? "minimized" : "minimized");
+        setState("minimized");
       }
     }
   }
 
   function handleClick() {
+    if (handledByTouch.current) {
+      handledByTouch.current = false;
+      return;
+    }
+    // Toggle simple: minimizado ↔ expandido
     if (state === "minimized") {
-      setState("collapsed");
+      setState("expanded");
     } else {
-      setState(state === "collapsed" ? "expanded" : "collapsed");
+      setState("minimized");
     }
   }
 
@@ -82,7 +90,7 @@ export function BottomSheet({
         onTouchEnd={handleTouchEnd}
         onClick={handleClick}
         onKeyDown={(e) => e.key === "Enter" && handleClick()}
-        aria-label={state === "minimized" ? "Expandir lista de paradas" : state === "collapsed" ? "Expandir" : "Colapsar"}
+        aria-label={state === "minimized" ? "Expandir lista de paradas" : "Minimizar"}
       >
         <div className="w-9 h-1 bg-white/20 rounded-full" />
         {title && state !== "minimized" && (
