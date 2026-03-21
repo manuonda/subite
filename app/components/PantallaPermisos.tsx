@@ -10,7 +10,7 @@ export function PantallaPermisos({ gps, onSkip }: PantallaPermisosProps) {
   return (
     <div className="fixed inset-0 bg-[var(--bg-app)] z-50 flex flex-col items-center justify-center p-6 text-center">
       <div className="text-6xl mb-6">🗺 🚇</div>
-      <h1 className="text-3xl font-bold text-[var(--primary)] mb-2">BondiYa</h1>
+      <h1 className="text-3xl font-bold text-[var(--primary)] mb-2">Subite</h1>
       <p className="text-[var(--text-muted)] mb-10 max-w-xs">
         Subtes, paradas y mapa del AMBA en tiempo real
       </p>

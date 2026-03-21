@@ -14,9 +14,9 @@ export function StatusBar({ barrio, gpsStatus }: StatusBarProps) {
     "text-white/40";
 
   return (
-    <header className="fixed top-0 left-0 right-0 lg:left-[220px] h-14 bg-[var(--bg-app)] border-b border-[var(--border)] flex items-center justify-between px-4 z-40">
-      <span className="text-[var(--primary)] font-bold text-lg">BondiYa</span>
-      <span className="text-sm text-[var(--text-muted)] truncate max-w-[140px]">
+    <header className="fixed top-0 left-0 right-0 lg:left-[220px] h-14 bg-(--bg-app) border-b border-(--border) flex items-center justify-between px-4 z-40">
+      <span className="text-(--primary) font-bold text-lg">Subite</span>
+      <span className="text-sm text-(--text-muted) truncate max-w-[140px]">
         {barrio || "Buenos Aires"}
       </span>
       <div className={`${gpsColor} transition-colors`}>

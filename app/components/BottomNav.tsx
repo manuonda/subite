@@ -42,7 +42,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
       {/* Desktop sidebar */}
       <nav className="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-[220px] bg-[var(--bg-app)] border-r border-[var(--border)] z-50 pt-4">
         <div className="px-4 mb-6">
-          <h1 className="text-xl font-bold text-[var(--primary)]">BondiYa</h1>
+          <h1 className="text-xl font-bold text-[var(--primary)]">Subite</h1>
           <p className="text-xs text-[var(--text-muted)]">Transporte AMBA</p>
         </div>
         {TABS.map(({ id, label, Icon }) => {

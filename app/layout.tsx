@@ -16,13 +16,13 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BondiYa — Transporte AMBA en tiempo real",
+  title: "Subite — Transporte AMBA en tiempo real",
   description: "Subtes, paradas y mapa del AMBA en tiempo real. Próximas llegadas, alertas y más.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "BondiYa",
+    title: "Subite",
   },
 };
 
