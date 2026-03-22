@@ -1,6 +1,6 @@
 "use client";
-import { TarjetaSubte } from "./TarjetaSubte";
-import { AlertaServicio } from "./AlertaServicio";
+import { TarjetaSubte } from "@/app/components/TarjetaSubte";
+import { AlertaServicio } from "@/app/components/AlertaServicio";
 import { useForecastSubtes, useAlertasSubtes } from "@/hooks/useSubtes";
 import { ESTACIONES } from "@/constants/subtes";
 

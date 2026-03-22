@@ -1,5 +1,5 @@
 "use client";
-import { GPSIcon } from "./Icons";
+import { GPSIcon } from "@/app/components/Icons";
 import type { GPSStatus } from "@/hooks/useGPS";
 
 interface StatusBarProps {

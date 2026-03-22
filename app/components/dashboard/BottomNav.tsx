@@ -1,7 +1,7 @@
 "use client";
-import { MapIcon, TrainIcon, SearchIcon, SettingsConfigIcon } from "./Icons";
+import { MapIcon, TrainIcon, SearchIcon, SettingsConfigIcon } from "@/app/components/Icons";
 
-export type TabId = "mapa" | "subtes" | "buscar";
+export type TabId = "mapa" | "subtes" | "buscar" | "configuracion";
 
 interface BottomNavProps {
   activeTab: TabId;

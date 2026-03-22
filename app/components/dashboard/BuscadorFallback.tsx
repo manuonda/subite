@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { ChipsAccesoRapido } from "./ChipsAccesoRapido";
-import { SearchIcon } from "./Icons";
+import { ChipsAccesoRapido } from "@/app/components/ChipsAccesoRapido";
+import { SearchIcon } from "@/app/components/Icons";
 
 export function BuscadorFallback() {
   const [query, setQuery] = useState("");
@@ -47,7 +47,7 @@ export function BuscadorFallback() {
       )}
 
       {query.length >= 2 && resultados.length === 0 && (
-        <p className="text-center text-[var(--text-muted)] text-sm mt-8">Sin resultados para "{query}"</p>
+        <p className="text-center text-[var(--text-muted)] text-sm mt-8">Sin resultados para &quot;{query}&quot;</p>
       )}
     </div>
   );
