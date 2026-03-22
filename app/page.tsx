@@ -1,20 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import { useGPS } from "@/hooks/useGPS";
+import { useAccedido } from "@/app/context/AccedidoContext";
 import { PantallaPermisos } from "@/app/components/PantallaPermisos";
 import { AppDashboard } from "@/app/AppDashboard";
 
 export default function Home() {
   const gps = useGPS();
-  const [hasAccedido, setHasAccedido] = useState(false);
+  const { hasAccedido, acceder } = useAccedido();
 
   // Pantalla 1: Inicio (Subite, líneas, features, CTAs)
   if (!hasAccedido) {
     return (
       <PantallaPermisos
         gps={gps}
-        onSkip={() => setHasAccedido(true)}
+        onSkip={acceder}
       />
     );
   }
