@@ -9,7 +9,7 @@ export default function Home() {
   const gps = useGPS();
   const { hasAccedido, acceder } = useAccedido();
 
-  // Pantalla 1: Inicio (Subite, líneas, features, CTAs)
+  // Pantalla 1: Inicio (Suba, líneas, features, CTAs)
   if (!hasAccedido) {
     return (
       <PantallaPermisos

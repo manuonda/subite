@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 
-const STORAGE_KEY = "subite_accedido";
+const STORAGE_KEY = "suba_accedido";
 
 type AccedidoContextType = {
   hasAccedido: boolean;

@@ -47,7 +47,7 @@ export function PantallaPermisos({ gps, onSkip }: PantallaPermisosProps) {
         </div>
 
         <h1 className="text-4xl font-extrabold text-[var(--primary)] tracking-tight mb-1">
-          Subite
+          Suba
         </h1>
         <p className="text-sm text-[var(--text-muted)] mb-2">
           Transporte del AMBA · Buenos Aires
