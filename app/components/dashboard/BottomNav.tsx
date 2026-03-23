@@ -1,7 +1,7 @@
 "use client";
-import { MapIcon, TrainIcon, SearchIcon, SettingsConfigIcon } from "@/app/components/Icons";
+import { MapIcon } from "@/app/components/Icons";
 
-export type TabId = "mapa" | "subtes" | "buscar" | "configuracion";
+export type TabId = "mapa" | "subtes" | "buscar";
 
 interface BottomNavProps {
   activeTab: TabId;
@@ -10,9 +10,6 @@ interface BottomNavProps {
 
 const TABS = [
   { id: "mapa" as TabId, label: "Mapa", Icon: MapIcon },
-  { id: "subtes" as TabId, label: "Subtes", Icon: TrainIcon },
-  { id: "buscar" as TabId, label: "Buscar", Icon: SearchIcon },
-  { id: "configuracion" as TabId, label: "Configuración", Icon: SettingsConfigIcon },
 ];
 
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {

@@ -15,7 +15,6 @@ import { BottomNav, type TabId } from "@/app/components/dashboard/BottomNav";
 import { ParadasMapaLayout } from "@/app/components/dashboard/ParadasMapaLayout";
 import { ListaSubtes } from "@/app/components/dashboard/ListaSubtes";
 import { BuscadorFallback } from "@/app/components/dashboard/BuscadorFallback";
-import { Configuracion } from "@/app/components/dashboard/Configuracion";
 
 export function AppDashboard() {
   const gps = useGPS();
@@ -140,12 +139,6 @@ export function AppDashboard() {
         {activeTab === "buscar" && (
           <div className="pb-20">
             <BuscadorFallback />
-          </div>
-        )}
-
-        {activeTab === "configuracion" && (
-          <div className="pb-20">
-            <Configuracion />
           </div>
         )}
       </div>
