@@ -10,7 +10,8 @@ interface TarjetaSubteProps {
 }
 
 function getLetra(routeId: string): string {
-  return routeId.toUpperCase().replace("SUBTE", "").replace("LINEA_", "").replace("_", "").trim().charAt(0) || routeId;
+  const s = routeId.replace(/^(Linea|Subte)/i, "").trim();
+  return s.charAt(0).toUpperCase() || routeId;
 }
 
 export function TarjetaSubte({
