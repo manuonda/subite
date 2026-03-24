@@ -109,6 +109,50 @@ export function getHorariosPorLinea(routeId: string): HorarioTerminal[] {
   return result;
 }
 
+/** Mapeo service_id → clave de día en HorarioTerminal */
+const SERVICE_TO_KEY: Record<string, "lunVie" | "sab" | "dom"> = {
+  "5": "lunVie",
+  "6": "sab",
+  "7": "dom",
+};
+
+/**
+ * Primer y último servicio de una línea para hoy (según service_id).
+ * Fuente: frequencies.json vía getHorariosPorLinea.
+ * Útil para pantalla de parada: horarios oficiales de operación de la línea.
+ */
+export function getPrimeroUltimoServicioLinea(
+  routeId: string,
+  serviceId: string | undefined
+): { primero: string; ultimo: string } | undefined {
+  const horarios = getHorariosPorLinea(routeId);
+  if (horarios.length === 0) return undefined;
+  const diaKey: "lunVie" | "sab" | "dom" =
+    (serviceId && SERVICE_TO_KEY[serviceId]) || "lunVie";
+  const timeToMin = (t: string) => {
+    const [hh, mm] = t.split(":").map((x) => parseInt(x, 10) || 0);
+    return hh * 60 + mm;
+  };
+  let primeroMin = 24 * 60;
+  let ultimoMin = 0;
+  for (const h of horarios) {
+    const dia = h[diaKey];
+    if (dia.primero !== "—" && dia.ultimo !== "—") {
+      primeroMin = Math.min(primeroMin, timeToMin(dia.primero));
+      ultimoMin = Math.max(ultimoMin, timeToMin(dia.ultimo));
+    }
+  }
+  if (ultimoMin === 0) return undefined;
+  const h1 = Math.floor(primeroMin / 60);
+  const m1 = primeroMin % 60;
+  const h2 = Math.floor(ultimoMin / 60);
+  const m2 = ultimoMin % 60;
+  return {
+    primero: `${String(h1).padStart(2, "0")}:${String(m1).padStart(2, "0")}`,
+    ultimo: `${String(h2).padStart(2, "0")}:${String(m2).padStart(2, "0")}`,
+  };
+}
+
 /**
  * Estaciones únicas de una línea (ordenadas por recorrido, usando primer trip).
  * Via trips → stop_times → estaciones padre.

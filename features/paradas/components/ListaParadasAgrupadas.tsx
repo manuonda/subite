@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { TarjetaParada } from "./TarjetaParada";
 import { SearchIcon } from "@/shared/components/ui/Icons";
+import { COLORES_SUBTE } from "@/constants/subtes";
 import type { Parada } from "./ListaParadas";
 
 const LINEAS_SUBTE_ORDER = ["A", "B", "C", "D", "E", "H"];
@@ -59,11 +60,15 @@ export function ListaParadasAgrupadas({ paradas, onParadaSelect }: ListaParadasA
       }
     }
 
-    const subteOrdenados = LINEAS_SUBTE_ORDER.filter((k) => subteByLinea.has(k)).map((k) => ({
-      linea: `Línea ${k}`,
-      paradas: subteByLinea.get(k)!,
-      tipo: "subte" as const,
-    }));
+    const subteOrdenados = LINEAS_SUBTE_ORDER.filter((k) => subteByLinea.has(k)).map((k) => {
+      const list = subteByLinea.get(k)!;
+      return {
+        linea: `Línea ${k}`,
+        lineaKey: k,
+        paradas: [...list].sort((a, b) => a.nombre.localeCompare(b.nombre, "es")),
+        tipo: "subte" as const,
+      };
+    });
 
     const colectivoOrdenados = [...colectivoByLinea.entries()]
       .sort(([a], [b]) => {
@@ -74,7 +79,8 @@ export function ListaParadasAgrupadas({ paradas, onParadaSelect }: ListaParadasA
       })
       .map(([k, paradas]) => ({
         linea: `Línea ${k}`,
-        paradas,
+        lineaKey: k,
+        paradas: [...paradas].sort((a, b) => a.nombre.localeCompare(b.nombre, "es")),
         tipo: "colectivo" as const,
       }));
 
@@ -115,9 +121,21 @@ export function ListaParadasAgrupadas({ paradas, onParadaSelect }: ListaParadasA
         </p>
       ) : (
         <div className="space-y-6">
-          {grupos.map(({ linea, paradas: ps, tipo }) => (
+          {grupos.map(({ linea, lineaKey, paradas: ps, tipo }) => {
+            const color =
+              tipo === "subte"
+                ? (COLORES_SUBTE[lineaKey] ?? "var(--text-dim)")
+                : "var(--primary)";
+            return (
             <section key={`${tipo}-${linea}`}>
-              <h4 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide mb-2">
+              <h4
+                className="text-xs font-semibold uppercase tracking-wide mb-2 pl-2.5 py-1 rounded-r"
+                style={{
+                  color: "var(--text-dim)",
+                  borderLeft: `3px solid ${color}`,
+                  background: `${color}12`,
+                }}
+              >
                 {linea}
               </h4>
               <div className="rounded-xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
@@ -128,12 +146,14 @@ export function ListaParadasAgrupadas({ paradas, onParadaSelect }: ListaParadasA
                     lineas={p.lineas}
                     tiempo={p.tiempo}
                     tipo={p.tipo}
+                    colorLinea={tipo === "subte" ? color : undefined}
                     onClick={() => onParadaSelect?.(p)}
                   />
                 ))}
               </div>
             </section>
-          ))}
+          );
+          })}
         </div>
       )}
     </div>

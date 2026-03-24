@@ -2,6 +2,7 @@
 
 import { use } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Mapa } from "@/shared/components/mapa/Mapa";
 import { ProximosArribos } from "@/features/paradas/components/ProximosArribos";
 import { BackIcon } from "@/shared/components/ui/Icons";
@@ -14,6 +15,10 @@ interface ParadaPageClientProps {
 
 export function ParadaPageClient({ params }: ParadaPageClientProps) {
   const { id } = use(params);
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+  const linea = searchParams.get("linea");
+  const backHref = from === "linea" && linea ? `/linea/${linea}` : "/";
   const detalle = useParadaDetalle(id);
   const { stop, estacion, accesos, sentido, viajes, primerServicio, ultimoServicio, trasbordos } = detalle;
 
@@ -40,7 +45,7 @@ export function ParadaPageClient({ params }: ParadaPageClientProps) {
     <div className="min-h-screen bg-[var(--bg-app)]">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 h-14 bg-[var(--bg-app)] border-b border-[var(--border)] flex items-center px-4 z-40 gap-3">
-        <Link href="/" className="text-[var(--text-muted)] active:text-[var(--primary)] transition-colors">
+        <Link href={backHref} className="text-[var(--text-muted)] active:text-[var(--primary)] transition-colors">
           <BackIcon size={20} />
         </Link>
         <div className="flex-1 min-w-0">

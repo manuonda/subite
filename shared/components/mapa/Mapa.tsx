@@ -211,13 +211,25 @@ export function Mapa({
       if (!activeLayers.lineasSubte) return;
       subteLines.forEach((line) => {
         if (line.points.length < 2) return;
-        L.polyline(line.points, {
+        const poly = L.polyline(line.points, {
           color: line.color,
           weight: 5,
           opacity: 0.88,
           lineCap: "round",
           lineJoin: "round",
-        }).addTo(layer as L.LayerGroup);
+        });
+        if (line.label) {
+          poly.bindTooltip(
+            `<span style="color:${line.color}">${line.label}</span>`,
+            {
+              permanent: true,
+              direction: "center",
+              offset: [0, 0],
+              className: "line-label-tooltip",
+            }
+          );
+        }
+        poly.addTo(layer as L.LayerGroup);
       });
     });
   }, [mapReady, subteLines, activeLayers.lineasSubte]);

@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiltroMapaBar, type MapFilter } from "@/shared/components/mapa/FiltroMapaBar";
+import { useMapView } from "@/app/context/MapViewContext";
 import { ListaSubtes } from "@/features/subtes/components/ListaSubtes";
 import { ListaParadas, type Parada } from "@/features/paradas/components/ListaParadas";
 import { ListaParadasAgrupadas } from "@/features/paradas/components/ListaParadasAgrupadas";
@@ -42,18 +43,22 @@ export function MapaUnificadoLayout({
   onParadaSelectFromList,
 }: MapaUnificadoLayoutProps) {
   const router = useRouter();
-  const [activeFilter, setActiveFilter] = useState<MapFilter>("subtes");
+  const { activeMapFilter: activeFilter, setActiveMapFilter } = useMapView();
 
   function handleFilterChange(f: MapFilter) {
-    setActiveFilter(f);
+    setActiveMapFilter(f);
     onLayersChange(FILTER_TO_LAYERS[f]);
   }
+
+  useEffect(() => {
+    onLayersChange(FILTER_TO_LAYERS[activeFilter]);
+  }, [activeFilter, onLayersChange]);
 
   function handleParadaSelect(parada: Parada) {
     if (onParadaSelectFromList) {
       onParadaSelectFromList(parada);
     } else {
-      router.push(`/parada/${parada.id}`);
+      router.push(`/parada/${parada.id}?from=mapa`);
     }
   }
 

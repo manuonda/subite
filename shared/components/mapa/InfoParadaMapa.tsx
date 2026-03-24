@@ -127,7 +127,7 @@ export function InfoParadaMapa({ marker, onClose }: InfoParadaMapaProps) {
         {/* Botón acción — redirige a pantalla de detalle */}
         {marker.id && (
           <Link
-            href={esSubte && estacion ? `/parada/${estacion.plataformas[0]}` : `/parada/${marker.id}`}
+            href={`${esSubte && estacion ? `/parada/${estacion.plataformas[0]}` : `/parada/${marker.id}`}?from=mapa`}
             onClick={onClose}
             className="flex items-center justify-center gap-2 w-full text-sm font-bold py-2.5 rounded-xl text-white transition-opacity active:opacity-80"
             style={{

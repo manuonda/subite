@@ -1,0 +1,7 @@
+1 - Establecer el tema de alertas con colores por estaciones .
+2 - Verificar la cuenta de twiiter de emova.com.ar para mas inforamicon.
+3 - El tema de alertas es importante mostrar el listado de alertas y boton de actualizar.
+4 - Cuadro Tarifario https://emova.com.ar/index.php/cuadro-tarifario/
+5 - La parte de Horarios tener en cuenta en detalle de parada que debe corresponder con el 
+servicio de liena pero debemos cargar un archivo de feriados puesto que soon otro horario.
+6 - Proximos arribos depdnede https://apitransporte.buenosaires.gob.ar/console/, poner boton de alerta tambien seria. 

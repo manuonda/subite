@@ -24,7 +24,10 @@ export function LineaPageClient({ params }: LineaPageClientProps) {
   const routeId = id.startsWith("Linea") ? id : `Linea${id.toUpperCase()}`;
   const route = useMemo(() => getSubteRoute(routeId), [routeId]);
   const horarios = useMemo(() => getHorariosPorLinea(routeId), [routeId]);
-  const estaciones = useMemo(() => getEstacionesDeLinea(routeId), [routeId]);
+  const estaciones = useMemo(() => {
+    const list = getEstacionesDeLinea(routeId);
+    return [...list].sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+  }, [routeId]);
   const subteLines = useMemo(() => subteLinesForRoute(routeId), [routeId]);
   const { data: alertasRaw } = useAlertasSubtes();
   const alertas = Array.isArray(alertasRaw) ? alertasRaw : [];
@@ -126,29 +129,39 @@ export function LineaPageClient({ params }: LineaPageClientProps) {
 
           {/* Estaciones */}
           <div className="space-y-2">
-            <h2 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide">
+            <h2
+              className="text-xs font-semibold uppercase tracking-wide pl-2.5 py-1.5 rounded-r"
+              style={{
+                color: "var(--text-dim)",
+                borderLeft: `3px solid ${colorLinea}`,
+                background: `${colorLinea}15`,
+              }}
+            >
               Estaciones ({estaciones.length})
             </h2>
             <div
-              className="rounded-2xl border border-[var(--border)] divide-y divide-[var(--border)]"
+              className="rounded-2xl overflow-hidden border border-[var(--border)]"
               style={{ background: "var(--bg-elevated)" }}
             >
-              {estaciones.map((est, i) => (
+              {estaciones.map((est) => (
                 <Link
                   key={est.id}
-                  href={`/parada/${est.plataformas[0] ?? est.id}`}
-                  className="flex items-center gap-3 px-4 py-3 active:bg-white/5 transition-colors"
+                  href={`/parada/${est.plataformas[0] ?? est.id}?from=linea&linea=${route.nombre}`}
+                  className="flex items-center gap-3 px-4 py-3.5 active:bg-white/5 transition-colors border-b border-[var(--border-light)] last:border-b-0"
                 >
                   <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-white text-xs shrink-0"
-                    style={{ backgroundColor: colorLinea }}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white text-sm shrink-0"
+                    style={{
+                      backgroundColor: colorLinea,
+                      boxShadow: `0 2px 8px ${colorLinea}40`,
+                    }}
                   >
                     {route.nombre}
                   </div>
-                  <span className="flex-1 text-sm font-medium text-[var(--text-primary)]">
+                  <span className="flex-1 text-sm font-semibold text-[var(--text-primary)]">
                     {est.nombre}
                   </span>
-                  <span className="text-[var(--text-muted)]">→</span>
+                  <span className="text-[var(--text-muted)] text-lg">→</span>
                 </Link>
               ))}
             </div>

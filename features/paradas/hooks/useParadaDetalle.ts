@@ -15,6 +15,7 @@ import {
   getServiceIdHoy,
   getTransfersDesde,
   getSubteRoute,
+  getPrimeroUltimoServicioLinea,
 } from "@/lib/subte";
 import type {
   SubteStop,
@@ -71,12 +72,15 @@ function parseSentido(stopId: string): string | undefined {
   return map[sufijo];
 }
 
-/** Primer horario de la lista de franjas de un trip para esta parada */
-function extractHH(timeStr: string): string {
-  // times can be "25:30:00" (next-day GTFS), normalize to HH:MM
-  const [h, m] = timeStr.split(":");
-  const hNum = parseInt(h) % 24;
-  return `${String(hNum).padStart(2, "0")}:${m}`;
+/** Convierte HH:MM (24h) a formato con a.m./p.m. para claridad */
+function formatHoraAmPm(hhmm: string): string {
+  const [hStr, mStr] = hhmm.split(":");
+  const h = parseInt(hStr || "0", 10) % 24;
+  const m = (mStr || "00").slice(0, 2);
+  if (h === 0) return `12:${m} a.m.`;
+  if (h === 12) return `12:${m} p.m.`;
+  if (h < 12) return `${h}:${m} a.m.`;
+  return `${h - 12}:${m} p.m.`;
 }
 
 export function useParadaDetalle(stopId: string): ParadaDetalle {
@@ -110,16 +114,16 @@ export function useParadaDetalle(stopId: string): ParadaDetalle {
       };
     });
 
-    // Primer y último servicio: min/max de horarios de llegada entre todos los viajes de hoy
-    const horariosLlegada = viajes
-      .map((v) => v.horario?.llegada)
-      .filter((h): h is string => !!h)
-      .sort();
-    const primerServicio = horariosLlegada[0]
-      ? extractHH(horariosLlegada[0])
+    // Primer y último servicio: desde la línea (frequencies.json), no desde la parada
+    const routeId = viajes[0]?.trip?.routeId;
+    const horariosLinea = routeId
+      ? getPrimeroUltimoServicioLinea(routeId, serviceIdHoy ?? undefined)
       : undefined;
-    const ultimoServicio = horariosLlegada[horariosLlegada.length - 1]
-      ? extractHH(horariosLlegada[horariosLlegada.length - 1])
+    const primerServicio = horariosLinea
+      ? formatHoraAmPm(horariosLinea.primero)
+      : undefined;
+    const ultimoServicio = horariosLinea
+      ? formatHoraAmPm(horariosLinea.ultimo)
       : undefined;
 
     // Trasbordos

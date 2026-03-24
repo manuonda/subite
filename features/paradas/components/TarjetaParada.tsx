@@ -3,25 +3,26 @@ interface TarjetaParadaProps {
   lineas: string[];
   tiempo?: number;
   tipo: "colectivo" | "subte";
+  /** Color de la línea (para subte: badges; para colectivo: acento tiempo) */
+  colorLinea?: string;
   onClick?: () => void;
 }
 
-export function TarjetaParada({ nombre, lineas, tiempo, tipo, onClick }: TarjetaParadaProps) {
+export function TarjetaParada({ nombre, lineas, tiempo, tipo, colorLinea, onClick }: TarjetaParadaProps) {
   const icon = tipo === "subte" ? "🚇" : "🚏";
-  const accentColor = tipo === "subte" ? "var(--subte-c)" : "var(--primary)";
+  const accentColor = colorLinea ?? (tipo === "subte" ? "var(--subte-c)" : "var(--primary)");
 
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-4 py-3 transition-all"
-      style={{ borderBottom: "1px solid var(--border-light)" }}
+      className="w-full flex items-center gap-3 px-4 py-3.5 transition-all active:bg-white/5 border-b border-[var(--border-light)] last:border-b-0"
     >
       {/* Icono */}
       <div
-        className="w-9 h-9 rounded-xl flex items-center justify-center text-[15px] shrink-0"
+        className="w-10 h-10 rounded-xl flex items-center justify-center text-base shrink-0"
         style={{
-          background: "rgba(255,255,255,0.05)",
-          border: "1px solid var(--border)",
+          background: colorLinea ? `${colorLinea}22` : "rgba(255,255,255,0.05)",
+          border: `1.5px solid ${colorLinea ? `${colorLinea}55` : "var(--border)"}`,
         }}
       >
         {icon}
@@ -29,18 +30,18 @@ export function TarjetaParada({ nombre, lineas, tiempo, tipo, onClick }: Tarjeta
 
       {/* Info */}
       <div className="flex-1 min-w-0 text-left">
-        <p className="text-[13px] font-semibold text-[var(--text-primary)] truncate leading-tight">
+        <p className="text-sm font-semibold text-[var(--text-primary)] truncate leading-tight">
           {nombre}
         </p>
-        <div className="flex gap-1 mt-1.5 flex-wrap">
+        <div className="flex gap-1.5 mt-1.5 flex-wrap">
           {lineas.slice(0, 5).map((l) => (
             <span
               key={l}
-              className="text-[9px] font-black px-1.5 py-0.5 rounded"
+              className="text-[10px] font-bold px-2 py-0.5 rounded-md"
               style={{
-                background: "rgba(255,255,255,0.06)",
-                color: "var(--text-muted)",
-                border: "1px solid var(--border)",
+                background: colorLinea ? `${colorLinea}20` : "rgba(255,255,255,0.06)",
+                color: colorLinea ?? "var(--text-muted)",
+                border: `1px solid ${colorLinea ? `${colorLinea}40` : "var(--border)"}`,
                 fontFamily: "var(--font-space-mono)",
               }}
             >

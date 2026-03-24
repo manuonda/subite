@@ -14,6 +14,11 @@ interface RawShapeLine {
   points: [number, number][];
 }
 
+function getLineaLabel(routeId: string): string {
+  const m = routeId.match(/Linea([A-H])/i);
+  return m ? m[1].toUpperCase() : routeId.replace(/^Linea/i, "").charAt(0)?.toUpperCase() || "";
+}
+
 /** Polilíneas GTFS listas para el componente Mapa */
 export function subteLinesForMap(): SubteLineOverlay[] {
   const data = raw as RawShapeLine[];
@@ -21,6 +26,7 @@ export function subteLinesForMap(): SubteLineOverlay[] {
     shapeId: r.shapeId,
     color: r.color,
     points: r.points,
+    label: getLineaLabel(r.routeId),
   }));
 }
 
@@ -29,5 +35,10 @@ export function subteLinesForRoute(routeId: string): SubteLineOverlay[] {
   const data = raw as RawShapeLine[];
   return data
     .filter((r) => r.routeId === routeId)
-    .map((r) => ({ shapeId: r.shapeId, color: r.color, points: r.points }));
+    .map((r) => ({
+      shapeId: r.shapeId,
+      color: r.color,
+      points: r.points,
+      label: getLineaLabel(r.routeId),
+    }));
 }

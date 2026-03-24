@@ -22,4 +22,6 @@ export interface SubteLineOverlay {
   shapeId: string;
   color: string;
   points: [number, number][];
+  /** Letra de la línea para mostrar en el mapa (A, B, C, etc.) */
+  label?: string;
 }
