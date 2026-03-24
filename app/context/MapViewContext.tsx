@@ -15,12 +15,11 @@ const STORAGE_KEY = "bondiya-map-filter";
 function getStoredFilter(): MapFilter {
   if (typeof window === "undefined") return "subtes";
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (
-    stored === "subtes" ||
-    stored === "bus" ||
-    stored === "paradas" ||
-    stored === "alertas"
-  ) {
+  if (stored === "alertas") {
+    localStorage.setItem(STORAGE_KEY, "subtes");
+    return "subtes";
+  }
+  if (stored === "subtes" || stored === "bus" || stored === "paradas") {
     return stored;
   }
   return "subtes";

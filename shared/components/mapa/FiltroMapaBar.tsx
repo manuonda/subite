@@ -1,11 +1,11 @@
 "use client";
 
 import type { ComponentType } from "react";
-import { TrainIcon, BusIcon, MapIcon, AlertIcon } from "@/shared/components/ui/Icons";
+import { TrainIcon, BusIcon, MapIcon } from "@/shared/components/ui/Icons";
 import { useLocale } from "@/app/context/LocaleContext";
 import type { MessageKey } from "@/lib/i18n/messages";
 
-export type MapFilter = "subtes" | "bus" | "paradas" | "alertas";
+export type MapFilter = "subtes" | "bus" | "paradas";
 
 type IconComp = ComponentType<{ size?: number; className?: string }>;
 
@@ -18,7 +18,6 @@ const FILTERS: {
   { id: "subtes", labelKey: "filterSubtes", Icon: TrainIcon, colorVar: "var(--filter-icon-subte)" },
   { id: "bus", labelKey: "filterBus", Icon: BusIcon, colorVar: "var(--filter-icon-bus)" },
   { id: "paradas", labelKey: "filterStops", Icon: MapIcon, colorVar: "var(--filter-icon-paradas)" },
-  { id: "alertas", labelKey: "filterAlerts", Icon: AlertIcon, colorVar: "var(--filter-icon-alert)" },
 ];
 
 interface FiltroMapaBarProps {

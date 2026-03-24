@@ -13,11 +13,11 @@ interface PantallaPermisosProps {
 }
 
 const LINEAS = [
-  { letra: "A", color: "var(--subte-a)" },
-  { letra: "B", color: "var(--subte-b)" },
-  { letra: "C", color: "var(--subte-c)" },
-  { letra: "D", color: "var(--subte-d)" },
-  { letra: "E", color: "var(--subte-e)" },
+  { letra: "A", color: "var(--subte-a)", dark: false },
+  { letra: "B", color: "var(--subte-b)", dark: false },
+  { letra: "C", color: "var(--subte-c)", dark: false },
+  { letra: "D", color: "var(--subte-d)", dark: false },
+  { letra: "E", color: "var(--subte-e)", dark: false },
   { letra: "H", color: "var(--subte-h)", dark: true },
 ] as const;
 

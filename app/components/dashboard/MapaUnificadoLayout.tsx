@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { FiltroMapaBar, type MapFilter } from "@/shared/components/mapa/FiltroMapaBar";
 import { useMapView } from "@/app/context/MapViewContext";
 import { ListaSubtes } from "@/features/subtes/components/ListaSubtes";
-import { ListaAlertas } from "@/features/subtes/components/ListaAlertas";
 import { ListaParadas, type Parada } from "@/features/paradas/components/ListaParadas";
 import { ListaParadasAgrupadas } from "@/features/paradas/components/ListaParadasAgrupadas";
 import type { MapLayers, MarkerData } from "@/shared/types/mapa";
@@ -14,7 +13,6 @@ const FILTER_TO_LAYERS: Record<MapFilter, MapLayers> = {
   subtes:  { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
   bus:     { paradasColectivo: true, paradasSubte: false, lineasSubte: true },
   paradas: { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
-  alertas: { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
 };
 
 interface MapaUnificadoLayoutProps {
@@ -71,8 +69,6 @@ export function MapaUnificadoLayout({
         return <ListaParadas paradas={paradasBus} onParadaSelect={handleParadaSelect} />;
       case "paradas":
         return <ListaParadasAgrupadas paradas={paradasSubte} onParadaSelect={handleParadaSelect} />;
-      case "alertas":
-        return <ListaAlertas />;
       default:
         return <ListaSubtes />;
     }
