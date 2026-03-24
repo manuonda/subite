@@ -42,6 +42,8 @@ interface MapaProps {
   onMapBackgroundClick?: () => void;
   zoom?: number;
   height?: string;
+  /** Mostrar botones de control de capas sobre el mapa (default: true) */
+  showLayerControls?: boolean;
 }
 
 const DEFAULT_LAYERS: MapLayers = {
@@ -69,6 +71,7 @@ export function Mapa({
   onMapBackgroundClick,
   zoom = 15,
   height = "100%",
+  showLayerControls = true,
 }: MapaProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<unknown>(null);
@@ -249,42 +252,38 @@ export function Mapa({
         style={{ height: "100%", width: "100%" }}
         className="bg-[var(--bg-elevated)]"
       />
-      {/* Controles de capas */}
-      <div className="absolute top-3 left-3 z-[1000] flex flex-col gap-1">
-        <button
-          type="button"
-          onClick={() => toggleLayer("paradasColectivo")}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-            activeLayers.paradasColectivo
-              ? "bg-[var(--primary)] text-white"
-              : "bg-black/50 text-white/70"
-          }`}
-        >
-          🚏 Paradas
-        </button>
-        <button
-          type="button"
-          onClick={() => toggleLayer("paradasSubte")}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-            activeLayers.paradasSubte
-              ? "bg-[#a78bfa] text-white"
-              : "bg-black/50 text-white/70"
-          }`}
-        >
-          🚇 Subtes
-        </button>
-        <button
-          type="button"
-          onClick={() => toggleLayer("lineasSubte")}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-            activeLayers.lineasSubte
-              ? "bg-[#3b82f6] text-white"
-              : "bg-black/50 text-white/70"
-          }`}
-        >
-          📐 Líneas
-        </button>
-      </div>
+      {/* Controles de capas — glass morphism pills */}
+      {showLayerControls && (
+        <div className="absolute top-3 left-3 z-[1000] flex flex-col gap-1.5">
+          {[
+            { key: "paradasColectivo" as const, label: "Colect.",  icon: "🚏", activeColor: "var(--primary)",  activeGlow: "var(--primary-glow)" },
+            { key: "paradasSubte"    as const, label: "Subtes",  icon: "🚇", activeColor: "#a78bfa",          activeGlow: "rgba(167,139,250,0.4)" },
+            { key: "lineasSubte"     as const, label: "Líneas",  icon: "〰",  activeColor: "#60a5fa",          activeGlow: "rgba(96,165,250,0.4)" },
+          ].map(({ key, label, icon, activeColor, activeGlow }) => {
+            const isOn = activeLayers[key];
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => toggleLayer(key)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-white transition-all duration-200"
+                style={{
+                  background: isOn ? activeColor : "rgba(7, 10, 18, 0.75)",
+                  backdropFilter: "blur(10px)",
+                  border: isOn
+                    ? `1px solid ${activeColor}`
+                    : "1px solid rgba(255,255,255,0.10)",
+                  boxShadow: isOn ? `0 0 12px ${activeGlow}` : "none",
+                  opacity: isOn ? 1 : 0.7,
+                }}
+              >
+                <span className="text-sm leading-none">{icon}</span>
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

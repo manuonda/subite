@@ -13,6 +13,7 @@ export interface Parada {
 interface ListaParadasProps {
   paradas: Parada[];
   loading?: boolean;
+  onParadaSelect?: (parada: Parada) => void;
 }
 
 const MOCK_PARADAS: Parada[] = [
@@ -21,7 +22,7 @@ const MOCK_PARADAS: Parada[] = [
   { id: "p3", nombre: "Parada Santa Fe 800", lineas: ["152", "60"], tiempo: 7, tipo: "colectivo" },
 ];
 
-export function ListaParadas({ paradas = MOCK_PARADAS, loading }: ListaParadasProps) {
+export function ListaParadas({ paradas = MOCK_PARADAS, loading, onParadaSelect }: ListaParadasProps) {
   const router = useRouter();
 
   if (loading) {
@@ -43,7 +44,7 @@ export function ListaParadas({ paradas = MOCK_PARADAS, loading }: ListaParadasPr
           lineas={p.lineas}
           tiempo={p.tiempo}
           tipo={p.tipo}
-          onClick={() => router.push(`/parada/${p.id}`)}
+          onClick={() => onParadaSelect ? onParadaSelect(p) : router.push(`/parada/${p.id}`)}
         />
       ))}
     </div>

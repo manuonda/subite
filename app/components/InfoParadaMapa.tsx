@@ -17,18 +17,15 @@ const SENTIDO_LABEL: Record<string, string> = {
   O: "Oeste",
 };
 
-/** Deriva el sentido del sufijo del stop_id (ej: "1164N" → "Norte") */
 function getSentido(stopId: string): string {
   const sufijo = stopId.slice(-1).toUpperCase();
   return SENTIDO_LABEL[sufijo] ?? sufijo;
 }
 
-/** Busca el destino (headsign) del viaje que pasa por ese platform */
 function getDestino(stopId: string): string | undefined {
   const trips = getTrips();
   return trips.find((t) => {
     const sufijo = stopId.slice(-1).toUpperCase();
-    // direction=0 → ida (S/O), direction=1 → vuelta (N/E)
     if (sufijo === "N" || sufijo === "E") return t.direction === 1;
     if (sufijo === "S" || sufijo === "O") return t.direction === 0;
     return false;
@@ -43,23 +40,39 @@ export function InfoParadaMapa({ marker, onClose }: InfoParadaMapaProps) {
 
   return (
     <div
-      className="fixed left-3 right-3 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:left-[calc(220px+12px)] lg:right-auto lg:w-[min(100%,380px)] z-[1150]"
+      className="absolute left-3 bottom-16 z-[1150] w-[min(100%-24px,360px)]"
       role="dialog"
       aria-label="Detalle de parada"
     >
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-2xl p-4 space-y-3">
-
+      <div
+        className="rounded-2xl p-4 space-y-3 shadow-2xl"
+        style={{
+          background: "rgba(11, 15, 27, 0.92)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(61, 157, 243, 0.18)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)",
+        }}
+      >
         {/* Header */}
         <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-2xl shrink-0" aria-hidden>
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0"
+              style={{
+                background: "var(--primary-muted)",
+                border: "1px solid var(--primary-border)",
+              }}
+            >
               {esSubte ? "🚇" : "🚏"}
-            </span>
+            </div>
             <div className="min-w-0">
-              <p className="font-semibold text-[var(--text-primary)] text-sm truncate">
+              <p className="font-bold text-sm text-[var(--text-primary)] truncate">
                 {marker.nombre || marker.label || "Parada"}
               </p>
-              <p className="text-[11px] text-[var(--text-muted)] font-mono mt-0.5">
+              <p
+                className="text-[10px] mt-0.5"
+                style={{ color: "var(--primary)", fontFamily: "var(--font-space-mono)" }}
+              >
                 {esSubte ? `Estación ${marker.id}` : `ID: ${marker.id}`}
               </p>
             </div>
@@ -67,36 +80,38 @@ export function InfoParadaMapa({ marker, onClose }: InfoParadaMapaProps) {
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-lg px-2 py-1 text-xs text-[var(--text-muted)] hover:bg-white/10"
+            className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-colors"
+            style={{
+              color: "var(--text-muted)",
+              background: "rgba(255,255,255,0.06)",
+            }}
             aria-label="Cerrar"
           >
             ✕
           </button>
         </div>
 
-        {/* Plataformas de la estación */}
+        {/* Andenes */}
         {estacion && estacion.plataformas.length > 0 && (
           <div className="space-y-1.5">
-            <p className="text-[10px] font-semibold text-(--text-dim) uppercase tracking-wider">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dim)]">
               Andenes
             </p>
             {estacion.plataformas.map((platId) => {
               const sentido = getSentido(platId);
               const destino = getDestino(platId);
               return (
-                <div
-                  key={platId}
-                  className="flex items-center gap-2 text-xs text-[var(--text-muted)]"
-                >
-                  <span className="font-mono text-(--primary) w-14 shrink-0">
+                <div key={platId} className="flex items-center gap-2">
+                  <span
+                    className="text-xs font-bold w-14 shrink-0"
+                    style={{ color: "var(--primary)", fontFamily: "var(--font-space-mono)" }}
+                  >
                     {platId}
                   </span>
-                  <span className="text-(--text-dim)">→</span>
-                  <span>
+                  <span className="text-[var(--text-dim)] text-xs">→</span>
+                  <span className="text-xs text-[var(--text-muted)]">
                     {sentido}
-                    {destino && (
-                      <span className="text-(--text-dim)"> · {destino}</span>
-                    )}
+                    {destino && <span className="text-[var(--text-dim)]"> · {destino}</span>}
                   </span>
                 </div>
               );
@@ -104,19 +119,23 @@ export function InfoParadaMapa({ marker, onClose }: InfoParadaMapaProps) {
           </div>
         )}
 
-        {/* Colectivo: info simple */}
+        {/* Colectivo */}
         {!esSubte && (
-          <p className="text-xs text-(--text-dim)">Parada de colectivos</p>
+          <p className="text-xs text-[var(--text-dim)]">Parada de colectivos</p>
         )}
 
-        {/* Botón detalle */}
-        {esSubte && estacion && (
+        {/* Botón acción — redirige a pantalla de detalle */}
+        {marker.id && (
           <Link
-            href={`/parada/${estacion.plataformas[0]}`}
+            href={esSubte && estacion ? `/parada/${estacion.plataformas[0]}` : `/parada/${marker.id}`}
             onClick={onClose}
-            className="block w-full text-center text-sm font-semibold py-2.5 rounded-xl bg-(--primary) text-white active:opacity-80 transition-opacity"
+            className="flex items-center justify-center gap-2 w-full text-sm font-bold py-2.5 rounded-xl text-white transition-opacity active:opacity-80"
+            style={{
+              background: "var(--primary)",
+              boxShadow: "0 0 20px var(--primary-glow)",
+            }}
           >
-            Más información
+            Ver más información →
           </Link>
         )}
       </div>

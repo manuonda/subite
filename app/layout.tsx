@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Space_Mono } from "next/font/google";
+import { Outfit, Space_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Providers } from "./provider";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 const spaceMono = Space_Mono({
@@ -31,7 +32,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#1D9E75",
+  themeColor: "#3D9DF3",
 };
 
 export default function RootLayout({
@@ -41,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${dmSans.variable} ${spaceMono.variable} antialiased`}>
+      <body className={`${outfit.variable} ${spaceMono.variable} antialiased`}>
         <Providers>{children}</Providers>
         <Analytics />
       </body>

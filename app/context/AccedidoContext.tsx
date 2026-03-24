@@ -12,18 +12,15 @@ type AccedidoContextType = {
 
 const AccedidoContext = createContext<AccedidoContextType | null>(null);
 
-function getInitialAccedido(): boolean {
-  if (typeof window !== "undefined") {
-    return sessionStorage.getItem(STORAGE_KEY) === "true";
-  }
-  return false;
-}
-
 export function AccedidoProvider({ children }: { children: ReactNode }) {
-  const [hasAccedido, setHasAccedido] = useState(getInitialAccedido);
+  const [hasAccedido, setHasAccedido] = useState(false);
 
   useEffect(() => {
-    if (hasAccedido && typeof window !== "undefined") {
+    setHasAccedido(sessionStorage.getItem(STORAGE_KEY) === "true");
+  }, []);
+
+  useEffect(() => {
+    if (hasAccedido) {
       sessionStorage.setItem(STORAGE_KEY, "true");
     }
   }, [hasAccedido]);

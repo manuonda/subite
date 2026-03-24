@@ -12,9 +12,9 @@ import { Mapa } from "@/app/components/Mapa";
 import { InfoParadaMapa } from "@/app/components/InfoParadaMapa";
 import { StatusBar } from "@/app/components/dashboard/StatusBar";
 import { BottomNav, type TabId } from "@/app/components/dashboard/BottomNav";
-import { ParadasMapaLayout } from "@/app/components/dashboard/ParadasMapaLayout";
-import { ListaSubtes } from "@/app/components/dashboard/ListaSubtes";
+import { MapaUnificadoLayout } from "@/app/components/dashboard/MapaUnificadoLayout";
 import { BuscadorFallback } from "@/app/components/dashboard/BuscadorFallback";
+import { Configuracion } from "@/app/components/dashboard/Configuracion";
 
 export function AppDashboard() {
   const gps = useGPS();
@@ -95,11 +95,27 @@ export function AppDashboard() {
 
       <div className={`lg:ml-[220px] ${fueraDelArea ? "pt-24" : "pt-14"}`}>
         {activeTab === "mapa" && (
-          <ParadasMapaLayout
+          <MapaUnificadoLayout
             gps={gps}
             paradas={paradasParaLista}
             fueraDelArea={fueraDelArea}
-            onOpenSubtes={() => setActiveTab("subtes")}
+            selectedMarker={selectedMapMarker}
+            onCloseMarker={() => setSelectedMapMarker(null)}
+            onLayersChange={setMapLayers}
+            onParadaSelectFromList={(parada) => {
+              const p = paradasConCoords.find((x) => x.id === parada.id);
+              const marker = p
+                ? ({
+                    id: p.id,
+                    lat: p.lat,
+                    lng: p.lng,
+                    type: p.tipo === "subte" ? "subte" : "parada",
+                    nombre: p.nombre,
+                    label: p.nombre,
+                  } satisfies MarkerData)
+                : mapMarkers.find((m) => m.id === parada.id);
+              if (marker) setSelectedMapMarker(marker);
+            }}
             map={
               <>
                 <Mapa
@@ -113,6 +129,7 @@ export function AppDashboard() {
                   onMapBackgroundClick={() => setSelectedMapMarker(null)}
                   height="100%"
                 />
+                {/* Modal unificado: misma vista en mobile y web */}
                 <InfoParadaMapa
                   marker={selectedMapMarker}
                   onClose={() => setSelectedMapMarker(null)}
@@ -120,7 +137,8 @@ export function AppDashboard() {
                 <button
                   type="button"
                   onClick={gps.requestPermission}
-                  className="absolute bottom-[6.5rem] right-4 lg:bottom-4 w-11 h-11 bg-[var(--primary)] rounded-full shadow-lg flex items-center justify-center text-white border-2 border-white/20 active:scale-95 transition-transform z-[1200]"
+                  className="absolute bottom-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-white border-2 border-white/20 active:scale-95 transition-transform z-[1100]"
+                  style={{ background: "var(--primary)", boxShadow: "0 0 20px var(--primary-glow)" }}
                   aria-label="Activar o actualizar ubicación"
                 >
                   📍
@@ -130,15 +148,15 @@ export function AppDashboard() {
           />
         )}
 
-        {activeTab === "subtes" && (
-          <div className="pb-20">
-            <ListaSubtes />
-          </div>
-        )}
-
         {activeTab === "buscar" && (
           <div className="pb-20">
             <BuscadorFallback />
+          </div>
+        )}
+
+        {activeTab === "configuracion" && (
+          <div className="pb-20">
+            <Configuracion />
           </div>
         )}
       </div>
