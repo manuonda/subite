@@ -13,10 +13,11 @@ import { InfoParadaMapa } from "@/shared/components/mapa/InfoParadaMapa";
 import { StatusBar } from "@/shared/components/shell/StatusBar";
 import { BottomNav, type TabId } from "@/shared/components/shell/BottomNav";
 import { MapaUnificadoLayout } from "@/app/components/dashboard/MapaUnificadoLayout";
-import { BuscadorFallback } from "@/features/buscar/components/BuscadorFallback";
 import { Configuracion } from "@/app/components/dashboard/Configuracion";
+import { useLocale } from "@/app/context/LocaleContext";
 
 export function AppDashboard() {
+  const { t } = useLocale();
   const gps = useGPS();
   const { fueraDelArea, setFueraDelArea, alertFueraDelAreaMostrado, marcarAlertMostrado } = useUbicacion();
   const [activeTab, setActiveTab] = useState<TabId>("mapa");
@@ -34,16 +35,13 @@ export function AppDashboard() {
     if (!isWithinServiceArea(lat, lng)) {
       setFueraDelArea(true);
       if (!alertFueraDelAreaMostrado) {
-        alert(
-          "Tu ubicación no está dentro del área de servicio (AMBA). " +
-            "Se mostrará Buenos Aires como referencia para consultar paradas y subtes."
-        );
+        alert(t("alertOutOfArea"));
         marcarAlertMostrado();
       }
     } else {
       setFueraDelArea(false);
     }
-  }, [gps.status, gps.coords, setFueraDelArea, alertFueraDelAreaMostrado, marcarAlertMostrado]);
+  }, [gps.status, gps.coords, setFueraDelArea, alertFueraDelAreaMostrado, marcarAlertMostrado, t]);
 
   const coords = USE_BA_COORDS_DEV
     ? BA_CENTER
@@ -86,14 +84,19 @@ export function AppDashboard() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-app)]">
-      <StatusBar barrio="Buenos Aires" gpsStatus={gps.status} />
+      <StatusBar gpsStatus={gps.status} />
 
       {fueraDelArea && (
         <div
-          className="fixed left-0 right-0 lg:left-[220px] top-14 z-30 px-4 py-2 bg-amber-500/20 border-b border-amber-500/40 text-amber-200 text-sm text-center"
+          className="fixed left-0 right-0 lg:left-[220px] top-14 z-30 px-4 py-2.5 text-sm text-center font-medium border-b transition-colors"
+          style={{
+            background: "var(--alert-warning-bg)",
+            borderColor: "var(--alert-warning-border)",
+            color: "var(--alert-warning-text)",
+          }}
           role="alert"
         >
-          Fuera del área de servicio (AMBA). Mostrando Buenos Aires como referencia.
+          {t("areaOutOfService")}
         </div>
       )}
 
@@ -154,12 +157,6 @@ export function AppDashboard() {
               </>
             }
           />
-        )}
-
-        {activeTab === "buscar" && (
-          <div className="pb-20">
-            <BuscadorFallback />
-          </div>
         )}
 
         {activeTab === "configuracion" && (

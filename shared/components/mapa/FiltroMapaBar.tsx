@@ -1,12 +1,24 @@
 "use client";
-import { TrainIcon, BusIcon } from "@/shared/components/ui/Icons";
 
-export type MapFilter = "subtes" | "bus" | "paradas";
+import type { ComponentType } from "react";
+import { TrainIcon, BusIcon, MapIcon, AlertIcon } from "@/shared/components/ui/Icons";
+import { useLocale } from "@/app/context/LocaleContext";
+import type { MessageKey } from "@/lib/i18n/messages";
 
-const FILTERS: { id: MapFilter; label: string; icon: React.ReactNode }[] = [
-  { id: "subtes",  label: "Subtes",  icon: <TrainIcon size={13} /> },
-  { id: "bus",     label: "Bus",     icon: <BusIcon size={13} /> },
-  { id: "paradas", label: "Paradas", icon: <span className="text-xs leading-none">🚏</span> },
+export type MapFilter = "subtes" | "bus" | "paradas" | "alertas";
+
+type IconComp = ComponentType<{ size?: number; className?: string }>;
+
+const FILTERS: {
+  id: MapFilter;
+  labelKey: MessageKey;
+  Icon: IconComp;
+  colorVar: string;
+}[] = [
+  { id: "subtes", labelKey: "filterSubtes", Icon: TrainIcon, colorVar: "var(--filter-icon-subte)" },
+  { id: "bus", labelKey: "filterBus", Icon: BusIcon, colorVar: "var(--filter-icon-bus)" },
+  { id: "paradas", labelKey: "filterStops", Icon: MapIcon, colorVar: "var(--filter-icon-paradas)" },
+  { id: "alertas", labelKey: "filterAlerts", Icon: AlertIcon, colorVar: "var(--filter-icon-alert)" },
 ];
 
 interface FiltroMapaBarProps {
@@ -15,36 +27,57 @@ interface FiltroMapaBarProps {
 }
 
 export function FiltroMapaBar({ activeFilter, onFilterChange }: FiltroMapaBarProps) {
+  const { t } = useLocale();
+
   return (
     <div
-      className="flex gap-2 overflow-x-auto px-3 py-2.5 shrink-0"
+      className="flex gap-2.5 overflow-x-auto px-3 py-3 shrink-0 justify-start"
       style={{
         scrollbarWidth: "none",
         borderBottom: "1px solid var(--border)",
         background: "var(--bg-surface)",
       }}
     >
-      {FILTERS.map(({ id, label, icon }) => {
+      {FILTERS.map(({ id, labelKey, Icon, colorVar }) => {
         const isActive = activeFilter === id;
+        const label = t(labelKey);
         return (
           <button
             key={id}
             type="button"
             onClick={() => onFilterChange(id)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all duration-200 shrink-0"
-            style={isActive ? {
-              background: "var(--primary-muted)",
-              color: "var(--primary)",
-              border: "1px solid var(--primary-border)",
-              boxShadow: "0 0 10px var(--primary-glow)",
-            } : {
-              background: "rgba(255,255,255,0.04)",
-              color: "var(--text-muted)",
-              border: "1px solid var(--border)",
-            }}
+            className="flex flex-col items-center justify-center gap-1.5
+              min-h-[52px] min-w-[76px] sm:min-w-[88px] px-2.5 py-2.5 rounded-2xl
+              text-[11px] sm:text-xs font-bold tracking-tight
+              transition-all duration-200 shrink-0
+              active:scale-[0.97]"
+            style={
+              isActive
+                ? {
+                    background: "var(--primary-muted)",
+                    color: "var(--primary)",
+                    border: "1.5px solid var(--primary-border)",
+                    boxShadow: "0 0 16px var(--primary-glow), inset 0 1px 0 rgba(255,255,255,0.06)",
+                  }
+                : {
+                    background: "var(--bg-panel-subtle)",
+                    color: "var(--text-muted)",
+                    border: "1.5px solid var(--border)",
+                    boxShadow: "none",
+                  }
+            }
           >
-            {icon}
-            {label}
+            <span
+              className="flex items-center justify-center rounded-xl p-1 transition-opacity"
+              style={{
+                color: colorVar,
+                opacity: isActive ? 1 : 0.88,
+              }}
+              aria-hidden
+            >
+              <Icon size={22} className="block" />
+            </span>
+            <span className="leading-none max-w-[5.5rem] text-center">{label}</span>
           </button>
         );
       })}

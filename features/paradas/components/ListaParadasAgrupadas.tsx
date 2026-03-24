@@ -101,7 +101,7 @@ export function ListaParadasAgrupadas({ paradas, onParadaSelect }: ListaParadasA
       <div className="sticky top-0 z-10 -mx-1 px-1 pb-2 pt-0.5" style={{ background: "var(--bg-surface)" }}>
         <div
           className="flex items-center gap-2.5 rounded-xl px-3.5 py-2.5"
-          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)" }}
+          style={{ background: "var(--bg-panel-subtle)", border: "1px solid var(--border)" }}
         >
           <SearchIcon size={18} className="shrink-0 opacity-60 text-[var(--text-muted)]" />
           <input

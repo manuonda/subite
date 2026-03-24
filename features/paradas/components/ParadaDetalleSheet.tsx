@@ -14,15 +14,15 @@ export function ParadaDetalleSheet({ marker, onClose }: ParadaDetalleSheetProps)
   const isOpen = marker !== null;
   return (
     <div
-      className="lg:hidden fixed left-0 right-0 bottom-16 z-[1150] rounded-t-3xl"
+      className="lg:hidden fixed left-0 right-0 bottom-16 z-[1150] rounded-t-3xl transition-[background,box-shadow,border-color] duration-200"
       style={{
         maxHeight: "72dvh",
-        background: "rgba(11, 15, 27, 0.97)",
+        background: "var(--bg-glass)",
         backdropFilter: "blur(24px)",
-        borderTop: "1px solid rgba(61, 157, 243, 0.18)",
-        boxShadow: "0 -8px 40px rgba(0,0,0,0.7)",
+        borderTop: "1px solid var(--border)",
+        boxShadow: "var(--shadow-sheet-up)",
         transform: isOpen ? "translateY(0)" : "translateY(110%)",
-        transition: "transform 0.32s cubic-bezier(0.32, 0.72, 0, 1)",
+        transition: "transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), background 0.2s ease, box-shadow 0.2s ease",
       }}
     >
       {marker && <ParadaDetalleContent marker={marker} onClose={onClose} />}
@@ -47,7 +47,7 @@ function ParadaDetalleContent({ marker, onClose }: { marker: MarkerData; onClose
     <div className="flex flex-col" style={{ maxHeight: "72dvh" }}>
       {/* Drag handle */}
       <div className="flex justify-center pt-3 pb-1 shrink-0">
-        <div className="w-10 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.15)" }} />
+        <div className="w-10 h-1 rounded-full" style={{ background: "var(--drag-handle)" }} />
       </div>
 
       {/* Header */}
@@ -76,7 +76,11 @@ function ParadaDetalleContent({ marker, onClose }: { marker: MarkerData; onClose
           type="button"
           onClick={onClose}
           className="w-8 h-8 rounded-full flex items-center justify-center text-base shrink-0 transition-colors"
-          style={{ background: "rgba(255,255,255,0.07)", color: "var(--text-muted)" }}
+          style={{
+            background: "var(--control-muted-bg)",
+            color: "var(--text-muted)",
+            border: "1px solid var(--border)",
+          }}
           aria-label="Cerrar"
         >
           ×
@@ -98,7 +102,7 @@ function ParadaDetalleContent({ marker, onClose }: { marker: MarkerData; onClose
         {(frecuenciaTexto || primerServicio || ultimoServicio) && (
           <div
             className="mx-4 rounded-2xl p-4 space-y-3"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)" }}
+            style={{ background: "var(--bg-panel-subtle)", border: "1px solid var(--border)" }}
           >
             <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dim)]">
               Horarios
@@ -148,7 +152,7 @@ function ParadaDetalleContent({ marker, onClose }: { marker: MarkerData; onClose
         {trasbordos.length > 0 && (
           <div
             className="mx-4 rounded-2xl p-4 space-y-2.5"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)" }}
+            style={{ background: "var(--bg-panel-subtle)", border: "1px solid var(--border)" }}
           >
             <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dim)]">
               Trasbordos
@@ -178,7 +182,7 @@ function ParadaDetalleContent({ marker, onClose }: { marker: MarkerData; onClose
         {accesos.length > 0 && (
           <div
             className="mx-4 rounded-2xl p-4 space-y-2"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)" }}
+            style={{ background: "var(--bg-panel-subtle)", border: "1px solid var(--border)" }}
           >
             <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dim)]">
               Accesos ({accesos.length})

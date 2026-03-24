@@ -6,8 +6,10 @@ import { TarjetaSubte } from "./TarjetaSubte";
 import { AlertaServicio } from "./AlertaServicio";
 import { useForecastSubtes, useAlertasSubtes } from "@/features/subtes/hooks/useSubtes";
 import { getSubteRoutes } from "@/lib/subte";
+import { useLocale } from "@/app/context/LocaleContext";
 
 export function ListaSubtes() {
+  const { t } = useLocale();
   const router = useRouter();
   const routes = useMemo(() => getSubteRoutes(), []);
   const { data: forecastRaw, isLoading } = useForecastSubtes();
@@ -45,13 +47,17 @@ export function ListaSubtes() {
       )}
 
       <h3 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide">
-        Todas las líneas
+        {t("linesAll")}
       </h3>
 
       {isLoading && routes.length === 0 ? (
         <div className="space-y-3">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-16 bg-white/5 rounded-2xl animate-pulse" />
+            <div
+              key={i}
+              className="h-16 rounded-2xl animate-pulse"
+              style={{ background: "var(--bg-panel-subtle)" }}
+            />
           ))}
         </div>
       ) : (

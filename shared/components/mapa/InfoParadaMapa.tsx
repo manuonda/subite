@@ -45,12 +45,12 @@ export function InfoParadaMapa({ marker, onClose }: InfoParadaMapaProps) {
       aria-label="Detalle de parada"
     >
       <div
-        className="rounded-2xl p-4 space-y-3 shadow-2xl"
+        className="rounded-2xl p-4 space-y-3 transition-[background,box-shadow,border-color] duration-200"
         style={{
-          background: "rgba(11, 15, 27, 0.92)",
+          background: "var(--bg-glass)",
           backdropFilter: "blur(20px)",
-          border: "1px solid rgba(61, 157, 243, 0.18)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)",
+          border: "1px solid var(--border)",
+          boxShadow: "var(--shadow-floating)",
         }}
       >
         {/* Header */}
@@ -80,10 +80,10 @@ export function InfoParadaMapa({ marker, onClose }: InfoParadaMapaProps) {
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-colors"
+            className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-colors border border-[var(--border)]"
             style={{
               color: "var(--text-muted)",
-              background: "rgba(255,255,255,0.06)",
+              background: "var(--control-muted-bg)",
             }}
             aria-label="Cerrar"
           >

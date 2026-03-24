@@ -1,11 +1,10 @@
 @import "tailwindcss";
 
+/* ============================================
+   Tema oscuro (por defecto) — Noche porteña
+============================================ */
 :root {
-  /* ============================================
-     NOCHE PORTEÑA — Paleta "Suba"
-     Azul cielo del Río de la Plata como primario.
-     Fondos profundos de noche porteña.
-  ============================================ */
+  color-scheme: dark;
 
   /* Colores principales */
   --primary:        #3D9DF3;
@@ -14,34 +13,131 @@
   --primary-border: rgba(61, 157, 243, 0.22);
   --primary-glow:   rgba(61, 157, 243, 0.35);
 
-  /* Acento cálido — tono taxi porteño / noche con luz */
   --accent-amber:   #F59E0B;
   --accent-coral:   #F06A6A;
 
-  /* Fondos en capas */
-  --bg-app:      #070A12;   /* más profundo — túnel de subte */
-  --bg-surface:  #0B0F1B;   /* superficies */
-  --bg-elevated: #111827;   /* tarjetas elevadas */
-  --bg-card:     #161D2E;   /* tarjetas internas */
-  --bg-glass:    rgba(11, 15, 27, 0.80); /* glassmorphism */
+  --bg-app:      #070A12;
+  --bg-surface:  #0B0F1B;
+  --bg-elevated: #111827;
+  --bg-card:     #161D2E;
+  --bg-glass:    rgba(11, 15, 27, 0.8);
+  --bg-nav:      rgba(7, 10, 18, 0.88);
 
-  /* Texto */
-  --text:         rgba(255, 255, 255, 0.90);
-  --text-primary: rgba(255, 255, 255, 0.90);
+  --text:         rgba(255, 255, 255, 0.9);
+  --text-primary: rgba(255, 255, 255, 0.9);
   --text-muted:   rgba(255, 255, 255, 0.48);
   --text-dim:     rgba(255, 255, 255, 0.26);
+  --icon-inactive: rgba(255, 255, 255, 0.3);
 
-  /* Bordes */
   --border:       rgba(255, 255, 255, 0.07);
   --border-light: rgba(255, 255, 255, 0.035);
 
-  /* Líneas de subte */
+  /* Paneles flotantes (mapa, sheets) — sombras y superficies */
+  --shadow-floating: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-sheet-up: 0 -8px 40px rgba(0, 0, 0, 0.55);
+  --bg-panel-subtle: rgba(255, 255, 255, 0.05);
+  --control-muted-bg: rgba(255, 255, 255, 0.08);
+  --drag-handle: rgba(255, 255, 255, 0.2);
+
+  /* Alertas (banner zona, servicio subte) */
+  --alert-warning-bg: rgba(245, 158, 11, 0.14);
+  --alert-warning-border: rgba(245, 158, 11, 0.38);
+  --alert-warning-text: rgb(254 243 199);
+
+  --alert-danger-bg: rgba(239, 68, 68, 0.1);
+  --alert-danger-border: rgba(239, 68, 68, 0.32);
+  --alert-danger-text: rgb(252 165 165);
+  --alert-danger-heading: rgb(248 113 113);
+
   --subte-a: #60A5FA;
   --subte-b: #F87171;
   --subte-c: #A78BFA;
   --subte-d: #34D399;
   --subte-e: #FB923C;
   --subte-h: #FBBF24;
+
+  /* Filtros del mapa (iconos semánticos, legibles en oscuro) */
+  --filter-icon-subte: #60a5fa;
+  --filter-icon-bus: #4ade80;
+  --filter-icon-paradas: #c4b5fd;
+  --filter-icon-alert: #fb7185;
+
+  --header-gradient: linear-gradient(
+    to bottom,
+    var(--bg-app) 55%,
+    transparent
+  );
+  --body-gradient:
+    radial-gradient(ellipse at 15% 0%, rgba(61, 157, 243, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(100, 60, 220, 0.04) 0%, transparent 50%);
+}
+
+/* ============================================
+   Tema claro — UI profesional, alto contraste
+============================================ */
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --primary:        #2563EB;
+  --primary-hover:  #3B82F6;
+  --primary-muted:  rgba(37, 99, 235, 0.1);
+  --primary-border: rgba(37, 99, 235, 0.2);
+  --primary-glow:   rgba(37, 99, 235, 0.25);
+
+  --accent-amber:   #D97706;
+  --accent-coral:   #DC2626;
+
+  --bg-app:      #F4F6FA;
+  --bg-surface:  #FFFFFF;
+  --bg-elevated: #EEF2F8;
+  --bg-card:     #FFFFFF;
+  --bg-glass:    rgba(255, 255, 255, 0.92);
+  --bg-nav:      rgba(255, 255, 255, 0.92);
+
+  --text:         rgba(15, 23, 42, 0.94);
+  --text-primary: rgba(15, 23, 42, 0.94);
+  --text-muted:   rgba(15, 23, 42, 0.52);
+  --text-dim:     rgba(15, 23, 42, 0.36);
+  --icon-inactive: rgba(15, 23, 42, 0.38);
+
+  --border:       rgba(15, 23, 42, 0.09);
+  --border-light: rgba(15, 23, 42, 0.05);
+
+  --shadow-floating: 0 8px 32px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(15, 23, 42, 0.06);
+  --shadow-sheet-up: 0 -12px 48px rgba(15, 23, 42, 0.1);
+  --bg-panel-subtle: rgba(15, 23, 42, 0.04);
+  --control-muted-bg: rgba(15, 23, 42, 0.06);
+  --drag-handle: rgba(15, 23, 42, 0.2);
+
+  --alert-warning-bg: rgba(245, 158, 11, 0.12);
+  --alert-warning-border: rgba(217, 119, 6, 0.35);
+  --alert-warning-text: rgb(120 53 15);
+
+  --alert-danger-bg: rgba(239, 68, 68, 0.08);
+  --alert-danger-border: rgba(220, 38, 38, 0.28);
+  --alert-danger-text: rgb(127 29 29);
+  --alert-danger-heading: rgb(185 28 28);
+
+  --subte-a: #2563EB;
+  --subte-b: #DC2626;
+  --subte-c: #7C3AED;
+  --subte-d: #059669;
+  --subte-e: #EA580C;
+  --subte-h: #CA8A04;
+
+  --filter-icon-subte: #2563eb;
+  --filter-icon-bus: #059669;
+  --filter-icon-paradas: #7c3aed;
+  --filter-icon-alert: #dc2626;
+
+  --header-gradient: linear-gradient(
+    to bottom,
+    var(--bg-app) 60%,
+    transparent
+  );
+  --body-gradient:
+    radial-gradient(ellipse at 12% 0%, rgba(37, 99, 235, 0.06) 0%, transparent 52%),
+    radial-gradient(ellipse at 88% 100%, rgba(124, 58, 237, 0.04) 0%, transparent 48%);
 }
 
 * {
@@ -51,13 +147,12 @@
 body {
   font-family: var(--font-outfit), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-app);
-  background-image:
-    radial-gradient(ellipse at 15% 0%, rgba(61, 157, 243, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 100%, rgba(100, 60, 220, 0.04) 0%, transparent 50%);
+  background-image: var(--body-gradient);
   color: var(--text-primary);
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.15s ease;
 }
 
 /* Safe area iOS */

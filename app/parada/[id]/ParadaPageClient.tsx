@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Mapa } from "@/shared/components/mapa/Mapa";
 import { ProximosArribos } from "@/features/paradas/components/ProximosArribos";
 import { BackIcon } from "@/shared/components/ui/Icons";
+import { ThemeToggleButton } from "@/shared/components/ui/ThemeToggleButton";
 import { BA_CENTER } from "@/shared/constants/geo";
 import { useParadaDetalle } from "@/features/paradas/hooks/useParadaDetalle";
 
@@ -56,6 +57,7 @@ export function ParadaPageClient({ params }: ParadaPageClientProps) {
             <p className="text-xs text-[var(--text-muted)]">Plataforma {sentido}</p>
           )}
         </div>
+        <ThemeToggleButton size="sm" />
         {lineaPrincipal && (
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0"

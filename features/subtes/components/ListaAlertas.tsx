@@ -2,8 +2,10 @@
 
 import { AlertaServicio } from "./AlertaServicio";
 import { useAlertasSubtes } from "@/features/subtes/hooks/useSubtes";
+import { useLocale } from "@/app/context/LocaleContext";
 
 export function ListaAlertas() {
+  const { t } = useLocale();
   const { data: alertas, isLoading } = useAlertasSubtes();
   const items = Array.isArray(alertas) ? alertas : [];
 
@@ -11,7 +13,11 @@ export function ListaAlertas() {
     return (
       <div className="space-y-3">
         {[1, 2].map((i) => (
-          <div key={i} className="h-16 bg-white/5 rounded-2xl animate-pulse" />
+          <div
+            key={i}
+            className="h-16 rounded-2xl animate-pulse"
+            style={{ background: "var(--bg-panel-subtle)" }}
+          />
         ))}
       </div>
     );
@@ -21,10 +27,8 @@ export function ListaAlertas() {
     return (
       <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
         <span className="text-3xl mb-3 opacity-50">✓</span>
-        <p className="text-sm font-medium text-[var(--text-primary)]">Sin alertas activas</p>
-        <p className="text-xs text-[var(--text-muted)] mt-1">
-          El servicio de subtes funciona con normalidad
-        </p>
+        <p className="text-sm font-medium text-[var(--text-primary)]">{t("alertsEmpty")}</p>
+        <p className="text-xs text-[var(--text-muted)] mt-1">{t("alertsEmptySub")}</p>
       </div>
     );
   }
@@ -32,7 +36,7 @@ export function ListaAlertas() {
   return (
     <div className="space-y-4">
       <h3 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide">
-        Alertas de servicio
+        {t("alertsSectionTitle")}
       </h3>
       <div className="space-y-3">
         {items.map((a, i) => (

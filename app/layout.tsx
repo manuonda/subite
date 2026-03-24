@@ -76,8 +76,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className={`${outfit.variable} ${spaceMono.variable} antialiased`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('suba-theme');document.documentElement.dataset.theme=(t==='light'||t==='dark')?t:'dark';var L=localStorage.getItem('suba-locale'),M={es:'es-AR',en:'en-GB','pt-BR':'pt-BR',pl:'pl','en-US':'en-US',ja:'ja',zh:'zh-Hans'};if(L&&M[L])document.documentElement.lang=M[L];}catch(e){document.documentElement.dataset.theme='dark';}})();`,
+          }}
+        />
         <Providers>{children}</Providers>
         <Analytics />
       </body>

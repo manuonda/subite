@@ -1,5 +1,11 @@
 "use client";
+
 import type { GPSState } from "@/shared/types/gps";
+import { ThemeToggleButton } from "@/shared/components/ui/ThemeToggleButton";
+import { GPSIcon, MapIcon, TrainIcon } from "@/shared/components/ui/Icons";
+import { useLocale } from "@/app/context/LocaleContext";
+import { LanguageSelector } from "@/shared/components/shell/LanguageSelector";
+import type { MessageKey } from "@/lib/i18n/messages";
 
 interface PantallaPermisosProps {
   gps: GPSState;
@@ -7,61 +13,78 @@ interface PantallaPermisosProps {
 }
 
 const LINEAS = [
-  { letra: "A", color: "#60a5fa" },
-  { letra: "B", color: "#f87171" },
-  { letra: "C", color: "#a78bfa" },
-  { letra: "D", color: "#34d399" },
-  { letra: "E", color: "#fb923c" },
-  { letra: "H", color: "#facc15", dark: true },
-];
+  { letra: "A", color: "var(--subte-a)" },
+  { letra: "B", color: "var(--subte-b)" },
+  { letra: "C", color: "var(--subte-c)" },
+  { letra: "D", color: "var(--subte-d)" },
+  { letra: "E", color: "var(--subte-e)" },
+  { letra: "H", color: "var(--subte-h)", dark: true },
+] as const;
 
-const FEATURES = [
-  { icon: "📍", titulo: "Paradas cercanas", desc: "Colectivos y subtes a tu alrededor" },
-  { icon: "🗺️", titulo: "Mapa en tiempo real", desc: "Líneas, estaciones y recorridos del AMBA" },
-  { icon: "⚡", titulo: "Próximas llegadas", desc: "Cuándo llega tu próximo subte" },
+const FEATURE_KEYS: {
+  Icon: typeof GPSIcon;
+  titleKey: MessageKey;
+  descKey: MessageKey;
+}[] = [
+  { Icon: GPSIcon, titleKey: "featureNearTitle", descKey: "featureNearDesc" },
+  { Icon: MapIcon, titleKey: "featureMapTitle", descKey: "featureMapDesc" },
+  { Icon: TrainIcon, titleKey: "featureArrivalsTitle", descKey: "featureArrivalsDesc" },
 ];
 
 export function PantallaPermisos({ gps, onSkip }: PantallaPermisosProps) {
+  const { t } = useLocale();
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-[var(--bg-app)] overflow-y-auto">
-
-      {/* Barra de colores de líneas */}
-      <div className="flex h-1.5 w-full shrink-0">
+      <div className="flex h-1 w-full shrink-0">
         {LINEAS.map((l) => (
-          <div key={l.letra} className="flex-1" style={{ background: l.color }} />
+          <div key={l.letra} className="flex-1 min-w-0" style={{ background: l.color }} />
         ))}
       </div>
 
-      <div className="flex flex-col items-center justify-center flex-1 px-6 py-10 text-center">
+      <div
+        className="flex items-center justify-end shrink-0 px-4 py-3"
+        style={{
+          borderBottom: "1px solid var(--border)",
+          background: "linear-gradient(to bottom, var(--bg-surface) 0%, transparent 100%)",
+        }}
+      >
+        <ThemeToggleButton />
+      </div>
 
-        {/* Ícono + nombre */}
-        <div className="relative mb-5">
+      <div className="flex flex-col items-center flex-1 px-6 py-6 sm:py-8 text-center max-w-md mx-auto w-full gap-8">
+        <div className="relative">
           <div
-            className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl shadow-lg"
-            style={{ background: "rgba(29,158,117,0.15)", border: "1.5px solid rgba(29,158,117,0.3)" }}
+            className="w-[4.5rem] h-[4.5rem] rounded-2xl flex items-center justify-center text-2xl font-black text-white shadow-lg"
+            style={{
+              background: "var(--primary)",
+              boxShadow: "0 8px 32px var(--primary-glow)",
+            }}
           >
-            🚇
+            S
           </div>
-          {/* Indicador verde pulsante */}
-          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--primary)] ring-2 ring-[var(--bg-app)] animate-pulse" />
+          <span
+            className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full ring-2 ring-[var(--bg-app)]"
+            style={{ background: "var(--accent-amber)" }}
+            aria-hidden
+          />
         </div>
 
-        <h1 className="text-4xl font-extrabold text-[var(--primary)] tracking-tight mb-1">
+        <h1 className="text-[2rem] sm:text-4xl font-extrabold tracking-tight -mt-2 text-[var(--primary)]">
           Suba
         </h1>
-        <p className="text-sm text-[var(--text-muted)] mb-2">
-          Transporte del AMBA · Buenos Aires
+        <p className="text-sm font-medium text-[var(--text-muted)] -mt-4 max-w-[280px] leading-relaxed">
+          {t("welcomeTagline")}
         </p>
 
-        {/* Pills de líneas */}
-        <div className="flex gap-2 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 -mt-2">
           {LINEAS.map((l) => (
             <span
               key={l.letra}
-              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md"
+              className="min-w-[1.75rem] h-7 px-1.5 rounded-full flex items-center justify-center text-[11px] font-bold shadow-sm ring-1 ring-black/10"
               style={{
                 background: l.color,
-                color: l.dark ? "#000" : "#fff",
+                color: l.dark ? "#0f172a" : "#fff",
               }}
             >
               {l.letra}
@@ -69,42 +92,60 @@ export function PantallaPermisos({ gps, onSkip }: PantallaPermisosProps) {
           ))}
         </div>
 
-        {/* Features */}
-        <div className="w-full max-w-sm space-y-3 mb-8">
-          {FEATURES.map(({ icon, titulo, desc }) => (
+        <div className="w-full space-y-3 -mt-2">
+          {FEATURE_KEYS.map(({ Icon, titleKey, descKey }) => (
             <div
-              key={titulo}
-              className="flex items-center gap-3 rounded-2xl px-4 py-3 text-left"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
+              key={titleKey}
+              className="flex items-start gap-4 rounded-2xl px-4 py-3.5 text-left transition-colors
+                border border-[var(--border)] bg-[var(--bg-card)] shadow-[0_1px_0_rgba(255,255,255,0.04)_inset]"
             >
-              <span className="text-2xl shrink-0">{icon}</span>
-              <div>
-                <p className="text-sm font-semibold text-[var(--text-primary)]">{titulo}</p>
-                <p className="text-xs text-[var(--text-muted)]">{desc}</p>
+              <div
+                className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                style={{
+                  background: "var(--primary-muted)",
+                  color: "var(--primary)",
+                }}
+              >
+                <Icon size={22} />
+              </div>
+              <div className="min-w-0 pt-0.5">
+                <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">
+                  {t(titleKey)}
+                </p>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5 leading-relaxed">{t(descKey)}</p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* CTAs */}
+        <div className="w-full max-w-sm">
+          <LanguageSelector
+            title={t("languageLabel")}
+            hint={t("languageHint")}
+            variant="combobox"
+          />
+        </div>
+
         <button
-          onClick={() => { gps.requestPermission(); onSkip(); }}
+          type="button"
+          onClick={() => {
+            void gps.requestPermission();
+            onSkip();
+          }}
           disabled={gps.status === "requesting"}
-          className="w-full max-w-sm bg-[var(--primary)] text-white font-semibold py-4 rounded-2xl text-base shadow-lg active:scale-95 transition-transform disabled:opacity-60 mb-3"
+          className="w-full max-w-sm font-semibold py-3.5 px-6 rounded-2xl text-base text-white
+            shadow-lg active:scale-[0.98] transition-transform disabled:opacity-60 disabled:pointer-events-none
+            hover:brightness-105"
+          style={{
+            background: "var(--primary)",
+            boxShadow: "0 4px 24px var(--primary-glow)",
+          }}
         >
-          {gps.status === "requesting" ? "Obteniendo ubicación…" : "Acceder"}
+          {gps.status === "requesting" ? t("btnAccessLoading") : t("btnAccess")}
         </button>
 
-        <button
-          onClick={onSkip}
-          className="text-[var(--text-muted)] text-sm py-2 underline underline-offset-4"
-        >
-          Buscar sin GPS
-        </button>
-
-        {/* Tagline bottom */}
-        <p className="mt-8 text-xs text-[var(--text-dim)]">
-          Gratis · Sin registro · Funciona offline
+        <p className="text-[11px] font-medium tracking-wide text-[var(--text-dim)] uppercase -mt-4">
+          {t("welcomeFooter")}
         </p>
       </div>
     </div>
