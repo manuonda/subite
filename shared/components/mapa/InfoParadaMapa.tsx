@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { MarkerData } from "@/app/components/Mapa";
+import type { MarkerData } from "@/shared/types/mapa";
 import { getEstacion } from "@/lib/subte/estaciones";
 import { getTrips } from "@/lib/subte/trips";
 

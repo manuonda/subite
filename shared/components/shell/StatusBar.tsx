@@ -1,6 +1,6 @@
 "use client";
-import { GPSIcon } from "@/app/components/Icons";
-import type { GPSStatus } from "@/hooks/useGPS";
+import { GPSIcon } from "@/shared/components/ui/Icons";
+import type { GPSStatus } from "@/shared/types/gps";
 
 interface StatusBarProps {
   barrio?: string;

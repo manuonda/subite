@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { BA_CENTER } from "@/constants/geo";
+import { BA_CENTER } from "@/shared/constants/geo";
 import { getStopsByLocation } from "@/services/gtfs/subtes";
 
 export async function GET(req: NextRequest) {

@@ -1,4 +1,5 @@
 import { COLORES_SUBTE } from "@/constants/subtes";
+import { ChevronRightIcon } from "@/shared/components/ui/Icons";
 
 interface TarjetaSubteProps {
   lineaId: string;
@@ -23,7 +24,11 @@ export function TarjetaSubte({
   onClick,
 }: TarjetaSubteProps) {
   const letra = getLetra(lineaId);
-  const color = colorProp ?? (COLORES_SUBTE[letra as keyof typeof COLORES_SUBTE] || "#9ca3af");
+  // Priorizar COLORES_SUBTE (colores pensados para UI) sobre GTFS (algunos muy claros: A, H)
+  const color =
+    (COLORES_SUBTE[letra as keyof typeof COLORES_SUBTE] as string | undefined) ??
+    colorProp ??
+    "#9ca3af";
 
   return (
     <div
@@ -78,6 +83,13 @@ export function TarjetaSubte({
           >
             {tiempoEstimado === 0 ? "Ahora" : `${tiempoEstimado}m`}
           </div>
+        )}
+
+        {/* Indicador "ver más" */}
+        {onClick && (
+          <span className="shrink-0 flex items-center" style={{ color: "var(--text-muted)", opacity: 0.6 }} aria-hidden>
+            <ChevronRightIcon size={20} />
+          </span>
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { ChipsAccesoRapido } from "@/app/components/ChipsAccesoRapido";
-import { SearchIcon } from "@/app/components/Icons";
+import { ChipsAccesoRapido } from "./ChipsAccesoRapido";
+import { SearchIcon } from "@/shared/components/ui/Icons";
 
 export function BuscadorFallback() {
   const [query, setQuery] = useState("");

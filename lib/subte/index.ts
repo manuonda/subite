@@ -33,3 +33,4 @@ export * from "./calendar";
 export * from "./pathways";
 export * from "./transfers";
 export * from "./fares";
+export * from "./linea-horarios";

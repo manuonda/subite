@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { TarjetaSubte } from "@/app/components/TarjetaSubte";
-import { AlertaServicio } from "@/app/components/AlertaServicio";
-import { useForecastSubtes, useAlertasSubtes } from "@/hooks/useSubtes";
+import { useRouter } from "next/navigation";
+import { TarjetaSubte } from "./TarjetaSubte";
+import { AlertaServicio } from "./AlertaServicio";
+import { useForecastSubtes, useAlertasSubtes } from "@/features/subtes/hooks/useSubtes";
 import { getSubteRoutes } from "@/lib/subte";
 
 export function ListaSubtes() {
+  const router = useRouter();
   const routes = useMemo(() => getSubteRoutes(), []);
   const { data: forecastRaw, isLoading } = useForecastSubtes();
   const forecast = Array.isArray(forecastRaw) ? forecastRaw : [];
@@ -61,6 +63,7 @@ export function ListaSubtes() {
               nombreLargo={r.nombreLargo}
               color={r.color}
               tiempoEstimado={proximoPorLinea[r.id]}
+              onClick={() => router.push(`/linea/${r.nombre}`)}
             />
           ))}
         </div>

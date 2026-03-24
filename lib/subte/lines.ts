@@ -5,7 +5,7 @@
  */
 
 import raw from "@/data/subtes/processed/shapes.json";
-import type { SubteLineOverlay } from "@/app/components/Mapa";
+import type { SubteLineOverlay } from "@/shared/types/mapa";
 
 interface RawShapeLine {
   routeId: string;

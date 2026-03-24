@@ -1,5 +1,5 @@
 "use client";
-import { MapIcon, SearchIcon, SettingsConfigIcon } from "@/app/components/Icons";
+import { MapIcon, SearchIcon, SettingsConfigIcon } from "@/shared/components/ui/Icons";
 
 export type TabId = "mapa" | "buscar" | "configuracion";
 

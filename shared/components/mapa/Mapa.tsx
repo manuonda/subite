@@ -1,32 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
+import type { MarkerData, MapLayers, SubteLineOverlay } from "@/shared/types/mapa";
 
-export interface MarkerData {
-  lat: number;
-  lng: number;
-  label?: string;
-  id?: string;
-  type?: "subte" | "parada" | "user";
-  /** Nombre para panel / popup (subte GTFS o parada colectivo) */
-  nombre?: string;
-  /** Estación padre GTFS (solo subte) */
-  parent?: string;
-}
-
-export interface MapLayers {
-  paradasColectivo: boolean;
-  paradasSubte: boolean;
-  /** Trazado GTFS (shapes) por línea */
-  lineasSubte: boolean;
-}
-
-/** Polilínea preprocesada (build-gtfs → shapes.json) */
-export interface SubteLineOverlay {
-  shapeId: string;
-  color: string;
-  points: [number, number][];
-}
+export type { MarkerData, MapLayers, SubteLineOverlay };
 
 interface MapaProps {
   lat: number;

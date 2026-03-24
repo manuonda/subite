@@ -1,8 +1,8 @@
 "use client";
 
-import { useGPS } from "@/hooks/useGPS";
+import { useGPS } from "@/shared/hooks/useGPS";
 import { useAccedido } from "@/app/context/AccedidoContext";
-import { PantallaPermisos } from "@/app/components/PantallaPermisos";
+import { PantallaPermisos } from "@/shared/components/shell/PantallaPermisos";
 import { AppDashboard } from "@/app/AppDashboard";
 
 export default function Home() {

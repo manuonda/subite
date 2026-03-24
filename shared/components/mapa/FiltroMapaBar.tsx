@@ -1,14 +1,12 @@
 "use client";
-import { MapIcon, TrainIcon, BusIcon, AlertIcon } from "@/app/components/Icons";
+import { TrainIcon, BusIcon } from "@/shared/components/ui/Icons";
 
-export type MapFilter = "todo" | "subtes" | "bus" | "paradas" | "alertas";
+export type MapFilter = "subtes" | "bus" | "paradas";
 
 const FILTERS: { id: MapFilter; label: string; icon: React.ReactNode }[] = [
-  { id: "todo",    label: "Todo",    icon: <MapIcon size={13} /> },
   { id: "subtes",  label: "Subtes",  icon: <TrainIcon size={13} /> },
   { id: "bus",     label: "Bus",     icon: <BusIcon size={13} /> },
   { id: "paradas", label: "Paradas", icon: <span className="text-xs leading-none">🚏</span> },
-  { id: "alertas", label: "Alertas", icon: <AlertIcon size={13} /> },
 ];
 
 interface FiltroMapaBarProps {

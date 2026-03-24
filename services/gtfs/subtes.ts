@@ -6,7 +6,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { calcularDistancia } from "@/lib/geo";
+import { calcularDistancia } from "@/shared/utils/geo";
 import type { GtfsRoute, GtfsStop } from "@/types/gtfs";
 
 const DATA_DIR = path.join(process.cwd(), "data", "subtes", "processed");

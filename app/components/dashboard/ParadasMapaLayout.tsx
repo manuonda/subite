@@ -1,9 +1,9 @@
 "use client";
 
-import { BottomSheet } from "@/app/components/BottomSheet";
-import { ListaParadas, type Parada } from "@/app/components/ListaParadas";
-import { UbicacionParadasBanner } from "@/app/components/UbicacionParadasBanner";
-import type { GPSState } from "@/hooks/useGPS";
+import { BottomSheet } from "@/shared/components/shell/BottomSheet";
+import { ListaParadas, type Parada } from "@/features/paradas/components/ListaParadas";
+import { UbicacionParadasBanner } from "@/shared/components/mapa/UbicacionParadasBanner";
+import type { GPSState } from "@/shared/types/gps";
 
 interface ParadasMapaLayoutProps {
   gps: GPSState;

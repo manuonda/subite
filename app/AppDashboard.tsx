@@ -1,19 +1,19 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { useGPS } from "@/hooks/useGPS";
-import { BA_CENTER, USE_BA_COORDS_DEV } from "@/constants/geo";
-import { isWithinServiceArea } from "@/lib/geo";
+import { useGPS } from "@/shared/hooks/useGPS";
+import { BA_CENTER, USE_BA_COORDS_DEV } from "@/shared/constants/geo";
+import { isWithinServiceArea } from "@/shared/utils/geo";
 import { useUbicacion } from "@/app/context/UbicacionContext";
 import { getParadasCercanas } from "@/lib/paradas-mock";
-import { subteLinesForMap, estacionesToMarkers } from "@/lib/subte";
-import type { MapLayers, MarkerData } from "@/app/components/Mapa";
-import { Mapa } from "@/app/components/Mapa";
-import { InfoParadaMapa } from "@/app/components/InfoParadaMapa";
-import { StatusBar } from "@/app/components/dashboard/StatusBar";
-import { BottomNav, type TabId } from "@/app/components/dashboard/BottomNav";
+import { subteLinesForMap, estacionesToMarkers, getEstacionesParaLista } from "@/lib/subte";
+import type { MapLayers, MarkerData } from "@/shared/types/mapa";
+import { Mapa } from "@/shared/components/mapa/Mapa";
+import { InfoParadaMapa } from "@/shared/components/mapa/InfoParadaMapa";
+import { StatusBar } from "@/shared/components/shell/StatusBar";
+import { BottomNav, type TabId } from "@/shared/components/shell/BottomNav";
 import { MapaUnificadoLayout } from "@/app/components/dashboard/MapaUnificadoLayout";
-import { BuscadorFallback } from "@/app/components/dashboard/BuscadorFallback";
+import { BuscadorFallback } from "@/features/buscar/components/BuscadorFallback";
 import { Configuracion } from "@/app/components/dashboard/Configuracion";
 
 export function AppDashboard() {
@@ -68,17 +68,21 @@ export function AppDashboard() {
     return [...colectivo, ...subteMarkers];
   }, [paradasConCoords, subteMarkers]);
 
-  const paradasParaLista = useMemo(
+  const paradasBus = useMemo(
     () =>
-      paradasConCoords.map((p, i) => ({
-        id: p.id,
-        nombre: p.nombre,
-        lineas: p.lineas,
-        tiempo: (i % 3) + 2,
-        tipo: p.tipo,
-      })),
+      paradasConCoords
+        .filter((p) => p.tipo === "colectivo")
+        .map((p, i) => ({
+          id: p.id,
+          nombre: p.nombre,
+          lineas: p.lineas,
+          tiempo: (i % 3) + 2,
+          tipo: "colectivo" as const,
+        })),
     [paradasConCoords]
   );
+
+  const paradasSubte = useMemo(() => getEstacionesParaLista(), []);
 
   return (
     <div className="min-h-screen bg-[var(--bg-app)]">
@@ -97,13 +101,17 @@ export function AppDashboard() {
         {activeTab === "mapa" && (
           <MapaUnificadoLayout
             gps={gps}
-            paradas={paradasParaLista}
+            paradasBus={paradasBus}
+            paradasSubte={paradasSubte}
             fueraDelArea={fueraDelArea}
             selectedMarker={selectedMapMarker}
             onCloseMarker={() => setSelectedMapMarker(null)}
             onLayersChange={setMapLayers}
             onParadaSelectFromList={(parada) => {
-              const p = paradasConCoords.find((x) => x.id === parada.id);
+              const p =
+                parada.tipo === "colectivo"
+                  ? paradasConCoords.find((x) => x.id === parada.id)
+                  : null;
               const marker = p
                 ? ({
                     id: p.id,

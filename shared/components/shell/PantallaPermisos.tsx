@@ -1,5 +1,5 @@
 "use client";
-import type { GPSState } from "@/hooks/useGPS";
+import type { GPSState } from "@/shared/types/gps";
 
 interface PantallaPermisosProps {
   gps: GPSState;
@@ -92,7 +92,7 @@ export function PantallaPermisos({ gps, onSkip }: PantallaPermisosProps) {
           disabled={gps.status === "requesting"}
           className="w-full max-w-sm bg-[var(--primary)] text-white font-semibold py-4 rounded-2xl text-base shadow-lg active:scale-95 transition-transform disabled:opacity-60 mb-3"
         >
-          {gps.status === "requesting" ? "Obteniendo ubicación…" : "Usar mi ubicación"}
+          {gps.status === "requesting" ? "Obteniendo ubicación…" : "Acceder"}
         </button>
 
         <button

@@ -1,7 +1,7 @@
 "use client";
 
-import { AlertaServicio } from "@/app/components/AlertaServicio";
-import { useAlertasSubtes } from "@/hooks/useSubtes";
+import { AlertaServicio } from "./AlertaServicio";
+import { useAlertasSubtes } from "@/features/subtes/hooks/useSubtes";
 
 export function ListaAlertas() {
   const { data: alertas, isLoading } = useAlertasSubtes();

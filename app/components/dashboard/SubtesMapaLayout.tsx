@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomSheet } from "@/app/components/BottomSheet";
+import { BottomSheet } from "@/shared/components/shell/BottomSheet";
 
 interface SubtesMapaLayoutProps {
   map: React.ReactNode;

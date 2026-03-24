@@ -1,25 +1,26 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiltroMapaBar, type MapFilter } from "@/app/components/FiltroMapaBar";
-import { ListaSubtes } from "@/app/components/dashboard/ListaSubtes";
-import { ListaAlertas } from "@/app/components/dashboard/ListaAlertas";
-import { ListaParadas, type Parada } from "@/app/components/ListaParadas";
-import { UbicacionParadasBanner } from "@/app/components/UbicacionParadasBanner";
-import type { MapLayers, MarkerData } from "@/app/components/Mapa";
-import type { GPSState } from "@/hooks/useGPS";
+import { FiltroMapaBar, type MapFilter } from "@/shared/components/mapa/FiltroMapaBar";
+import { ListaSubtes } from "@/features/subtes/components/ListaSubtes";
+import { ListaParadas, type Parada } from "@/features/paradas/components/ListaParadas";
+import { ListaParadasAgrupadas } from "@/features/paradas/components/ListaParadasAgrupadas";
+import { UbicacionParadasBanner } from "@/shared/components/mapa/UbicacionParadasBanner";
+import type { MapLayers, MarkerData } from "@/shared/types/mapa";
+import type { GPSState } from "@/shared/types/gps";
 
 const FILTER_TO_LAYERS: Record<MapFilter, MapLayers> = {
-  todo:    { paradasColectivo: true, paradasSubte: true, lineasSubte: true },
   subtes:  { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
-  bus:     { paradasColectivo: true, paradasSubte: false, lineasSubte: false },
-  paradas: { paradasColectivo: true, paradasSubte: true, lineasSubte: false },
-  alertas: { paradasColectivo: true, paradasSubte: true, lineasSubte: true },
+  bus:     { paradasColectivo: true, paradasSubte: false, lineasSubte: true },
+  paradas: { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
 };
 
 interface MapaUnificadoLayoutProps {
   gps: GPSState;
-  paradas: Parada[];
+  /** Paradas de colectivo (para filtro Bus) */
+  paradasBus: Parada[];
+  /** Estaciones de subte (para filtro Paradas). Fuente: GTFS estaciones. */
+  paradasSubte: Parada[];
   map: React.ReactNode;
   fueraDelArea?: boolean;
   selectedMarker: MarkerData | null;
@@ -31,7 +32,8 @@ interface MapaUnificadoLayoutProps {
 
 export function MapaUnificadoLayout({
   gps,
-  paradas,
+  paradasBus,
+  paradasSubte,
   map,
   fueraDelArea,
   selectedMarker,
@@ -40,7 +42,7 @@ export function MapaUnificadoLayout({
   onParadaSelectFromList,
 }: MapaUnificadoLayoutProps) {
   const router = useRouter();
-  const [activeFilter, setActiveFilter] = useState<MapFilter>("todo");
+  const [activeFilter, setActiveFilter] = useState<MapFilter>("subtes");
 
   function handleFilterChange(f: MapFilter) {
     setActiveFilter(f);
@@ -55,8 +57,6 @@ export function MapaUnificadoLayout({
     }
   }
 
-  const paradasBus = paradas.filter((p) => p.tipo === "colectivo");
-  const paradasSubte = paradas.filter((p) => p.tipo === "subte");
   const ubicacionReal = gps.status === "granted" && !fueraDelArea;
 
   const listContent = () => {
@@ -66,9 +66,7 @@ export function MapaUnificadoLayout({
       case "bus":
         return <ListaParadas paradas={paradasBus} onParadaSelect={handleParadaSelect} />;
       case "paradas":
-        return <ListaParadas paradas={paradasSubte} onParadaSelect={handleParadaSelect} />;
-      case "alertas":
-        return <ListaAlertas />;
+        return <ListaParadasAgrupadas paradas={paradasSubte} onParadaSelect={handleParadaSelect} />;
       default:
         return (
           <>
@@ -78,7 +76,7 @@ export function MapaUnificadoLayout({
                 onActivar={gps.requestPermission}
               />
             )}
-            <ListaParadas paradas={paradas} onParadaSelect={handleParadaSelect} />
+            <ListaParadasAgrupadas paradas={paradasSubte} onParadaSelect={handleParadaSelect} />
           </>
         );
     }

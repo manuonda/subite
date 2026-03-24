@@ -1,7 +1,7 @@
 "use client";
 import { TarjetaColectivo } from "./TarjetaColectivo";
-import { RefreshIcon } from "./Icons";
-import { useColectivos } from "@/hooks/useColectivos";
+import { RefreshIcon } from "@/shared/components/ui/Icons";
+import { useColectivos } from "@/features/colectivos/hooks/useColectivos";
 
 interface ListaColectivosProps {
   lat: number | null;

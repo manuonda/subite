@@ -1,6 +1,6 @@
 "use client";
 
-import type { GPSStatus } from "@/hooks/useGPS";
+import type { GPSStatus } from "@/shared/types/gps";
 
 interface UbicacionParadasBannerProps {
   status: GPSStatus;

@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useParadaDetalle } from "@/hooks/useParadaDetalle";
-import { ProximosArribos } from "@/app/components/ProximosArribos";
-import type { MarkerData } from "@/app/components/Mapa";
+import { useParadaDetalle } from "@/features/paradas/hooks/useParadaDetalle";
+import { ProximosArribos } from "./ProximosArribos";
+import type { MarkerData } from "@/shared/types/mapa";
 import { COLORES_SUBTE } from "@/constants/subtes";
 
 interface ParadaDetalleSheetProps {

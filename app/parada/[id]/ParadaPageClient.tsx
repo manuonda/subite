@@ -2,11 +2,11 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { Mapa } from "@/app/components/Mapa";
-import { ProximosArribos } from "@/app/components/ProximosArribos";
-import { BackIcon } from "@/app/components/Icons";
-import { BA_CENTER } from "@/constants/geo";
-import { useParadaDetalle } from "@/hooks/useParadaDetalle";
+import { Mapa } from "@/shared/components/mapa/Mapa";
+import { ProximosArribos } from "@/features/paradas/components/ProximosArribos";
+import { BackIcon } from "@/shared/components/ui/Icons";
+import { BA_CENTER } from "@/shared/constants/geo";
+import { useParadaDetalle } from "@/features/paradas/hooks/useParadaDetalle";
 
 interface ParadaPageClientProps {
   params: Promise<{ id: string }>;
