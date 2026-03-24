@@ -10,6 +10,6 @@
 servicio de liena pero debemos cargar un archivo de feriados puesto que soon otro horario.
 6 - Proximos arribos depdnede https://apitransporte.buenosaires.gob.ar/console/, poner boton de alerta tambien seria. 
 8 - Configuracion / Otros Idiomas / Acerca de /Sitio oficial / Descagar mapa
-     / Cuadro Tarifario https://emova.com.ar/index.php/cuadro-tarifario/
-
-7 - Color seleccionar black o white  / 
+     / Cuadro Tarifario https://emova.com.ar/index.php/cuadro-Tarifario
+     / Conversor de moneda o mostrar informacion de moneda 
+     
