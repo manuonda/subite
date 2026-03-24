@@ -17,14 +17,49 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
 });
 
+const BASE_URL = "https://suba.com.ar";
+
 export const metadata: Metadata = {
-  title: "Suba — Transporte AMBA en tiempo real",
-  description: "Subtes, paradas y mapa del AMBA en tiempo real. Próximas llegadas, alertas y más.",
+  title: {
+    default: "Suba — Transporte AMBA en tiempo real",
+    template: "%s | Suba",
+  },
+  description:
+    "Subtes, paradas y mapa del AMBA en tiempo real. Próximas llegadas, alertas y más.",
+  keywords: [
+    "subte",
+    "colectivos",
+    "AMBA",
+    "Buenos Aires",
+    "transporte",
+    "tiempo real",
+    "llegadas",
+    "alertas",
+    "mapa",
+  ],
   manifest: "/manifest.json",
+  icons: { icon: "/icon-suba.png", apple: "/icon-suba.png" },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Suba",
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    url: BASE_URL,
+    siteName: "Suba",
+    title: "Suba — Transporte AMBA en tiempo real",
+    description:
+      "Subtes, paradas y mapa del AMBA en tiempo real. Próximas llegadas, alertas y más.",
+    images: [{ url: `${BASE_URL}/icon-suba.png`, width: 512, height: 512 }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Suba — Transporte AMBA en tiempo real",
+    description:
+      "Subtes, paradas y mapa del AMBA en tiempo real. Próximas llegadas, alertas y más.",
+    images: [`${BASE_URL}/icon-suba.png`],
   },
 };
 

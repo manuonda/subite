@@ -1,0 +1,16 @@
+{
+  "name": "Suba — Transporte AMBA",
+  "short_name": "Suba",
+  "description": "Subtes y colectivos del AMBA en tiempo real",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3D9DF3",
+  "icons": [
+    {
+      "src": "/icon-suba.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

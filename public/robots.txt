@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://suba.com.ar/sitemap.xml
