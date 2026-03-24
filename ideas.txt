@@ -1,3 +1,7 @@
+0 - Redising el tema de creo que sacar la parta de map, y la parte de settings agregarlo como boton,
+   Puedes guiarte como esta la app citymmaper qu epermite mostrar los botones y ademas 
+   se despilegan alli mismo en un bottom sheet directamente.
+   
 1 - Establecer el tema de alertas con colores por estaciones .
 2 - Verificar la cuenta de twiiter de emova.com.ar para mas inforamicon.
 3 - El tema de alertas es importante mostrar el listado de alertas y boton de actualizar.
