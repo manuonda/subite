@@ -35,6 +35,8 @@ export interface Messages {
   alertsEmpty: string;
   alertsEmptySub: string;
   alertsSectionTitle: string;
+  /** Accesibilidad: handle del bottom sheet en móvil */
+  sheetDragHandle: string;
 }
 
 export const MESSAGES: Record<AppLocale, Messages> = {
@@ -74,6 +76,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "Sin alertas activas",
     alertsEmptySub: "El servicio de subtes funciona con normalidad",
     alertsSectionTitle: "Alertas de servicio",
+    sheetDragHandle: "Arrastrar panel: más mapa o más lista",
   },
 
   en: {
@@ -112,6 +115,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "No active alerts",
     alertsEmptySub: "Subte service is running normally",
     alertsSectionTitle: "Service alerts",
+    sheetDragHandle: "Drag panel: more map or more list",
   },
 
   "pt-BR": {
@@ -150,6 +154,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "Sem alertas ativos",
     alertsEmptySub: "O serviço de subte opera normalmente",
     alertsSectionTitle: "Alertas de serviço",
+    sheetDragHandle: "Arrastar painel: mais mapa ou mais lista",
   },
 
   pl: {
@@ -188,6 +193,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "Brak aktywnych alertów",
     alertsEmptySub: "Serwis subte działa prawidłowo",
     alertsSectionTitle: "Alerty eksploatacyjne",
+    sheetDragHandle: "Przeciągnij panel: więcej mapy lub listy",
   },
 
   "en-US": {
@@ -226,6 +232,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "No active alerts",
     alertsEmptySub: "Subte service is running normally",
     alertsSectionTitle: "Service alerts",
+    sheetDragHandle: "Drag panel: more map or more list",
   },
 
   ja: {
@@ -264,6 +271,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "有効なアラートはありません",
     alertsEmptySub: "サブテは正常に運行しています",
     alertsSectionTitle: "運行情報",
+    sheetDragHandle: "パネルをドラッグ：地図か一覧を広げる",
   },
 
   zh: {
@@ -302,6 +310,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "暂无活跃提醒",
     alertsEmptySub: "地铁服务运行正常",
     alertsSectionTitle: "运营提醒",
+    sheetDragHandle: "拖动面板：显示更多地图或更多列表",
   },
 };
 

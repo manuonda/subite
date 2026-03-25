@@ -2,13 +2,13 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiltroMapaBar, type MapFilter } from "@/shared/components/mapa/FiltroMapaBar";
+import { MobileMapBottomSheet } from "@/shared/components/mapa/MobileMapBottomSheet";
 import { useMapView } from "@/app/context/MapViewContext";
 import { ListaSubtes } from "@/features/subtes/components/ListaSubtes";
 import { ListaParadas, type Parada } from "@/features/paradas/components/ListaParadas";
 import { ListaParadasAgrupadas } from "@/features/paradas/components/ListaParadasAgrupadas";
 import { Configuracion } from "@/app/components/dashboard/Configuracion";
-import type { MapLayers, MarkerData } from "@/shared/types/mapa";
-import type { GPSState } from "@/shared/types/gps";
+import type { MapLayers } from "@/shared/types/mapa";
 
 /** Capas del mapa al elegir lista; en "config" no se tocan (se mantiene la vista previa). */
 const FILTER_TO_LAYERS: Record<Exclude<MapFilter, "config">, MapLayers> = {
@@ -18,28 +18,20 @@ const FILTER_TO_LAYERS: Record<Exclude<MapFilter, "config">, MapLayers> = {
 };
 
 interface MapaUnificadoLayoutProps {
-  gps: GPSState;
   /** Paradas de colectivo (para filtro Bus) */
   paradasBus: Parada[];
   /** Estaciones de subte (para filtro Paradas). Fuente: GTFS estaciones. */
   paradasSubte: Parada[];
   map: React.ReactNode;
-  fueraDelArea?: boolean;
-  selectedMarker: MarkerData | null;
-  onCloseMarker: () => void;
   onLayersChange: (layers: MapLayers) => void;
   /** Al seleccionar parada desde la lista: muestra modal primero (si se pasa). Sino redirige directo. */
   onParadaSelectFromList?: (parada: Parada) => void;
 }
 
 export function MapaUnificadoLayout({
-  gps,
   paradasBus,
   paradasSubte,
   map,
-  fueraDelArea,
-  selectedMarker,
-  onCloseMarker,
   onLayersChange,
   onParadaSelectFromList,
 }: MapaUnificadoLayoutProps) {
@@ -66,6 +58,10 @@ export function MapaUnificadoLayout({
     }
   }
 
+  const filtros = (
+    <FiltroMapaBar activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+  );
+
   const listContent = () => {
     switch (activeFilter) {
       case "subtes":
@@ -87,33 +83,30 @@ export function MapaUnificadoLayout({
 
   return (
     <div
-      className="flex flex-col lg:flex-row"
+      className="flex flex-col lg:flex-row flex-1 min-h-0"
       style={{
-        /* Solo header (3.5rem); sin barra inferior — más espacio útil en PWA */
         height: "calc(100dvh - 3.5rem - env(safe-area-inset-bottom, 0px))",
       }}
     >
-      {/* Mapa — 55% en mobile, flex-1 en desktop */}
-      <div className="relative flex-[0_0_55%] lg:flex-1 min-h-0 bg-[var(--bg-elevated)]">
-        {map}
-      </div>
+      {/* Columna mapa + bottom sheet (móvil) / mapa (desktop) */}
+      <div className="flex flex-col flex-1 min-h-0 lg:flex-row lg:flex-1">
+        <div className="flex flex-col flex-1 min-h-0 lg:flex-1 lg:min-h-[280px]">
+          <div className="relative flex-1 min-h-0 bg-[var(--bg-elevated)] z-0">{map}</div>
 
-      {/* Mobile: filtros + lista */}
-      <div className="lg:hidden flex flex-col flex-1 min-h-0 overflow-hidden bg-[var(--bg-surface)]">
-        <FiltroMapaBar activeFilter={activeFilter} onFilterChange={handleFilterChange} />
-        <div className="flex-1 overflow-y-auto min-h-0 px-4 py-3" style={{ scrollbarWidth: "none" }}>
-          {listContent()}
+          {/*
+            Bottom sheet: handle → FiltroMapaBar (Subtes / Bus / Paradas / Config) → lista con scroll
+          */}
+          <MobileMapBottomSheet header={filtros}>{listContent()}</MobileMapBottomSheet>
         </div>
+
+        {/* Desktop: panel lateral (sin sheet) */}
+        <aside className="hidden lg:flex flex-col w-[min(420px,38vw)] shrink-0 border-l border-[var(--border)] bg-[var(--bg-surface)] min-h-0">
+          {filtros}
+          <div className="overflow-y-auto flex-1 min-h-0 px-4 pb-4 pt-3">
+            {listContent()}
+          </div>
+        </aside>
       </div>
-
-      {/* Desktop: panel lateral */}
-      <aside className="hidden lg:flex flex-col w-[min(420px,38vw)] shrink-0 border-l border-[var(--border)] bg-[var(--bg-surface)] min-h-0">
-        <FiltroMapaBar activeFilter={activeFilter} onFilterChange={handleFilterChange} />
-        <div className="overflow-y-auto flex-1 min-h-0 px-4 pb-4 pt-3">
-          {listContent()}
-        </div>
-      </aside>
-
     </div>
   );
 }

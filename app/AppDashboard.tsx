@@ -100,12 +100,8 @@ export function AppDashboard() {
 
       <div className={`lg:ml-[220px] ${fueraDelArea ? "pt-24" : "pt-14"}`}>
         <MapaUnificadoLayout
-          gps={gps}
           paradasBus={paradasBus}
           paradasSubte={paradasSubte}
-          fueraDelArea={fueraDelArea}
-          selectedMarker={selectedMapMarker}
-          onCloseMarker={() => setSelectedMapMarker(null)}
           onLayersChange={setMapLayers}
           onParadaSelectFromList={(parada) => {
             const p =
