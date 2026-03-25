@@ -11,16 +11,14 @@ import type { MapLayers, MarkerData } from "@/shared/types/mapa";
 import { Mapa } from "@/shared/components/mapa/Mapa";
 import { InfoParadaMapa } from "@/shared/components/mapa/InfoParadaMapa";
 import { StatusBar } from "@/shared/components/shell/StatusBar";
-import { BottomNav, type TabId } from "@/shared/components/shell/BottomNav";
+import { BottomNav } from "@/shared/components/shell/BottomNav";
 import { MapaUnificadoLayout } from "@/app/components/dashboard/MapaUnificadoLayout";
-import { Configuracion } from "@/app/components/dashboard/Configuracion";
 import { useLocale } from "@/app/context/LocaleContext";
 
 export function AppDashboard() {
   const { t } = useLocale();
   const gps = useGPS();
   const { fueraDelArea, setFueraDelArea, alertFueraDelAreaMostrado, marcarAlertMostrado } = useUbicacion();
-  const [activeTab, setActiveTab] = useState<TabId>("mapa");
   const [mapLayers, setMapLayers] = useState<MapLayers>({
     paradasColectivo: true,
     paradasSubte: true,
@@ -101,72 +99,63 @@ export function AppDashboard() {
       )}
 
       <div className={`lg:ml-[220px] ${fueraDelArea ? "pt-24" : "pt-14"}`}>
-        {activeTab === "mapa" && (
-          <MapaUnificadoLayout
-            gps={gps}
-            paradasBus={paradasBus}
-            paradasSubte={paradasSubte}
-            fueraDelArea={fueraDelArea}
-            selectedMarker={selectedMapMarker}
-            onCloseMarker={() => setSelectedMapMarker(null)}
-            onLayersChange={setMapLayers}
-            onParadaSelectFromList={(parada) => {
-              const p =
-                parada.tipo === "colectivo"
-                  ? paradasConCoords.find((x) => x.id === parada.id)
-                  : null;
-              const marker = p
-                ? ({
-                    id: p.id,
-                    lat: p.lat,
-                    lng: p.lng,
-                    type: p.tipo === "subte" ? "subte" : "parada",
-                    nombre: p.nombre,
-                    label: p.nombre,
-                  } satisfies MarkerData)
-                : mapMarkers.find((m) => m.id === parada.id);
-              if (marker) setSelectedMapMarker(marker);
-            }}
-            map={
-              <>
-                <Mapa
-                  lat={coords.lat}
-                  lng={coords.lng}
-                  markers={mapMarkers}
-                  subteLines={subteLines}
-                  layers={mapLayers}
-                  onLayersChange={setMapLayers}
-                  onMarkerSelect={setSelectedMapMarker}
-                  onMapBackgroundClick={() => setSelectedMapMarker(null)}
-                  height="100%"
-                />
-                {/* Modal unificado: misma vista en mobile y web */}
-                <InfoParadaMapa
-                  marker={selectedMapMarker}
-                  onClose={() => setSelectedMapMarker(null)}
-                />
-                <button
-                  type="button"
-                  onClick={gps.requestPermission}
-                  className="absolute bottom-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-white border-2 border-white/20 active:scale-95 transition-transform z-[1100]"
-                  style={{ background: "var(--primary)", boxShadow: "0 0 20px var(--primary-glow)" }}
-                  aria-label="Activar o actualizar ubicación"
-                >
-                  📍
-                </button>
-              </>
-            }
-          />
-        )}
-
-        {activeTab === "configuracion" && (
-          <div className="pb-20">
-            <Configuracion />
-          </div>
-        )}
+        <MapaUnificadoLayout
+          gps={gps}
+          paradasBus={paradasBus}
+          paradasSubte={paradasSubte}
+          fueraDelArea={fueraDelArea}
+          selectedMarker={selectedMapMarker}
+          onCloseMarker={() => setSelectedMapMarker(null)}
+          onLayersChange={setMapLayers}
+          onParadaSelectFromList={(parada) => {
+            const p =
+              parada.tipo === "colectivo"
+                ? paradasConCoords.find((x) => x.id === parada.id)
+                : null;
+            const marker = p
+              ? ({
+                  id: p.id,
+                  lat: p.lat,
+                  lng: p.lng,
+                  type: p.tipo === "subte" ? "subte" : "parada",
+                  nombre: p.nombre,
+                  label: p.nombre,
+                } satisfies MarkerData)
+              : mapMarkers.find((m) => m.id === parada.id);
+            if (marker) setSelectedMapMarker(marker);
+          }}
+          map={
+            <>
+              <Mapa
+                lat={coords.lat}
+                lng={coords.lng}
+                markers={mapMarkers}
+                subteLines={subteLines}
+                layers={mapLayers}
+                onLayersChange={setMapLayers}
+                onMarkerSelect={setSelectedMapMarker}
+                onMapBackgroundClick={() => setSelectedMapMarker(null)}
+                height="100%"
+              />
+              <InfoParadaMapa
+                marker={selectedMapMarker}
+                onClose={() => setSelectedMapMarker(null)}
+              />
+              <button
+                type="button"
+                onClick={gps.requestPermission}
+                className="absolute bottom-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-white border-2 border-white/20 active:scale-95 transition-transform z-[1100]"
+                style={{ background: "var(--primary)", boxShadow: "0 0 20px var(--primary-glow)" }}
+                aria-label="Activar o actualizar ubicación"
+              >
+                📍
+              </button>
+            </>
+          }
+        />
       </div>
 
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+      <BottomNav />
     </div>
   );
 }

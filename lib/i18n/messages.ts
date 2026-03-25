@@ -19,6 +19,8 @@ export interface Messages {
   tabSearch: string;
   tabConfig: string;
   brandTagline: string;
+  /** Texto corto en la barra lateral desktop (sin tabs inferiores en móvil). */
+  sidebarMapHint: string;
   filterSubtes: string;
   filterBus: string;
   filterStops: string;
@@ -54,6 +56,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     tabSearch: "Buscar",
     tabConfig: "Config",
     brandTagline: "Transporte AMBA",
+    sidebarMapHint: "Listas y ajustes: usá los filtros bajo el mapa (Subtes · Bus · Paradas · Config).",
     filterSubtes: "Subtes",
     filterBus: "Bus",
     filterStops: "Paradas",
@@ -91,6 +94,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     tabSearch: "Search",
     tabConfig: "Settings",
     brandTagline: "AMBA transport",
+    sidebarMapHint: "Lists and settings: use the chips under the map (Subte · Bus · Stops · Settings).",
     filterSubtes: "Subte",
     filterBus: "Bus",
     filterStops: "Stops",
@@ -128,6 +132,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     tabSearch: "Buscar",
     tabConfig: "Config",
     brandTagline: "Transporte AMBA",
+    sidebarMapHint: "Listas e ajustes: use os filtros abaixo do mapa (Subte · Ônibus · Paradas · Config).",
     filterSubtes: "Subte",
     filterBus: "Ônibus",
     filterStops: "Paradas",
@@ -165,6 +170,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     tabSearch: "Szukaj",
     tabConfig: "Ustawienia",
     brandTagline: "Transport AMBA",
+    sidebarMapHint: "Listy i ustawienia: przyciski pod mapą (Subte · Autobus · Przystanki · Ustawienia).",
     filterSubtes: "Subte",
     filterBus: "Autobus",
     filterStops: "Przystanki",
@@ -202,6 +208,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     tabSearch: "Search",
     tabConfig: "Settings",
     brandTagline: "AMBA transit",
+    sidebarMapHint: "Lists and settings: use the chips under the map (Subte · Bus · Stops · Settings).",
     filterSubtes: "Subte",
     filterBus: "Bus",
     filterStops: "Stops",
@@ -239,6 +246,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     tabSearch: "検索",
     tabConfig: "設定",
     brandTagline: "AMBA交通",
+    sidebarMapHint: "一覧と設定は、地図下のチップから（サブテ・バス・停留所・設定）。",
     filterSubtes: "サブテ",
     filterBus: "バス",
     filterStops: "停留所",
@@ -276,6 +284,7 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     tabSearch: "搜索",
     tabConfig: "设置",
     brandTagline: "AMBA 交通",
+    sidebarMapHint: "列表与设置：使用地图下方的选项（地铁 · 公交 · 站点 · 设置）。",
     filterSubtes: "地铁",
     filterBus: "公交",
     filterStops: "站点",

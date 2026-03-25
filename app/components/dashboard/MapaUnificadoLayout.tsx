@@ -6,10 +6,12 @@ import { useMapView } from "@/app/context/MapViewContext";
 import { ListaSubtes } from "@/features/subtes/components/ListaSubtes";
 import { ListaParadas, type Parada } from "@/features/paradas/components/ListaParadas";
 import { ListaParadasAgrupadas } from "@/features/paradas/components/ListaParadasAgrupadas";
+import { Configuracion } from "@/app/components/dashboard/Configuracion";
 import type { MapLayers, MarkerData } from "@/shared/types/mapa";
 import type { GPSState } from "@/shared/types/gps";
 
-const FILTER_TO_LAYERS: Record<MapFilter, MapLayers> = {
+/** Capas del mapa al elegir lista; en "config" no se tocan (se mantiene la vista previa). */
+const FILTER_TO_LAYERS: Record<Exclude<MapFilter, "config">, MapLayers> = {
   subtes:  { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
   bus:     { paradasColectivo: true, paradasSubte: false, lineasSubte: true },
   paradas: { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
@@ -46,10 +48,13 @@ export function MapaUnificadoLayout({
 
   function handleFilterChange(f: MapFilter) {
     setActiveMapFilter(f);
-    onLayersChange(FILTER_TO_LAYERS[f]);
+    if (f !== "config") {
+      onLayersChange(FILTER_TO_LAYERS[f]);
+    }
   }
 
   useEffect(() => {
+    if (activeFilter === "config") return;
     onLayersChange(FILTER_TO_LAYERS[activeFilter]);
   }, [activeFilter, onLayersChange]);
 
@@ -69,6 +74,12 @@ export function MapaUnificadoLayout({
         return <ListaParadas paradas={paradasBus} onParadaSelect={handleParadaSelect} />;
       case "paradas":
         return <ListaParadasAgrupadas paradas={paradasSubte} onParadaSelect={handleParadaSelect} />;
+      case "config":
+        return (
+          <div className="pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+            <Configuracion embedded />
+          </div>
+        );
       default:
         return <ListaSubtes />;
     }
@@ -78,7 +89,8 @@ export function MapaUnificadoLayout({
     <div
       className="flex flex-col lg:flex-row"
       style={{
-        height: "calc(100dvh - 7.5rem - env(safe-area-inset-bottom, 0px))",
+        /* Solo header (3.5rem); sin barra inferior — más espacio útil en PWA */
+        height: "calc(100dvh - 3.5rem - env(safe-area-inset-bottom, 0px))",
       }}
     >
       {/* Mapa — 55% en mobile, flex-1 en desktop */}

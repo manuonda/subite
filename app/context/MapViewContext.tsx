@@ -19,7 +19,7 @@ function getStoredFilter(): MapFilter {
     localStorage.setItem(STORAGE_KEY, "subtes");
     return "subtes";
   }
-  if (stored === "subtes" || stored === "bus" || stored === "paradas") {
+  if (stored === "subtes" || stored === "bus" || stored === "paradas" || stored === "config") {
     return stored;
   }
   return "subtes";
