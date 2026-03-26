@@ -13,12 +13,10 @@ import { InfoParadaMapa } from "@/shared/components/mapa/InfoParadaMapa";
 import { StatusBar } from "@/shared/components/shell/StatusBar";
 import { BottomNav } from "@/shared/components/shell/BottomNav";
 import { MapaUnificadoLayout } from "@/app/components/dashboard/MapaUnificadoLayout";
-import { useLocale } from "@/app/context/LocaleContext";
 
 export function AppDashboard() {
-  const { t } = useLocale();
   const gps = useGPS();
-  const { fueraDelArea, setFueraDelArea, alertFueraDelAreaMostrado, marcarAlertMostrado } = useUbicacion();
+  const { fueraDelArea, setFueraDelArea } = useUbicacion();
   const [mapLayers, setMapLayers] = useState<MapLayers>({
     paradasColectivo: true,
     paradasSubte: true,
@@ -32,14 +30,10 @@ export function AppDashboard() {
     const { lat, lng } = gps.coords;
     if (!isWithinServiceArea(lat, lng)) {
       setFueraDelArea(true);
-      if (!alertFueraDelAreaMostrado) {
-        alert(t("alertOutOfArea"));
-        marcarAlertMostrado();
-      }
     } else {
       setFueraDelArea(false);
     }
-  }, [gps.status, gps.coords, setFueraDelArea, alertFueraDelAreaMostrado, marcarAlertMostrado, t]);
+  }, [gps.status, gps.coords, setFueraDelArea]);
 
   const coords = USE_BA_COORDS_DEV
     ? BA_CENTER
@@ -81,24 +75,10 @@ export function AppDashboard() {
   const paradasSubte = useMemo(() => getEstacionesParaLista(), []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-app)]">
+    <div className="h-dvh min-h-0 overflow-hidden flex flex-col bg-[var(--bg-app)]">
       <StatusBar gpsStatus={gps.status} />
 
-      {fueraDelArea && (
-        <div
-          className="fixed left-0 right-0 lg:left-[220px] top-14 z-30 px-4 py-2.5 text-sm text-center font-medium border-b transition-colors"
-          style={{
-            background: "var(--alert-warning-bg)",
-            borderColor: "var(--alert-warning-border)",
-            color: "var(--alert-warning-text)",
-          }}
-          role="alert"
-        >
-          {t("areaOutOfService")}
-        </div>
-      )}
-
-      <div className={`lg:ml-[220px] ${fueraDelArea ? "pt-24" : "pt-14"}`}>
+      <div className="flex-1 min-h-0 flex flex-col lg:ml-[220px] pt-14">
         <MapaUnificadoLayout
           paradasBus={paradasBus}
           paradasSubte={paradasSubte}

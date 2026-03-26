@@ -39,7 +39,7 @@ interface MobileMapBottomSheetProps {
 
 /**
  * Panel inferior arrastrable (estilo Uber): mapa arriba, sheet con handle + contenido.
- * Solo visible en móvil (el padre debe usar `lg:hidden` en el wrapper si aplica).
+ * En Chrome móvil el arrastre usa listeners en `document` + `passive: false` para no perder el gesto.
  */
 export function MobileMapBottomSheet({
   header,
@@ -48,7 +48,8 @@ export function MobileMapBottomSheet({
 }: MobileMapBottomSheetProps) {
   const { t } = useLocale();
   const sheetRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef<{ startY: number; startH: number } | null>(null);
+  const dragRef = useRef<{ startY: number; startH: number; pointerId: number } | null>(null);
+  const snapHeightsRef = useRef<[number, number, number]>([200, 320, 520]);
   const [containerH, setContainerH] = useState(0);
   const [snapIndex, setSnapIndex] = useState<SnapIndex>(initialSnapIndex);
   const [sheetH, setSheetH] = useState<number | null>(null);
@@ -60,11 +61,15 @@ export function MobileMapBottomSheet({
     const minStrip = 52;
     const maxSheet = Math.max(120, containerH - minStrip);
     const minSheet = Math.min(Math.max(148, containerH * 0.24), maxSheet * 0.45);
-    const h0 = clamp(containerH * 0.30, minSheet, maxSheet);
+    const h0 = clamp(containerH * 0.3, minSheet, maxSheet);
     const h1 = clamp(containerH * 0.52, minSheet + 24, maxSheet);
-    const h2 = clamp(containerH * 0.90, minSheet + 48, maxSheet);
+    const h2 = clamp(containerH * 0.9, minSheet + 48, maxSheet);
     return [h0, h1, h2];
   }, [containerH]);
+
+  useLayoutEffect(() => {
+    snapHeightsRef.current = snapHeights;
+  }, [snapHeights]);
 
   useLayoutEffect(() => {
     const el = sheetRef.current?.parentElement;
@@ -89,45 +94,44 @@ export function MobileMapBottomSheet({
     (e: React.PointerEvent) => {
       if (e.button !== 0) return;
       e.preventDefault();
-      const h = sheetH ?? snapHeights[snapIndex];
-      dragRef.current = { startY: e.clientY, startH: h };
+      e.stopPropagation();
+      const heights = snapHeightsRef.current;
+      const h = sheetH ?? heights[snapIndex];
+      const pointerId = e.pointerId;
+      dragRef.current = { startY: e.clientY, startH: h, pointerId };
       setDragging(true);
-      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    },
-    [sheetH, snapHeights, snapIndex]
-  );
 
-  const onPointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragRef.current) return;
-      const { startY, startH } = dragRef.current;
-      const dy = startY - e.clientY;
-      const [a, _, c] = snapHeights;
-      const next = clamp(startH + dy, a, c);
-      liveHRef.current = next;
-      setSheetH(next);
-    },
-    [snapHeights]
-  );
+      const move = (ev: PointerEvent) => {
+        if (!dragRef.current || ev.pointerId !== dragRef.current.pointerId) return;
+        ev.preventDefault();
+        const { startY, startH } = dragRef.current;
+        const dy = startY - ev.clientY;
+        const [a, , c] = snapHeightsRef.current;
+        const next = clamp(startH + dy, a, c);
+        liveHRef.current = next;
+        setSheetH(next);
+      };
 
-  const endDrag = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragRef.current) return;
-      dragRef.current = null;
-      setDragging(false);
-      const h = liveHRef.current;
-      const idx = nearestSnapIndex(snapHeights, h);
-      setSnapIndex(idx);
-      const snapped = snapHeights[idx];
-      liveHRef.current = snapped;
-      setSheetH(snapped);
-      try {
-        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-      } catch {
-        /* noop */
-      }
+      const up = (ev: PointerEvent) => {
+        if (ev.pointerId !== pointerId) return;
+        document.removeEventListener("pointermove", move);
+        document.removeEventListener("pointerup", up);
+        document.removeEventListener("pointercancel", up);
+        dragRef.current = null;
+        setDragging(false);
+        const h = liveHRef.current;
+        const idx = nearestSnapIndex(snapHeightsRef.current, h);
+        setSnapIndex(idx);
+        const snapped = snapHeightsRef.current[idx];
+        liveHRef.current = snapped;
+        setSheetH(snapped);
+      };
+
+      document.addEventListener("pointermove", move, { passive: false });
+      document.addEventListener("pointerup", up);
+      document.addEventListener("pointercancel", up);
     },
-    [snapHeights]
+    [sheetH, snapIndex],
   );
 
   const heightPx = sheetH ?? snapHeights[snapIndex];
@@ -135,25 +139,22 @@ export function MobileMapBottomSheet({
   return (
     <div
       ref={sheetRef}
-      className="lg:hidden flex flex-col shrink-0 overflow-hidden rounded-t-[1.75rem] border-t border-[var(--border)] bg-[var(--bg-surface)] z-[60] shadow-[0_-12px_40px_rgba(0,0,0,0.45)]"
+      className="lg:hidden flex flex-col shrink-0 overflow-hidden rounded-t-[1.75rem] border-t border-[var(--border)] bg-[var(--bg-surface)] z-[60] shadow-[0_-12px_40px_rgba(0,0,0,0.45)] isolate"
       style={{
         height: heightPx,
-        touchAction: dragging ? "none" : undefined,
+        touchAction: dragging ? "none" : "auto",
         transition: dragging ? "none" : "height 0.28s cubic-bezier(0.32, 0.72, 0, 1)",
       }}
     >
-      {/* Handle — arrastre vertical */}
+      {/* Handle — arrastre vertical (document listeners en onPointerDown) */}
       <div
         role="button"
         tabIndex={0}
         aria-expanded={snapIndex >= 1}
         aria-label={t("sheetDragHandle")}
         className="flex flex-col items-center justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing shrink-0 touch-none select-none"
-        style={{ WebkitUserSelect: "none" }}
+        style={{ WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent" }}
         onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
         onKeyDown={(e) => {
           if (e.key === "ArrowUp" || e.key === "PageUp") {
             e.preventDefault();
@@ -165,17 +166,18 @@ export function MobileMapBottomSheet({
           }
         }}
       >
-        <div
-          className="w-10 h-1 rounded-full bg-[var(--text-dim)] opacity-50"
-          aria-hidden
-        />
+        <div className="w-10 h-1 rounded-full bg-[var(--text-dim)] opacity-50" aria-hidden />
       </div>
 
-      <div className="shrink-0 min-h-0 overflow-hidden">{header}</div>
+      <div className="shrink-0 min-h-0 overflow-hidden touch-auto">{header}</div>
 
       <div
-        className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-3"
-        style={{ scrollbarWidth: "thin" }}
+        className="flex-1 min-h-0 overflow-y-auto overscroll-y-contain touch-pan-y px-4 py-3"
+        style={{
+          scrollbarWidth: "thin",
+          WebkitOverflowScrolling: "touch",
+          overscrollBehaviorY: "contain",
+        }}
       >
         {children}
       </div>

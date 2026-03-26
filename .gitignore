@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# feedback enviado desde la app (CSV local; no versionar datos personales)
+/data/feedback.csv
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

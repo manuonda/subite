@@ -1,35 +1,20 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 type UbicacionContextType = {
-  /** True cuando el usuario está fuera del AMBA */
+  /** True cuando el usuario está fuera del AMBA (mapa anclado a BA sin avisos) */
   fueraDelArea: boolean;
   setFueraDelArea: (v: boolean) => void;
-  /** Ya mostramos el alert para no repetir */
-  alertFueraDelAreaMostrado: boolean;
-  marcarAlertMostrado: () => void;
 };
 
 const UbicacionContext = createContext<UbicacionContextType | null>(null);
 
 export function UbicacionProvider({ children }: { children: ReactNode }) {
   const [fueraDelArea, setFueraDelArea] = useState(false);
-  const [alertFueraDelAreaMostrado, setAlertFueraDelAreaMostrado] = useState(false);
-
-  const marcarAlertMostrado = useCallback(() => {
-    setAlertFueraDelAreaMostrado(true);
-  }, []);
 
   return (
-    <UbicacionContext.Provider
-      value={{
-        fueraDelArea,
-        setFueraDelArea,
-        alertFueraDelAreaMostrado,
-        marcarAlertMostrado,
-      }}
-    >
+    <UbicacionContext.Provider value={{ fueraDelArea, setFueraDelArea }}>
       {children}
     </UbicacionContext.Provider>
   );

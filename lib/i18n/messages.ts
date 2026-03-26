@@ -12,7 +12,6 @@ export interface Messages {
   featureArrivalsDesc: string;
   btnAccess: string;
   btnAccessLoading: string;
-  welcomeFooter: string;
   languageLabel: string;
   languageHint: string;
   tabMap: string;
@@ -37,6 +36,38 @@ export interface Messages {
   alertsSectionTitle: string;
   /** Accesibilidad: handle del bottom sheet en móvil */
   sheetDragHandle: string;
+  configBack: string;
+  configRowLanguage: string;
+  configRowTarifas: string;
+  configRowAbout: string;
+  configAboutTitle: string;
+  configAboutTagline: string;
+  configAboutVersionLabel: string;
+  configTarifasSectionTitle: string;
+  configTarifasDisclaimer: string;
+  configTarifasOfficialLink: string;
+  /** Resumen cuando el idioma no es español */
+  configTarifasIntroShort: string;
+  configTarifasColServicio: string;
+  configTarifasTripsPerMonth: string;
+  configTarifasColTarifa: string;
+  configTarifasColSubeNoNom: string;
+  configTarifasTableNote: string;
+  configRowFeedback: string;
+  configFeedbackTitle: string;
+  configFeedbackHint: string;
+  configFeedbackEmailLabel: string;
+  configFeedbackMessageLabel: string;
+  configFeedbackSubmit: string;
+  configFeedbackSending: string;
+  configFeedbackSuccess: string;
+  configFeedbackError: string;
+  configFeedbackSendAnother: string;
+  configRowDonate: string;
+  configDonateTitle: string;
+  configDonateIntro: string;
+  configDonateCafecito: string;
+  configDonateOtherArgentina: string;
 }
 
 export const MESSAGES: Record<AppLocale, Messages> = {
@@ -50,7 +81,6 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     featureArrivalsDesc: "Cuándo llega tu próximo subte",
     btnAccess: "Acceder",
     btnAccessLoading: "Obteniendo ubicación…",
-    welcomeFooter: "Gratis · Sin registro · Funciona offline",
     languageLabel: "Idioma",
     languageHint:
       "Solo cambia textos de la interfaz. Nombres de calles, estaciones y datos en vivo no se traducen.",
@@ -77,6 +107,40 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmptySub: "El servicio de subtes funciona con normalidad",
     alertsSectionTitle: "Alertas de servicio",
     sheetDragHandle: "Arrastrar panel: más mapa o más lista",
+    configBack: "Volver",
+    configRowLanguage: "Idioma",
+    configRowTarifas: "Cuadro tarifario",
+    configRowAbout: "Acerca de",
+    configAboutTitle: "Suba",
+    configAboutTagline: "Transporte del AMBA en tiempo real.",
+    configAboutVersionLabel: "Versión",
+    configTarifasSectionTitle: "Tarifas Subte (referencia)",
+    configTarifasDisclaimer:
+      "Información referencial. Valores y condiciones vigentes en la fuente oficial (Emova).",
+    configTarifasOfficialLink: "Abrir cuadro oficial en Emova",
+    configTarifasIntroShort:
+      "Tarifas con descuentos por cantidad de viajes mensuales. Consultá el detalle completo en el sitio de Emova.",
+    configTarifasColServicio: "Servicio",
+    configTarifasTripsPerMonth: "Viajes",
+    configTarifasColTarifa: "Tarifa",
+    configTarifasColSubeNoNom: "SUBE no nom.",
+    configTarifasTableNote: "Importes en pesos argentinos (ARS), referencia.",
+    configRowFeedback: "Enviar comentarios",
+    configFeedbackTitle: "Comentarios y mejoras",
+    configFeedbackHint: "Contanos qué te gustaría mejorar o qué falló.",
+    configFeedbackEmailLabel: "Correo (opcional)",
+    configFeedbackMessageLabel: "Mensaje",
+    configFeedbackSubmit: "Enviar",
+    configFeedbackSending: "Enviando…",
+    configFeedbackSuccess: "¡Gracias! Tu mensaje fue recibido.",
+    configFeedbackError: "No se pudo enviar. Probá de nuevo más tarde.",
+    configFeedbackSendAnother: "Enviar otro mensaje",
+    configRowDonate: "Apoyar el proyecto",
+    configDonateTitle: "Donar",
+    configDonateIntro:
+      "Si te resulta útil la app, podés colaborar con un café o un aporte. ¡Gracias!",
+    configDonateCafecito: "Cafecito",
+    configDonateOtherArgentina: "Otra opción (Argentina)",
   },
 
   en: {
@@ -89,7 +153,6 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     featureArrivalsDesc: "When your next subte arrives",
     btnAccess: "Continue",
     btnAccessLoading: "Getting location…",
-    welcomeFooter: "Free · No sign-up · Works offline",
     languageLabel: "Language",
     languageHint:
       "Only UI labels change. Street names, stations and live data stay in their original language.",
@@ -116,6 +179,39 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmptySub: "Subte service is running normally",
     alertsSectionTitle: "Service alerts",
     sheetDragHandle: "Drag panel: more map or more list",
+    configBack: "Back",
+    configRowLanguage: "Language",
+    configRowTarifas: "Fare table",
+    configRowAbout: "About",
+    configAboutTitle: "Suba",
+    configAboutTagline: "Real-time AMBA transport.",
+    configAboutVersionLabel: "Version",
+    configTarifasSectionTitle: "Subte fares (reference)",
+    configTarifasDisclaimer:
+      "For reference only. Official rates and conditions are on Emova’s website.",
+    configTarifasOfficialLink: "Open official fare table (Emova)",
+    configTarifasIntroShort:
+      "Fares include volume discounts by monthly trips. See Emova for full details.",
+    configTarifasColServicio: "Service",
+    configTarifasTripsPerMonth: "Trips",
+    configTarifasColTarifa: "Fare",
+    configTarifasColSubeNoNom: "Non-nominal SUBE",
+    configTarifasTableNote: "Amounts in Argentine pesos (ARS), indicative.",
+    configRowFeedback: "Send feedback",
+    configFeedbackTitle: "Feedback & improvements",
+    configFeedbackHint: "Tell us what you’d like to improve or what went wrong.",
+    configFeedbackEmailLabel: "Email (optional)",
+    configFeedbackMessageLabel: "Message",
+    configFeedbackSubmit: "Send",
+    configFeedbackSending: "Sending…",
+    configFeedbackSuccess: "Thanks! Your message was received.",
+    configFeedbackError: "Could not send. Please try again later.",
+    configFeedbackSendAnother: "Send another message",
+    configRowDonate: "Support the project",
+    configDonateTitle: "Donate",
+    configDonateIntro: "If the app is useful to you, you can chip in with a coffee or a tip. Thank you!",
+    configDonateCafecito: "Cafecito",
+    configDonateOtherArgentina: "Other option (Argentina)",
   },
 
   "pt-BR": {
@@ -128,7 +224,6 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     featureArrivalsDesc: "Quando chega seu próximo subte",
     btnAccess: "Entrar",
     btnAccessLoading: "Obtendo localização…",
-    welcomeFooter: "Grátis · Sem cadastro · Funciona offline",
     languageLabel: "Idioma",
     languageHint:
       "Altera apenas textos da interface. Ruas, estações e dados ao vivo não são traduzidos.",
@@ -155,6 +250,40 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmptySub: "O serviço de subte opera normalmente",
     alertsSectionTitle: "Alertas de serviço",
     sheetDragHandle: "Arrastar painel: mais mapa ou mais lista",
+    configBack: "Voltar",
+    configRowLanguage: "Idioma",
+    configRowTarifas: "Tabela de tarifas",
+    configRowAbout: "Sobre",
+    configAboutTitle: "Suba",
+    configAboutTagline: "Transporte AMBA em tempo real.",
+    configAboutVersionLabel: "Versão",
+    configTarifasSectionTitle: "Tarifas do Subte (referência)",
+    configTarifasDisclaimer:
+      "Informação de referência. Valores e condições oficiais no site da Emova.",
+    configTarifasOfficialLink: "Abrir tabela oficial na Emova",
+    configTarifasIntroShort:
+      "Tarifas com desconto por volume de viagens mensais. Veja a Emova para o detalhe completo.",
+    configTarifasColServicio: "Serviço",
+    configTarifasTripsPerMonth: "Viagens",
+    configTarifasColTarifa: "Tarifa",
+    configTarifasColSubeNoNom: "SUBE não nominal",
+    configTarifasTableNote: "Valores em pesos argentinos (ARS), referência.",
+    configRowFeedback: "Enviar comentários",
+    configFeedbackTitle: "Comentários e melhorias",
+    configFeedbackHint: "Diga o que podemos melhorar ou o que deu errado.",
+    configFeedbackEmailLabel: "E-mail (opcional)",
+    configFeedbackMessageLabel: "Mensagem",
+    configFeedbackSubmit: "Enviar",
+    configFeedbackSending: "Enviando…",
+    configFeedbackSuccess: "Obrigado! Sua mensagem foi recebida.",
+    configFeedbackError: "Não foi possível enviar. Tente de novo mais tarde.",
+    configFeedbackSendAnother: "Enviar outra mensagem",
+    configRowDonate: "Apoiar o projeto",
+    configDonateTitle: "Doar",
+    configDonateIntro:
+      "Se o app te ajuda, você pode colaborar com um cafézinho ou uma contribuição. Obrigado!",
+    configDonateCafecito: "Cafecito",
+    configDonateOtherArgentina: "Outra opção (Argentina)",
   },
 
   pl: {
@@ -167,7 +296,6 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     featureArrivalsDesc: "Kiedy przyjedzie następny subte",
     btnAccess: "Wejdź",
     btnAccessLoading: "Pobieranie lokalizacji…",
-    welcomeFooter: "Za darmo · Bez rejestracji · Działa offline",
     languageLabel: "Język",
     languageHint:
       "Zmienia tylko etykiety interfejsu. Nazwy ulic, stacji i dane na żywo pozostają w oryginale.",
@@ -194,6 +322,40 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmptySub: "Serwis subte działa prawidłowo",
     alertsSectionTitle: "Alerty eksploatacyjne",
     sheetDragHandle: "Przeciągnij panel: więcej mapy lub listy",
+    configBack: "Wstecz",
+    configRowLanguage: "Język",
+    configRowTarifas: "Tabela taryf",
+    configRowAbout: "O aplikacji",
+    configAboutTitle: "Suba",
+    configAboutTagline: "Transport AMBA w czasie rzeczywistym.",
+    configAboutVersionLabel: "Wersja",
+    configTarifasSectionTitle: "Taryfy Subte (informacja)",
+    configTarifasDisclaimer:
+      "Informacja poglądowa. Oficjalne stawki i warunki na stronie Emova.",
+    configTarifasOfficialLink: "Otwórz oficjalną tabelę (Emova)",
+    configTarifasIntroShort:
+      "Opłaty z rabatem za liczbę przejazdów w miesiącu. Szczegóły na stronie Emova.",
+    configTarifasColServicio: "Usługa",
+    configTarifasTripsPerMonth: "Przejazdy",
+    configTarifasColTarifa: "Taryfa",
+    configTarifasColSubeNoNom: "SUBE bez imienia",
+    configTarifasTableNote: "Kwoty w pesos argentyńskich (ARS), orientacyjnie.",
+    configRowFeedback: "Wyślij opinię",
+    configFeedbackTitle: "Opinie i ulepszenia",
+    configFeedbackHint: "Napisz, co poprawić lub co poszło nie tak.",
+    configFeedbackEmailLabel: "E-mail (opcjonalnie)",
+    configFeedbackMessageLabel: "Treść",
+    configFeedbackSubmit: "Wyślij",
+    configFeedbackSending: "Wysyłanie…",
+    configFeedbackSuccess: "Dziękujemy! Wiadomość została zapisana.",
+    configFeedbackError: "Nie udało się wysłać. Spróbuj później.",
+    configFeedbackSendAnother: "Wyślij kolejną wiadomość",
+    configRowDonate: "Wesprzyj projekt",
+    configDonateTitle: "Wsparcie",
+    configDonateIntro:
+      "Jeśli aplikacja jest dla Ciebie przydatna, możesz dorzucić się kawą lub datkiem. Dzięki!",
+    configDonateCafecito: "Cafecito",
+    configDonateOtherArgentina: "Inna opcja (Argentyna)",
   },
 
   "en-US": {
@@ -206,7 +368,6 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     featureArrivalsDesc: "When your next subte arrives",
     btnAccess: "Get started",
     btnAccessLoading: "Getting location…",
-    welcomeFooter: "Free · No sign-up · Works offline",
     languageLabel: "Language",
     languageHint:
       "Only UI labels change. Street names, stations and live data stay in their original language.",
@@ -233,6 +394,39 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmptySub: "Subte service is running normally",
     alertsSectionTitle: "Service alerts",
     sheetDragHandle: "Drag panel: more map or more list",
+    configBack: "Back",
+    configRowLanguage: "Language",
+    configRowTarifas: "Fare table",
+    configRowAbout: "About",
+    configAboutTitle: "Suba",
+    configAboutTagline: "Real-time AMBA transit.",
+    configAboutVersionLabel: "Version",
+    configTarifasSectionTitle: "Subte fares (reference)",
+    configTarifasDisclaimer:
+      "For reference only. Official rates and conditions are on Emova’s website.",
+    configTarifasOfficialLink: "Open official fare table (Emova)",
+    configTarifasIntroShort:
+      "Fares include volume discounts by monthly trips. See Emova for full details.",
+    configTarifasColServicio: "Service",
+    configTarifasTripsPerMonth: "Trips",
+    configTarifasColTarifa: "Fare",
+    configTarifasColSubeNoNom: "Non-nominal SUBE",
+    configTarifasTableNote: "Amounts in Argentine pesos (ARS), indicative.",
+    configRowFeedback: "Send feedback",
+    configFeedbackTitle: "Feedback & improvements",
+    configFeedbackHint: "Tell us what you’d like to improve or what went wrong.",
+    configFeedbackEmailLabel: "Email (optional)",
+    configFeedbackMessageLabel: "Message",
+    configFeedbackSubmit: "Send",
+    configFeedbackSending: "Sending…",
+    configFeedbackSuccess: "Thanks! Your message was received.",
+    configFeedbackError: "Could not send. Please try again later.",
+    configFeedbackSendAnother: "Send another message",
+    configRowDonate: "Support the project",
+    configDonateTitle: "Donate",
+    configDonateIntro: "If the app is useful to you, you can chip in with a coffee or a tip. Thank you!",
+    configDonateCafecito: "Cafecito",
+    configDonateOtherArgentina: "Other option (Argentina)",
   },
 
   ja: {
@@ -245,7 +439,6 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     featureArrivalsDesc: "次のサブテの到着まで",
     btnAccess: "開始",
     btnAccessLoading: "位置情報を取得中…",
-    welcomeFooter: "無料 · 登録不要 · オフライン対応",
     languageLabel: "言語",
     languageHint:
       "UIの表記のみ変更されます。道路名・駅名・ライブデータはそのままです。",
@@ -272,6 +465,39 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmptySub: "サブテは正常に運行しています",
     alertsSectionTitle: "運行情報",
     sheetDragHandle: "パネルをドラッグ：地図か一覧を広げる",
+    configBack: "戻る",
+    configRowLanguage: "言語",
+    configRowTarifas: "運賃表",
+    configRowAbout: "このアプリについて",
+    configAboutTitle: "Suba",
+    configAboutTagline: "AMBAの交通をリアルタイムで。",
+    configAboutVersionLabel: "バージョン",
+    configTarifasSectionTitle: "サブテ運賃（参考）",
+    configTarifasDisclaimer:
+      "参考情報です。正式な料金・条件はEmovaのサイトをご確認ください。",
+    configTarifasOfficialLink: "Emovaの公式運賃表を開く",
+    configTarifasIntroShort:
+      "月間利用回数に応じた割引があります。詳細はEmovaをご覧ください。",
+    configTarifasColServicio: "サービス",
+    configTarifasTripsPerMonth: "回数",
+    configTarifasColTarifa: "運賃",
+    configTarifasColSubeNoNom: "記名なしSUBE",
+    configTarifasTableNote: "金額はアルゼンチンペソ（ARS）、参考です。",
+    configRowFeedback: "フィードバックを送る",
+    configFeedbackTitle: "ご意見・改善",
+    configFeedbackHint: "改善してほしい点や不具合をお書きください。",
+    configFeedbackEmailLabel: "メール（任意）",
+    configFeedbackMessageLabel: "メッセージ",
+    configFeedbackSubmit: "送信",
+    configFeedbackSending: "送信中…",
+    configFeedbackSuccess: "ありがとうございます。送信しました。",
+    configFeedbackError: "送信に失敗しました。時間をおいて再度お試しください。",
+    configFeedbackSendAnother: "別のメッセージを送る",
+    configRowDonate: "プロジェクトを支援",
+    configDonateTitle: "寄付",
+    configDonateIntro: "アプリが役に立ったら、カフェ代やチップで支援できます。ありがとうございます。",
+    configDonateCafecito: "Cafecito",
+    configDonateOtherArgentina: "その他（アルゼンチン）",
   },
 
   zh: {
@@ -284,7 +510,6 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     featureArrivalsDesc: "下一班 Subte 何时到达",
     btnAccess: "进入",
     btnAccessLoading: "正在获取位置…",
-    welcomeFooter: "免费 · 无需注册 · 支持离线",
     languageLabel: "语言",
     languageHint:
       "仅更改界面文字。街道名、车站名与实时数据不翻译。",
@@ -311,6 +536,39 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmptySub: "地铁服务运行正常",
     alertsSectionTitle: "运营提醒",
     sheetDragHandle: "拖动面板：显示更多地图或更多列表",
+    configBack: "返回",
+    configRowLanguage: "语言",
+    configRowTarifas: "票价表",
+    configRowAbout: "关于",
+    configAboutTitle: "Suba",
+    configAboutTagline: "AMBA 实时交通。",
+    configAboutVersionLabel: "版本",
+    configTarifasSectionTitle: "地铁票价（参考）",
+    configTarifasDisclaimer:
+      "仅供参考。正式票价与条件以 Emova 官网为准。",
+    configTarifasOfficialLink: "在 Emova 打开官方票价表",
+    configTarifasIntroShort:
+      "按每月乘车次数有阶梯优惠，完整说明见 Emova。",
+    configTarifasColServicio: "服务",
+    configTarifasTripsPerMonth: "次数",
+    configTarifasColTarifa: "票价",
+    configTarifasColSubeNoNom: "非记名 SUBE",
+    configTarifasTableNote: "金额为阿根廷比索（ARS），仅供参考。",
+    configRowFeedback: "发送反馈",
+    configFeedbackTitle: "意见与改进",
+    configFeedbackHint: "请告诉我们希望改进的地方或遇到的问题。",
+    configFeedbackEmailLabel: "邮箱（选填）",
+    configFeedbackMessageLabel: "留言",
+    configFeedbackSubmit: "发送",
+    configFeedbackSending: "发送中…",
+    configFeedbackSuccess: "感谢！我们已收到你的留言。",
+    configFeedbackError: "发送失败，请稍后重试。",
+    configFeedbackSendAnother: "再发一条",
+    configRowDonate: "支持项目",
+    configDonateTitle: "捐赠",
+    configDonateIntro: "如果这款应用对你有帮助，可以通过咖啡或打赏支持我们。谢谢！",
+    configDonateCafecito: "Cafecito",
+    configDonateOtherArgentina: "其他方式（阿根廷）",
   },
 };
 

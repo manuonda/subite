@@ -83,7 +83,7 @@ export function MapaUnificadoLayout({
 
   return (
     <div
-      className="flex flex-col lg:flex-row flex-1 min-h-0"
+      className="flex flex-col lg:flex-row flex-1 min-h-0 overflow-hidden overscroll-none"
       style={{
         height: "calc(100dvh - 3.5rem - env(safe-area-inset-bottom, 0px))",
       }}

@@ -143,10 +143,6 @@ export function PantallaPermisos({ gps, onSkip }: PantallaPermisosProps) {
         >
           {gps.status === "requesting" ? t("btnAccessLoading") : t("btnAccess")}
         </button>
-
-        <p className="text-[11px] font-medium tracking-wide text-[var(--text-dim)] uppercase -mt-4">
-          {t("welcomeFooter")}
-        </p>
       </div>
     </div>
   );

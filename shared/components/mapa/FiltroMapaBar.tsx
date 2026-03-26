@@ -31,11 +31,12 @@ export function FiltroMapaBar({ activeFilter, onFilterChange }: FiltroMapaBarPro
 
   return (
     <div
-      className="flex gap-2.5 overflow-x-auto px-3 py-3 shrink-0 justify-start"
+      className="flex gap-2.5 overflow-x-auto px-3 py-3 shrink-0 justify-start touch-pan-x overscroll-x-contain"
       style={{
         scrollbarWidth: "none",
         borderBottom: "1px solid var(--border)",
         background: "var(--bg-surface)",
+        WebkitOverflowScrolling: "touch",
       }}
     >
       {FILTERS.map(({ id, labelKey, Icon, colorVar }) => {
@@ -50,16 +51,19 @@ export function FiltroMapaBar({ activeFilter, onFilterChange }: FiltroMapaBarPro
               min-h-[52px] min-w-[76px] sm:min-w-[88px] px-2.5 py-2.5 rounded-2xl
               text-[11px] sm:text-xs font-bold tracking-tight
               transition-all duration-200 shrink-0
+              touch-manipulation select-none
               active:scale-[0.97]"
             style={
               isActive
                 ? {
+                    WebkitTapHighlightColor: "transparent",
                     background: "var(--primary-muted)",
                     color: "var(--primary)",
                     border: "1.5px solid var(--primary-border)",
                     boxShadow: "0 0 16px var(--primary-glow), inset 0 1px 0 rgba(255,255,255,0.06)",
                   }
                 : {
+                    WebkitTapHighlightColor: "transparent",
                     background: "var(--bg-panel-subtle)",
                     color: "var(--text-muted)",
                     border: "1.5px solid var(--border)",
