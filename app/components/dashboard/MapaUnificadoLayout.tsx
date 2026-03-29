@@ -5,6 +5,7 @@ import { FiltroMapaBar, type MapFilter } from "@/shared/components/mapa/FiltroMa
 import { MobileMapBottomSheet } from "@/shared/components/mapa/MobileMapBottomSheet";
 import { useMapView } from "@/app/context/MapViewContext";
 import { ListaSubtes } from "@/features/subtes/components/ListaSubtes";
+import { ListaAlertas } from "@/features/subtes/components/ListaAlertas";
 import { ListaParadas, type Parada } from "@/features/paradas/components/ListaParadas";
 import { ListaParadasAgrupadas } from "@/features/paradas/components/ListaParadasAgrupadas";
 import { Configuracion } from "@/app/components/dashboard/Configuracion";
@@ -15,6 +16,7 @@ const FILTER_TO_LAYERS: Record<Exclude<MapFilter, "config">, MapLayers> = {
   subtes:  { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
   bus:     { paradasColectivo: true, paradasSubte: false, lineasSubte: true },
   paradas: { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
+  alertas: { paradasColectivo: false, paradasSubte: true, lineasSubte: true },
 };
 
 interface MapaUnificadoLayoutProps {
@@ -70,6 +72,8 @@ export function MapaUnificadoLayout({
         return <ListaParadas paradas={paradasBus} onParadaSelect={handleParadaSelect} />;
       case "paradas":
         return <ListaParadasAgrupadas paradas={paradasSubte} onParadaSelect={handleParadaSelect} />;
+      case "alertas":
+        return <ListaAlertas />;
       case "config":
         return (
           <div className="pb-[max(0.75rem,env(safe-area-inset-bottom))]">
@@ -94,7 +98,7 @@ export function MapaUnificadoLayout({
           <div className="relative flex-1 min-h-0 bg-[var(--bg-elevated)] z-0">{map}</div>
 
           {/*
-            Bottom sheet: handle → FiltroMapaBar (Subtes / Bus / Paradas / Config) → lista con scroll
+            Bottom sheet: handle → FiltroMapaBar (Subtes / Bus / Paradas / Alertas / Config) → lista con scroll
           */}
           <MobileMapBottomSheet header={filtros}>{listContent()}</MobileMapBottomSheet>
         </div>
@@ -102,7 +106,7 @@ export function MapaUnificadoLayout({
         {/* Desktop: panel lateral (sin sheet) */}
         <aside className="hidden lg:flex flex-col w-[min(420px,38vw)] shrink-0 border-l border-[var(--border)] bg-[var(--bg-surface)] min-h-0">
           {filtros}
-          <div className="overflow-y-auto flex-1 min-h-0 px-4 pb-4 pt-3">
+          <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3">
             {listContent()}
           </div>
         </aside>

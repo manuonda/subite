@@ -3,10 +3,15 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { TarjetaSubte } from "./TarjetaSubte";
-import { AlertaServicio } from "./AlertaServicio";
 import { useForecastSubtes, useAlertasSubtes } from "@/features/subtes/hooks/useSubtes";
 import { getSubteRoutes } from "@/lib/subte";
+import {
+  routeIdsFromAlert,
+  pickTranslatedText,
+  canonicalLineaRouteId,
+} from "@/lib/subte/service-alert-helpers";
 import { useLocale } from "@/app/context/LocaleContext";
+import type { SubteServiceAlertEntity } from "@/types/subtes/subteServiceAlert";
 
 export function ListaSubtes() {
   const { t } = useLocale();
@@ -14,7 +19,29 @@ export function ListaSubtes() {
   const routes = useMemo(() => getSubteRoutes(), []);
   const { data: forecastRaw, isLoading } = useForecastSubtes();
   const forecast = Array.isArray(forecastRaw) ? forecastRaw : [];
-  const { data: alertas } = useAlertasSubtes();
+  const { data: alertasGtfs } = useAlertasSubtes();
+  const alertEntities =
+    alertasGtfs && !Array.isArray(alertasGtfs) && Array.isArray(alertasGtfs.entity)
+      ? alertasGtfs.entity.filter((e) => !e.is_deleted && e.alert)
+      : [];
+
+  /** Alertas agrupadas por id de línea (LineaA, …) alineado con TarjetaSubte. */
+  const alertsByLineaId = useMemo(() => {
+    const m = new Map<string, SubteServiceAlertEntity[]>();
+    for (const ent of alertEntities) {
+      for (const rid of routeIdsFromAlert(ent.alert)) {
+        const lineKey = routes.find(
+          (r) => r.id.toLowerCase() === canonicalLineaRouteId(rid).toLowerCase()
+        )?.id;
+        if (!lineKey) continue;
+        const list = m.get(lineKey) ?? [];
+        if (!list.some((x) => x.id === ent.id)) list.push(ent);
+        m.set(lineKey, list);
+      }
+    }
+    return m;
+  }, [alertEntities, routes]);
+
   const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
@@ -38,14 +65,6 @@ export function ListaSubtes() {
 
   return (
     <div className="space-y-4">
-      {alertas && alertas.length > 0 && (
-        <div className="space-y-2">
-          {alertas.map((a, i) => (
-            <AlertaServicio key={i} mensaje={a.header_text} lineas={a.route_ids} />
-          ))}
-        </div>
-      )}
-
       <h3 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide">
         {t("linesAll")}
       </h3>
@@ -62,16 +81,28 @@ export function ListaSubtes() {
         </div>
       ) : (
         <div className="space-y-2">
-          {routes.map((r) => (
-            <TarjetaSubte
-              key={r.id}
-              lineaId={r.id}
-              nombreLargo={r.nombreLargo}
-              color={r.color}
-              tiempoEstimado={proximoPorLinea[r.id]}
-              onClick={() => router.push(`/linea/${r.nombre}`)}
-            />
-          ))}
+          {routes.map((r) => {
+            const lineAlerts = alertsByLineaId.get(r.id) ?? [];
+            const serviceAlertMessages = lineAlerts
+              .map((ent) => pickTranslatedText(ent.alert?.header_text))
+              .filter((msg): msg is string => Boolean(msg));
+            return (
+              <TarjetaSubte
+                key={r.id}
+                lineaId={r.id}
+                nombreLargo={r.nombreLargo}
+                color={r.color}
+                tiempoEstimado={proximoPorLinea[r.id]}
+                serviceAlertMessages={
+                  serviceAlertMessages.length > 0 ? serviceAlertMessages : undefined
+                }
+                onClick={() => {
+                  const q = lineAlerts.length > 0 ? "?alerta=1" : "";
+                  router.push(`/linea/${r.nombre}${q}`);
+                }}
+              />
+            );
+          })}
         </div>
       )}
     </div>

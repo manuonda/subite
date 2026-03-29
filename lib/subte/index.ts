@@ -13,14 +13,6 @@ export interface ForecastSubte {
   departure_time: number;
 }
 
-export interface AlertaSubte {
-  id: string;
-  header_text: string;
-  description_text: string;
-  route_ids: string[];
-  effect: string;
-}
-
 export * from "./stops";
 export * from "./lines";
 export * from "./routes";

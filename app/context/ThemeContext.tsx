@@ -16,14 +16,14 @@ export type ThemeMode = "light" | "dark";
 const STORAGE_KEY = "suba-theme";
 
 function readStoredTheme(): ThemeMode {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
   try {
     const v = localStorage.getItem(STORAGE_KEY);
     if (v === "light" || v === "dark") return v;
   } catch {
     /* ignore */
   }
-  return "dark";
+  return "light";
 }
 
 function applyTheme(mode: ThemeMode) {
@@ -41,7 +41,7 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   /** Mismo valor en servidor y primer render cliente — evita hydration mismatch. */
-  const [theme, setThemeState] = useState<ThemeMode>("dark");
+  const [theme, setThemeState] = useState<ThemeMode>("light");
   const [hydrated, setHydrated] = useState(false);
 
   useLayoutEffect(() => {

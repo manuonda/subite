@@ -80,7 +80,7 @@ export default function RootLayout({
       <body className={`${outfit.variable} ${spaceMono.variable} antialiased`}>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('suba-theme');document.documentElement.dataset.theme=(t==='light'||t==='dark')?t:'dark';var L=localStorage.getItem('suba-locale'),M={es:'es-AR',en:'en-GB','pt-BR':'pt-BR',pl:'pl','en-US':'en-US',ja:'ja',zh:'zh-Hans'};if(L&&M[L])document.documentElement.lang=M[L];}catch(e){document.documentElement.dataset.theme='dark';}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('suba-theme');document.documentElement.dataset.theme=(t==='light'||t==='dark')?t:'light';var L=localStorage.getItem('suba-locale'),M={es:'es-AR',en:'en-GB','pt-BR':'pt-BR',pl:'pl','en-US':'en-US',ja:'ja',zh:'zh-Hans'};if(L&&M[L])document.documentElement.lang=M[L];}catch(e){document.documentElement.dataset.theme='light';}})();`,
           }}
         />
         <Providers>{children}</Providers>

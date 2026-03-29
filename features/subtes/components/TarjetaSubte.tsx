@@ -8,6 +8,8 @@ interface TarjetaSubteProps {
   tiempoEstimado?: number;
   color?: string;
   onClick?: () => void;
+  /** Mensajes de alerta GTFS para esta línea (se muestran dentro del card). */
+  serviceAlertMessages?: string[];
 }
 
 function getLetra(routeId: string): string {
@@ -22,13 +24,17 @@ export function TarjetaSubte({
   tiempoEstimado,
   color: colorProp,
   onClick,
+  serviceAlertMessages,
 }: TarjetaSubteProps) {
+  const hasServiceAlert = Boolean(serviceAlertMessages?.length);
   const letra = getLetra(lineaId);
   // Priorizar COLORES_SUBTE (colores pensados para UI) sobre GTFS (algunos muy claros: A, H)
   const color =
     (COLORES_SUBTE[letra as keyof typeof COLORES_SUBTE] as string | undefined) ??
     colorProp ??
     "#9ca3af";
+
+  const accentBorder = hasServiceAlert ? "var(--accent-coral)" : color;
 
   return (
     <div
@@ -38,9 +44,9 @@ export function TarjetaSubte({
       onKeyDown={onClick ? (e) => e.key === "Enter" && onClick() : undefined}
       className="mb-2 rounded-2xl overflow-hidden transition-all duration-200"
       style={{
-        background: "var(--bg-elevated)",
+        background: hasServiceAlert ? "var(--alert-danger-bg)" : "var(--bg-elevated)",
         border: "1px solid var(--border)",
-        borderLeft: `3px solid ${color}`,
+        borderLeft: `3px solid ${accentBorder}`,
         cursor: onClick ? "pointer" : "default",
       }}
     >
@@ -92,6 +98,28 @@ export function TarjetaSubte({
           </span>
         )}
       </div>
+
+      {hasServiceAlert && serviceAlertMessages ? (
+        <div
+          className="px-3.5 pb-3 pt-0 border-t"
+          style={{ borderColor: "var(--alert-danger-border)" }}
+        >
+          <div className="flex flex-col gap-2 pt-2">
+            {serviceAlertMessages.map((msg, i) => (
+              <p
+                key={i}
+                className="text-xs font-medium leading-snug flex gap-2 items-start"
+                style={{ color: "var(--alert-danger-heading)" }}
+              >
+                <span className="shrink-0" aria-hidden>
+                  ⚠
+                </span>
+                <span>{msg}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

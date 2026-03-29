@@ -9,13 +9,15 @@ export async function GET() {
     const url = new URL(`${GCBA_SUBTES_BASE}/serviceAlerts`);
     url.searchParams.set("client_id", CLIENT_ID);
     url.searchParams.set("client_secret", CLIENT_SECRET);
+    url.searchParams.set("json", "1");
 
     const res = await fetch(url.toString(), { next: { revalidate: 30 } });
-    if (!res.ok) return NextResponse.json([]);
+    if (!res.ok) return NextResponse.json({ entity: [] });
 
     const data = await res.json();
+    if (Array.isArray(data)) return NextResponse.json({ entity: [] });
     return NextResponse.json(data);
   } catch {
-    return NextResponse.json([]);
+    return NextResponse.json({ entity: [] });
   }
 }

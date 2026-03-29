@@ -60,7 +60,7 @@
   --filter-icon-subte: #60a5fa;
   --filter-icon-bus: #4ade80;
   --filter-icon-paradas: #c4b5fd;
-  --filter-icon-config: #94a3b8;
+  --filter-icon-config: #22d3ee;
   --filter-icon-alert: #fb7185;
 
   --header-gradient: linear-gradient(
@@ -129,7 +129,7 @@ html[data-theme="light"] {
   --filter-icon-subte: #2563eb;
   --filter-icon-bus: #059669;
   --filter-icon-paradas: #7c3aed;
-  --filter-icon-config: #64748b;
+  --filter-icon-config: #0891b2;
   --filter-icon-alert: #dc2626;
 
   --header-gradient: linear-gradient(

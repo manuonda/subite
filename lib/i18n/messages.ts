@@ -34,6 +34,9 @@ export interface Messages {
   alertsEmpty: string;
   alertsEmptySub: string;
   alertsSectionTitle: string;
+  alertsRefresh: string;
+  /** Mientras se vuelve a pedir el feed de alertas (refetch). */
+  alertsRefreshing: string;
   /** Accesibilidad: handle del bottom sheet en móvil */
   sheetDragHandle: string;
   configBack: string;
@@ -106,6 +109,8 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "Sin alertas activas",
     alertsEmptySub: "El servicio de subtes funciona con normalidad",
     alertsSectionTitle: "Alertas de servicio",
+    alertsRefresh: "Actualizar",
+    alertsRefreshing: "Obteniendo alertas…",
     sheetDragHandle: "Arrastrar panel: más mapa o más lista",
     configBack: "Volver",
     configRowLanguage: "Idioma",
@@ -178,6 +183,8 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "No active alerts",
     alertsEmptySub: "Subte service is running normally",
     alertsSectionTitle: "Service alerts",
+    alertsRefresh: "Refresh",
+    alertsRefreshing: "Fetching alerts…",
     sheetDragHandle: "Drag panel: more map or more list",
     configBack: "Back",
     configRowLanguage: "Language",
@@ -249,6 +256,8 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "Sem alertas ativos",
     alertsEmptySub: "O serviço de subte opera normalmente",
     alertsSectionTitle: "Alertas de serviço",
+    alertsRefresh: "Atualizar",
+    alertsRefreshing: "Obtendo alertas…",
     sheetDragHandle: "Arrastar painel: mais mapa ou mais lista",
     configBack: "Voltar",
     configRowLanguage: "Idioma",
@@ -321,6 +330,8 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "Brak aktywnych alertów",
     alertsEmptySub: "Serwis subte działa prawidłowo",
     alertsSectionTitle: "Alerty eksploatacyjne",
+    alertsRefresh: "Odśwież",
+    alertsRefreshing: "Pobieranie alertów…",
     sheetDragHandle: "Przeciągnij panel: więcej mapy lub listy",
     configBack: "Wstecz",
     configRowLanguage: "Język",
@@ -393,6 +404,8 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "No active alerts",
     alertsEmptySub: "Subte service is running normally",
     alertsSectionTitle: "Service alerts",
+    alertsRefresh: "Refresh",
+    alertsRefreshing: "Fetching alerts…",
     sheetDragHandle: "Drag panel: more map or more list",
     configBack: "Back",
     configRowLanguage: "Language",
@@ -464,6 +477,8 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "有効なアラートはありません",
     alertsEmptySub: "サブテは正常に運行しています",
     alertsSectionTitle: "運行情報",
+    alertsRefresh: "更新",
+    alertsRefreshing: "アラートを取得中…",
     sheetDragHandle: "パネルをドラッグ：地図か一覧を広げる",
     configBack: "戻る",
     configRowLanguage: "言語",
@@ -535,6 +550,8 @@ export const MESSAGES: Record<AppLocale, Messages> = {
     alertsEmpty: "暂无活跃提醒",
     alertsEmptySub: "地铁服务运行正常",
     alertsSectionTitle: "运营提醒",
+    alertsRefresh: "刷新",
+    alertsRefreshing: "正在获取提醒…",
     sheetDragHandle: "拖动面板：显示更多地图或更多列表",
     configBack: "返回",
     configRowLanguage: "语言",

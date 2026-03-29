@@ -2,6 +2,7 @@
 
 import { use, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Mapa } from "@/shared/components/mapa/Mapa";
 import { BackIcon } from "@/shared/components/ui/Icons";
 import { BA_CENTER } from "@/shared/constants/geo";
@@ -14,6 +15,7 @@ import {
 import { HorariosLineaTable } from "@/features/subtes/components/HorariosLineaTable";
 import { AlertaServicio } from "@/features/subtes/components/AlertaServicio";
 import { useAlertasSubtes } from "@/features/subtes/hooks/useSubtes";
+import { routeIdsFromAlert, canonicalLineaRouteId } from "@/lib/subte/service-alert-helpers";
 
 interface LineaPageClientProps {
   params: Promise<{ id: string }>;
@@ -21,6 +23,8 @@ interface LineaPageClientProps {
 
 export function LineaPageClient({ params }: LineaPageClientProps) {
   const { id } = use(params);
+  const searchParams = useSearchParams();
+  const alertaDesdeMapa = searchParams.get("alerta") === "1";
   const routeId = id.startsWith("Linea") ? id : `Linea${id.toUpperCase()}`;
   const route = useMemo(() => getSubteRoute(routeId), [routeId]);
   const horarios = useMemo(() => getHorariosPorLinea(routeId), [routeId]);
@@ -29,12 +33,19 @@ export function LineaPageClient({ params }: LineaPageClientProps) {
     return [...list].sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
   }, [routeId]);
   const subteLines = useMemo(() => subteLinesForRoute(routeId), [routeId]);
-  const { data: alertasRaw } = useAlertasSubtes();
-  const alertas = Array.isArray(alertasRaw) ? alertasRaw : [];
-  const alertasLinea = useMemo(
-    () => alertas.filter((a) => a.route_ids?.some((r) => r.toLowerCase().includes(id.toLowerCase()))),
-    [alertas, id]
-  );
+  const { data: alertasGtfs, isPending: alertasPending } = useAlertasSubtes();
+  const alertasLinea = useMemo(() => {
+    const entities =
+      alertasGtfs && !Array.isArray(alertasGtfs) && Array.isArray(alertasGtfs.entity)
+        ? alertasGtfs.entity
+        : [];
+    const lineaCanon = canonicalLineaRouteId(routeId);
+    return entities.filter((e) => {
+      if (e.is_deleted || !e.alert) return false;
+      const ids = routeIdsFromAlert(e.alert).map(canonicalLineaRouteId);
+      return ids.some((rid) => rid === lineaCanon);
+    });
+  }, [alertasGtfs, routeId]);
 
   if (!route) {
     return (
@@ -107,18 +118,6 @@ export function LineaPageClient({ params }: LineaPageClientProps) {
         </div>
 
         <div className="px-4 pb-8 space-y-6 mt-4">
-          {/* Alertas */}
-          {alertasLinea.length > 0 && (
-            <div className="space-y-2">
-              <h2 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide">
-                Alertas
-              </h2>
-              {alertasLinea.map((a, i) => (
-                <AlertaServicio key={a.id ?? i} mensaje={a.header_text} lineas={a.route_ids} />
-              ))}
-            </div>
-          )}
-
           {/* Horarios */}
           <div className="space-y-2">
             <h2 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide">
@@ -127,8 +126,26 @@ export function LineaPageClient({ params }: LineaPageClientProps) {
             <HorariosLineaTable horarios={horarios} color={colorLinea} />
           </div>
 
-          {/* Estaciones */}
+          {/* Estaciones (alertas justo arriba; ?alerta=1 si se abre la línea desde el mapa con aviso) */}
           <div className="space-y-2">
+            {alertaDesdeMapa && alertasPending ? (
+              <div
+                className="rounded-2xl px-3 py-2.5 text-xs text-[var(--text-muted)] border border-[var(--border)]"
+                style={{ background: "var(--bg-panel-subtle)" }}
+              >
+                Cargando alertas de servicio…
+              </div>
+            ) : null}
+            {alertasLinea.length > 0 ? (
+              <div className="space-y-2">
+                <h2 className="text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wide">
+                  Alertas
+                </h2>
+                {alertasLinea.map((e) => (
+                  <AlertaServicio key={e.id} alert={e.alert} />
+                ))}
+              </div>
+            ) : null}
             <h2
               className="text-xs font-semibold uppercase tracking-wide pl-2.5 py-1.5 rounded-r"
               style={{

@@ -8,7 +8,7 @@ export const COLORES_SUBTE: Record<string, string> = {
   C: "#a78bfa",
   D: "#34d399",
   E: "#fb923c",
-  H: "#facc15",
+  H: "#B8912A",
 };
 
 export function getColorSubte(lineaId: string): string {

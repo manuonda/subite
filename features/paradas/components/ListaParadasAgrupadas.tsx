@@ -97,8 +97,7 @@ export function ListaParadasAgrupadas({ paradas, onParadaSelect }: ListaParadasA
 
   return (
     <div className="space-y-4">
-      {/* Buscador */}
-      <div className="sticky top-0 z-10 -mx-1 px-1 pb-2 pt-0.5" style={{ background: "var(--bg-surface)" }}>
+      <div className="pb-0.5">
         <div
           className="flex items-center gap-2.5 rounded-xl px-3.5 py-2.5"
           style={{ background: "var(--bg-panel-subtle)", border: "1px solid var(--border)" }}
@@ -127,32 +126,32 @@ export function ListaParadasAgrupadas({ paradas, onParadaSelect }: ListaParadasA
                 ? (COLORES_SUBTE[lineaKey] ?? "var(--text-dim)")
                 : "var(--primary)";
             return (
-            <section key={`${tipo}-${linea}`}>
-              <h4
-                className="text-xs font-semibold uppercase tracking-wide mb-2 pl-2.5 py-1 rounded-r"
-                style={{
-                  color: "var(--text-dim)",
-                  borderLeft: `3px solid ${color}`,
-                  background: `${color}12`,
-                }}
-              >
-                {linea}
-              </h4>
-              <div className="rounded-xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
-                {ps.map((p) => (
-                  <TarjetaParada
-                    key={`${p.id}-${linea}`}
-                    nombre={p.nombre}
-                    lineas={p.lineas}
-                    tiempo={p.tiempo}
-                    tipo={p.tipo}
-                    colorLinea={tipo === "subte" ? color : undefined}
-                    onClick={() => onParadaSelect?.(p)}
-                  />
-                ))}
-              </div>
-            </section>
-          );
+              <section key={`${tipo}-${linea}`}>
+                <h4
+                  className="text-xs font-semibold uppercase tracking-wide mb-2 pl-2.5 py-1 rounded-r"
+                  style={{
+                    color: "var(--text-dim)",
+                    borderLeft: `3px solid ${color}`,
+                    background: `${color}12`,
+                  }}
+                >
+                  {linea}
+                </h4>
+                <div className="rounded-xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
+                  {ps.map((p) => (
+                    <TarjetaParada
+                      key={`${p.id}-${linea}`}
+                      nombre={p.nombre}
+                      lineas={p.lineas}
+                      tiempo={p.tiempo}
+                      tipo={p.tipo}
+                      colorLinea={tipo === "subte" ? color : undefined}
+                      onClick={() => onParadaSelect?.(p)}
+                    />
+                  ))}
+                </div>
+              </section>
+            );
           })}
         </div>
       )}

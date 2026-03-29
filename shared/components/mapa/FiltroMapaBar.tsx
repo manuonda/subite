@@ -1,11 +1,11 @@
 "use client";
 
 import type { ComponentType } from "react";
-import { TrainIcon, BusIcon, MapIcon, SettingsConfigIcon } from "@/shared/components/ui/Icons";
+import { TrainIcon, BusIcon, MapIcon, AlertIcon, SettingsConfigIcon } from "@/shared/components/ui/Icons";
 import { useLocale } from "@/app/context/LocaleContext";
 import type { MessageKey } from "@/lib/i18n/messages";
 
-export type MapFilter = "subtes" | "bus" | "paradas" | "config";
+export type MapFilter = "subtes" | "bus" | "paradas" | "alertas" | "config";
 
 type IconComp = ComponentType<{ size?: number; className?: string }>;
 
@@ -18,6 +18,7 @@ const FILTERS: {
   { id: "subtes", labelKey: "filterSubtes", Icon: TrainIcon, colorVar: "var(--filter-icon-subte)" },
   { id: "bus", labelKey: "filterBus", Icon: BusIcon, colorVar: "var(--filter-icon-bus)" },
   { id: "paradas", labelKey: "filterStops", Icon: MapIcon, colorVar: "var(--filter-icon-paradas)" },
+  { id: "alertas", labelKey: "filterAlerts", Icon: AlertIcon, colorVar: "var(--filter-icon-alert)" },
   { id: "config", labelKey: "tabConfig", Icon: SettingsConfigIcon, colorVar: "var(--filter-icon-config)" },
 ];
 
@@ -31,7 +32,7 @@ export function FiltroMapaBar({ activeFilter, onFilterChange }: FiltroMapaBarPro
 
   return (
     <div
-      className="flex gap-2.5 overflow-x-auto px-3 py-3 shrink-0 justify-start touch-pan-x overscroll-x-contain"
+      className="flex gap-2.5 overflow-x-auto lg:overflow-x-visible px-3 py-3 shrink-0 justify-start touch-pan-x overscroll-x-contain lg:gap-2 lg:px-2"
       style={{
         scrollbarWidth: "none",
         borderBottom: "1px solid var(--border)",
@@ -48,7 +49,8 @@ export function FiltroMapaBar({ activeFilter, onFilterChange }: FiltroMapaBarPro
             type="button"
             onClick={() => onFilterChange(id)}
             className="flex flex-col items-center justify-center gap-1.5
-              min-h-[52px] min-w-[76px] sm:min-w-[88px] px-2.5 py-2.5 rounded-2xl
+              min-h-[52px] min-w-[76px] sm:min-w-[88px] lg:min-w-0 lg:flex-1 lg:max-w-none lg:px-1.5
+              px-2.5 py-2.5 rounded-2xl
               text-[11px] sm:text-xs font-bold tracking-tight
               transition-all duration-200 shrink-0
               touch-manipulation select-none
@@ -81,7 +83,9 @@ export function FiltroMapaBar({ activeFilter, onFilterChange }: FiltroMapaBarPro
             >
               <Icon size={22} className="block" />
             </span>
-            <span className="leading-none max-w-[5.5rem] text-center">{label}</span>
+            <span className="leading-none max-w-[5.5rem] lg:max-w-none text-center line-clamp-2">
+              {label}
+            </span>
           </button>
         );
       })}
